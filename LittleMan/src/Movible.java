@@ -1,4 +1,4 @@
 
-public class Movible {
+public abstract class Movible extends Entidad{
 
 }

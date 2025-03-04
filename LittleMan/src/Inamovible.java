@@ -1,4 +1,4 @@
 
-public class Inamovible {
+public abstract class Inamovible extends Entidad {
 
 }

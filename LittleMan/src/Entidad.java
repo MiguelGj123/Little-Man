@@ -1,4 +1,4 @@
 
-public class Entidad {
+public abstract class Entidad {
 
 }

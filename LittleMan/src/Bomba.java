@@ -1,4 +1,4 @@
 
-public class Bomba {
+public abstract class Bomba extends Inamovible {
 
 }
