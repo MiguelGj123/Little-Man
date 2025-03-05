@@ -1,10 +1,15 @@
-import java.util.*;
+import java.util.Observable;
+import java.util.Random;
+
+
 
 public class Escenario extends Observable{
 	private static final int FILAS =13,COLUMNAS =17;
 	private static Escenario miEscenario;
 	private Entidad[][] tablero;
 	private Mov mov=Mov.Q, anterior=Mov.Q;
+	private Random random = new Random();
+	private Jugador Jseleccionado = new Bomberman_blanco();
 	
 	private Escenario() {
 		tablero =new Entidad[FILAS][COLUMNAS];
@@ -18,11 +23,30 @@ public class Escenario extends Observable{
 		return miEscenario;
 	}
 	
-	private void inicializarTablero() {
-		//TODO Lógica de inicialización
+	public void seleccionarJugador(Jugador jugador) {
+		getEscenario().Jseleccionado=jugador;
 	}
 	
-	public void actualizarEscenario() {
+	private void inicializarTablero() {
+		for (int i = 0; i < FILAS; i++) {
+			for (int j = 0; j < COLUMNAS; j++) {
+				if (i % 2 == 0 && j % 2 == 0) {
+					tablero[i][j]= new Bloque(Tipo.DURO); //Poner bloques duros en posiciones pares
+				} else {
+					if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)) {
+						tablero[i][j]= new Bloque(Tipo.VACIO); // Poner bloques vacios en la esquina superior izquierda para zona de inicio
+					} else {
+						tablero[i][j]= random.nextBoolean() ? new Bloque(Tipo.VACIO) : new Bloque(Tipo.BLANDO);
+					}
+				}
+			}
+		}
+		tablero[0][0] =  Jseleccionado;
+		setChanged();
+		notifyObservers();
+	}
+	
+	private void actualizarEscenario() {
 		//TODO Lógica de actualización
 		setChanged();
 		notifyObservers();
@@ -46,9 +70,7 @@ public class Escenario extends Observable{
 		
 		
 	}
-	public enum Mov {
-		                L, R, D, U, B, N, Q;
-		        }
+	
     public void getKeyPressed(int key) {
 
             switch (key) {

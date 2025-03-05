@@ -31,10 +31,6 @@ public class Bloque extends Inamovible
 	}
 	
 	
-	public enum Tipo
-	{
-		VACIO, BLANDO, DURO, FUEGO;	
-		
-	}
+	
 	
 }
