@@ -30,7 +30,9 @@ public class Bloque extends Inamovible
 		
 	}
 	
-	
+	public Tipo getTipo() {
+		return tipo;
+	}
 	
 	
 }

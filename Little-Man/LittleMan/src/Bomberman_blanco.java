@@ -35,5 +35,8 @@ public class Bomberman_blanco extends Jugador
 	{
 		return 1;
 	}
-
+	
+	public Tipo getTipo() {
+		return Tipo.JUGADOR;
+	}
 }

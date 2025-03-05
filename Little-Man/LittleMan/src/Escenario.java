@@ -30,11 +30,11 @@ public class Escenario extends Observable{
 	private void inicializarTablero() {
 		for (int i = 0; i < FILAS; i++) {
 			for (int j = 0; j < COLUMNAS; j++) {
-				if (i % 2 == 0 && j % 2 == 0) {
-					tablero[i][j]= new Bloque(Tipo.DURO); //Poner bloques duros en posiciones pares
+				if  ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)){
+					tablero[i][j]= new Bloque(Tipo.VACIO); // Poner bloques vacios en la esquina superior izquierda para zona de inicio
 				} else {
-					if ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)) {
-						tablero[i][j]= new Bloque(Tipo.VACIO); // Poner bloques vacios en la esquina superior izquierda para zona de inicio
+					if (i % 2 != 0 && j % 2 != 0) {
+						tablero[i][j]= new Bloque(Tipo.DURO); //Poner bloques duros en posiciones impares
 					} else {
 						tablero[i][j]= random.nextBoolean() ? new Bloque(Tipo.VACIO) : new Bloque(Tipo.BLANDO);
 					}
@@ -42,6 +42,30 @@ public class Escenario extends Observable{
 			}
 		}
 		tablero[0][0] =  Jseleccionado;
+		for (int i = 0; i < FILAS; i++) {
+			for (int j = 0; j < COLUMNAS; j++) {
+				if (tablero[i][j] instanceof Jugador) {
+                    System.out.print(" J ");
+                } else if (tablero[i][j] instanceof Bloque) {
+                    Bloque bloque = (Bloque) tablero[i][j];
+                    switch (bloque.getTipo()) {
+                        case DURO:
+                            System.out.print(" D ");
+                            break;
+                        case BLANDO:
+                            System.out.print(" B ");
+                            break;
+                        case VACIO:
+                            System.out.print(" . ");
+                            break;
+                    }
+                } else {
+                    System.out.print(" ? ");
+                }
+            }
+            System.out.println();
+			
+		}
 		setChanged();
 		notifyObservers();
 	}
@@ -145,6 +169,7 @@ public class Escenario extends Observable{
     public void pressBomba() {
     	//TODO
     	System.out.println("presionado Bomba");
+    	getEscenario().inicializarTablero();
     }
     public void pressLeft() {
     	//TODO

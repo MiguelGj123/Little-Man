@@ -1,5 +1,5 @@
 
 public enum Tipo {
-	VACIO, BLANDO, DURO, FUEGO;	
+	VACIO, BLANDO, DURO, FUEGO, JUGADOR;	
 	
 }
