@@ -66,10 +66,14 @@ class Controller implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
+		escenario.getKeyPressed(keyCode);
 	}
 	
 	@Override
-	public void keyReleased(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+		int keyCode = e.getKeyCode();
+		escenario.getKeyReleased(keyCode);
+	}
 	
 	@Override
 	public void keyTyped(KeyEvent e) {}
