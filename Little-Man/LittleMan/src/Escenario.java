@@ -1,5 +1,6 @@
 import java.util.Observable;
 import java.util.Random;
+import java.util.*;
 
 
 
@@ -10,6 +11,9 @@ public class Escenario extends Observable{
 	private Mov mov=Mov.Q, anterior=Mov.Q;
 	private Random random = new Random();
 	private Jugador Jseleccionado = new Bomberman_blanco();
+	private int posJX=0, posJY=0;
+	private Timer timer=null;
+	private int cont=1;
 	
 	private Escenario() {
 		tablero =new Entidad[FILAS][COLUMNAS];
@@ -42,6 +46,7 @@ public class Escenario extends Observable{
 			}
 		}
 		tablero[0][0] =  Jseleccionado;
+		
 		//Todo a partir de aquí es solo pruebas
 		for (int i = 0; i < FILAS; i++) {
 			for (int j = 0; j < COLUMNAS; j++) {
@@ -70,12 +75,29 @@ public class Escenario extends Observable{
 		//Aquí ya no son pruebas
 		setChanged();
 		notifyObservers();
+		timerStep();
 	}
-	
+	private void timerStep() {
+		Timer timer = new Timer();
+		TimerTask task = new TimerTask() {
+			@Override
+			public void run() {
+				//System.out.println("Tick:"+cont);
+				cont++;
+				if (cont==121) {
+					cont=1;
+				}
+				actualizarEscenario();
+				
+			}
+		};
+		timer.scheduleAtFixedRate(task, 0, 50);
+				
+				
+	}
 	private void actualizarEscenario() {
-		//TODO Lógica de actualización
 		setChanged();
-		notifyObservers();
+		notifyObservers(this.tablero);
 	}
 	
 	public Entidad getEntidad(int fila, int colu) {
@@ -172,22 +194,72 @@ public class Escenario extends Observable{
     	//TODO
     	System.out.println("presionado Bomba");
     	//Para prueba de generación de escenario 
-    	getEscenario().inicializarTablero();
+    	for (int i = 0; i < FILAS; i++) {
+			for (int j = 0; j < COLUMNAS; j++) {
+				if (tablero[i][j] instanceof Jugador) {
+                    System.out.print(" J ");
+                } else if (tablero[i][j] instanceof Bloque) {
+                    Bloque bloque = (Bloque) tablero[i][j];
+                    switch (bloque.getTipo()) {
+                        case DURO:
+                            System.out.print(" D ");
+                            break;
+                        case BLANDO:
+                            System.out.print(" B ");
+                            break;
+                        case VACIO:
+                            System.out.print(" . ");
+                            break;
+                    }
+                } else {
+                    System.out.print(" ? ");
+                }
+            }
+            System.out.println();
+    	}
     }
     public void pressLeft() {
-    	//TODO
+    	int posBloque=posJX-1;
+    	if (posBloque!=-1) {
+	    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
+	    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
+	    		tablero[posJY][posBloque]=Jseleccionado;
+	    		posJX=posBloque;
+	    	}
+    	}
     	System.out.println("presionado Left");
     }
     public void pressUp() {
-    	//TODO
+    	int posBloque=posJY-1;
+    	if (posBloque!=-1) {
+	    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO ) {
+	    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
+	    		tablero[posBloque][posJX]=Jseleccionado;
+	    		posJY=posBloque;
+	    	}
+    	}
     	System.out.println("presionado Up");
     }
     public void pressRight() {
-    	//TODO
-    	System.out.println("presionado Right");
+    	int posBloque=posJX+1;
+    	if (posBloque!=FILAS+1) {
+	    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
+	    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
+	    		tablero[posJY][posBloque]=Jseleccionado;
+	    		posJX=posBloque;
+	    	}
+    	}
+    	System.out.println("presionado Right"+tablero.length);
     }
     public void pressDown() {
-    	//TODO
+    	int posBloque=posJY+1;
+    	if (posBloque!=COLUMNAS+1) {
+	    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO) {
+	    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
+	    		tablero[posBloque][posJX]=Jseleccionado;
+	    		posJY=posBloque;
+	    	}
+    	}
     	System.out.println("presionado Down");
     }
     public void releaseBomba() {

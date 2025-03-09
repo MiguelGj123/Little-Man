@@ -4,6 +4,10 @@ public class Bomberman_blanco extends Jugador
 	int contadorBombas = 0;
 	boolean bombaPuesta = false;
 	
+	public Bomberman_blanco() {
+		
+	}
+	
 	@Override
 	public boolean ponerBomba() 
 	{
