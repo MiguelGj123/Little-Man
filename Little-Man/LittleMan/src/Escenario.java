@@ -42,6 +42,7 @@ public class Escenario extends Observable{
 			}
 		}
 		tablero[0][0] =  Jseleccionado;
+		//Todo a partir de aquí es solo pruebas
 		for (int i = 0; i < FILAS; i++) {
 			for (int j = 0; j < COLUMNAS; j++) {
 				if (tablero[i][j] instanceof Jugador) {
@@ -66,6 +67,7 @@ public class Escenario extends Observable{
             System.out.println();
 			
 		}
+		//Aquí ya no son pruebas
 		setChanged();
 		notifyObservers();
 	}
@@ -169,6 +171,7 @@ public class Escenario extends Observable{
     public void pressBomba() {
     	//TODO
     	System.out.println("presionado Bomba");
+    	//Para prueba de generación de escenario 
     	getEscenario().inicializarTablero();
     }
     public void pressLeft() {
