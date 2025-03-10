@@ -14,6 +14,7 @@ public class Escenario extends Observable{
 	private int posJX=0, posJY=0;
 	private Timer timer=null;
 	private int cont=1;
+	private boolean left=false, right=false, up=false, down=false, bomb=false;
 	
 	private Escenario() {
 		tablero =new Entidad[FILAS][COLUMNAS];
@@ -48,30 +49,9 @@ public class Escenario extends Observable{
 		tablero[0][0] =  Jseleccionado;
 		
 		//Todo a partir de aquí es solo pruebas
-		for (int i = 0; i < FILAS; i++) {
-			for (int j = 0; j < COLUMNAS; j++) {
-				if (tablero[i][j] instanceof Jugador) {
-                    System.out.print(" J ");
-                } else if (tablero[i][j] instanceof Bloque) {
-                    Bloque bloque = (Bloque) tablero[i][j];
-                    switch (bloque.getTipo()) {
-                        case DURO:
-                            System.out.print(" D ");
-                            break;
-                        case BLANDO:
-                            System.out.print(" B ");
-                            break;
-                        case VACIO:
-                            System.out.print(" . ");
-                            break;
-                    }
-                } else {
-                    System.out.print(" ? ");
-                }
-            }
-            System.out.println();
+		
 			
-		}
+		
 		//Aquí ya no son pruebas
 		setChanged();
 		notifyObservers();
@@ -96,6 +76,73 @@ public class Escenario extends Observable{
 				
 	}
 	private void actualizarEscenario() {
+		for (int i = 0; i < FILAS; i++) {
+			for (int j = 0; j < COLUMNAS; j++) {
+				if (tablero[i][j] instanceof Jugador) {
+                    System.out.print(" J ");
+                } else if (tablero[i][j] instanceof Bloque) {
+                    Bloque bloque = (Bloque) tablero[i][j];
+                    switch (bloque.getTipo()) {
+                        case DURO:
+                            System.out.print(" D ");
+                            break;
+                        case BLANDO:
+                            System.out.print(" B ");
+                            break;
+                        case VACIO:
+                            System.out.print(" . ");
+                            break;
+                    }
+                } else {
+                    System.out.print(" ? ");
+                }
+            }
+            System.out.println();
+		}
+		System.out.println("");
+		if (cont%3==0) {
+			if(left) {
+		    	int posBloque=posJX-1;
+		    	if (posBloque!=-1) {
+			    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
+			    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
+			    		tablero[posJY][posBloque]=Jseleccionado;
+			    		posJX=posBloque;
+			    	}
+		    	}
+	    	}
+			if (up) {
+		    	int posBloque=posJY-1;
+		    	
+		    	if (posBloque!=-1) {
+			    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO ) {
+			    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
+			    		tablero[posBloque][posJX]=Jseleccionado;
+			    		posJY=posBloque;
+			    	}
+		    	}
+	    	}
+			if(right) {
+		    	int posBloque=posJX+1;
+		    	if (posBloque!=FILAS+1) {
+			    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
+			    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
+			    		tablero[posJY][posBloque]=Jseleccionado;
+			    		posJX=posBloque;
+			    	}
+		    	}
+	    	}
+			if(down) {
+		    	int posBloque=posJY+1;
+		    	if (posBloque!=COLUMNAS+1) {
+			    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO) {
+			    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
+			    		tablero[posBloque][posJX]=Jseleccionado;
+			    		posJY=posBloque;
+			    	}
+		    	}
+	    	}
+		}
 		setChanged();
 		notifyObservers(this.tablero);
 	}
@@ -191,6 +238,11 @@ public class Escenario extends Observable{
             
         }
     public void pressBomba() {
+    	bomb=true;
+    	left=false;
+    	right=false;
+    	down=false;
+    	up=false;
     	//TODO
     	System.out.println("presionado Bomba");
     	//Para prueba de generación de escenario 
@@ -219,67 +271,60 @@ public class Escenario extends Observable{
     	}
     }
     public void pressLeft() {
-    	int posBloque=posJX-1;
-    	if (posBloque!=-1) {
-	    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
-	    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
-	    		tablero[posJY][posBloque]=Jseleccionado;
-	    		posJX=posBloque;
-	    	}
-    	}
+    	left=true;
+    	right=false;
+    	down=false;
+    	up=false;
+    	bomb=false;
+    	
     	System.out.println("presionado Left");
     }
     public void pressUp() {
-    	int posBloque=posJY-1;
-    	if (posBloque!=-1) {
-	    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO ) {
-	    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
-	    		tablero[posBloque][posJX]=Jseleccionado;
-	    		posJY=posBloque;
-	    	}
-    	}
+    	up=true;
+    	left=false;
+    	right=false;
+    	down=false;
+    	bomb=false;
+    	
     	System.out.println("presionado Up");
     }
     public void pressRight() {
-    	int posBloque=posJX+1;
-    	if (posBloque!=FILAS+1) {
-	    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
-	    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
-	    		tablero[posJY][posBloque]=Jseleccionado;
-	    		posJX=posBloque;
-	    	}
-    	}
+    	right=true;
+    	left=false;
+    	down=false;
+    	up=false;
+    	bomb=false;
+    	
     	System.out.println("presionado Right"+tablero.length);
     }
     public void pressDown() {
-    	int posBloque=posJY+1;
-    	if (posBloque!=COLUMNAS+1) {
-	    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO) {
-	    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
-	    		tablero[posBloque][posJX]=Jseleccionado;
-	    		posJY=posBloque;
-	    	}
-    	}
+    	down=true;
+    	left=false;
+    	right=false;
+    	up=false;
+    	bomb=false;
+    	
+    	
     	System.out.println("presionado Down");
     }
     public void releaseBomba() {
-    	//TODO
+    	bomb=false;
     	System.out.println("soltado Bomba");
     }
     public void releaseLeft() {
-    	//TODO
+    	left=false;
     	System.out.println("soltado Left");
     }
     public void releaseUp() {
-    	//TODO
+    	up=false;
     	System.out.println("soltado Up");
     }
     public void releaseRight() {
-    	//TODO
+    	right=false;
     	System.out.println("soltado Right");
     }
     public void releaseDown() {
-    	//TODO
+    	down=false;
     	System.out.println("soltado Down");
     }
 		                   
