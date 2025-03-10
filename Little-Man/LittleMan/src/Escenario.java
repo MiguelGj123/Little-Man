@@ -142,6 +142,9 @@ public class Escenario extends Observable{
 			    	}
 		    	}
 	    	}
+			if (bomb) {
+				
+			}
 		}
 		setChanged();
 		notifyObservers(this.tablero);
@@ -243,39 +246,17 @@ public class Escenario extends Observable{
     	right=false;
     	down=false;
     	up=false;
-    	//TODO
+    	
     	System.out.println("presionado Bomba");
-    	//Para prueba de generación de escenario 
-    	for (int i = 0; i < FILAS; i++) {
-			for (int j = 0; j < COLUMNAS; j++) {
-				if (tablero[i][j] instanceof Jugador) {
-                    System.out.print(" J ");
-                } else if (tablero[i][j] instanceof Bloque) {
-                    Bloque bloque = (Bloque) tablero[i][j];
-                    switch (bloque.getTipo()) {
-                        case DURO:
-                            System.out.print(" D ");
-                            break;
-                        case BLANDO:
-                            System.out.print(" B ");
-                            break;
-                        case VACIO:
-                            System.out.print(" . ");
-                            break;
-                    }
-                } else {
-                    System.out.print(" ? ");
-                }
-            }
-            System.out.println();
-    	}
+    	
+    	
     }
     public void pressLeft() {
     	left=true;
     	right=false;
     	down=false;
     	up=false;
-    	bomb=false;
+
     	
     	System.out.println("presionado Left");
     }
@@ -284,7 +265,7 @@ public class Escenario extends Observable{
     	left=false;
     	right=false;
     	down=false;
-    	bomb=false;
+
     	
     	System.out.println("presionado Up");
     }
@@ -293,7 +274,7 @@ public class Escenario extends Observable{
     	left=false;
     	down=false;
     	up=false;
-    	bomb=false;
+ 
     	
     	System.out.println("presionado Right"+tablero.length);
     }
@@ -302,7 +283,7 @@ public class Escenario extends Observable{
     	left=false;
     	right=false;
     	up=false;
-    	bomb=false;
+ 
     	
     	
     	System.out.println("presionado Down");
