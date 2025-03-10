@@ -1,14 +1,24 @@
 import java.awt.*;
+
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.event.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.*;
+import javax.swing.GroupLayout.Alignment;
 
 public class FrameTablero extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private Escenario escenario;
+	private JLabel[][] celdas;
+	private boolean tableroInicializado = false; //Booleano para verificar que las celdas ya están inicializadas
+	private static final ImageIcon JUGADOR_ICONO = new ImageIcon("Pixels/whiteDown1.png");
+	private static final ImageIcon BLOQUE_DURO_ICONO = new ImageIcon("Pixels/hard1.png");
+	private static final ImageIcon BLOQUE_BLANDO_ICONO = new ImageIcon("Pixels/soft3.png");
 
 
 	public static void main(String[] args) {
@@ -36,24 +46,90 @@ public class FrameTablero extends JFrame implements Observer {
 		setBounds(100, 100, 800, 600);
 		setResizable(false);
 		
-		contentPane = new JPanel();
+		contentPane = new JPanel() {
+			@Override
+			protected void paintComponent(Graphics g) {
+	            super.paintComponent(g);
+	            Image img = new ImageIcon(("Pixels/stageBack1.png")).getImage();
+	            g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+	        }
+		};
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout());
+		
+		celdas = new JLabel[13][17];
+		contentPane.setLayout(new GridLayout(13,17));
+		
+		inicializarTableroVisual();
+		tableroInicializado = true;
+		
+		
+		
 		
 		addKeyListener(new Controller());
 	}
 	
+	private void inicializarTableroVisual() {
+       
+
+        for (int i = 0; i < 13; i++) {
+            for (int j = 0; j < 17; j++) {
+                celdas[i][j] = new JLabel();
+                celdas[i][j].setOpaque(false);
+                celdas[i][j].setHorizontalAlignment(SwingConstants.CENTER);
+                celdas[i][j].setVerticalAlignment(SwingConstants.CENTER);
+
+
+                contentPane.add(celdas[i][j]);
+            }
+        }
+        contentPane.revalidate();
+        contentPane.repaint();
+    }
+	
+	private void actualizarCelda(int i, int j,Entidad ent) {
+        if (ent instanceof Jugador) {
+            celdas[i][j].setIcon(JUGADOR_ICONO); // Imagen del jugador
+        } else if (ent instanceof Bloque) {
+            Bloque bloque = (Bloque) ent;
+            switch (bloque.getTipo()) {
+                case DURO:
+                    celdas[i][j].setIcon(BLOQUE_DURO_ICONO);
+                    break;
+                case BLANDO:
+                    celdas[i][j].setIcon(BLOQUE_BLANDO_ICONO);
+                    break;
+                case VACIO:
+                	celdas[i][j].setIcon(null);
+            }
+        } else {
+            celdas[i][j].setIcon(null);
+        }
+    }
+	
 	@Override
 	public void update(Observable o, Object arg) {
-		repaint();
+		if(!tableroInicializado) {
+			return;
+		}
+		
+		if(o instanceof Escenario) {
+			if(arg instanceof Entidad[][]) {
+				Entidad[][] res = (Entidad[][])arg;
+				 for (int i = 0; i < 13; i++) {
+			            for (int j = 0; j < 17; j++) {
+			                actualizarCelda(i,j,res[i][j]);
+			            }
+			     }
+				 repaint();
+			}
+		}
 	}
 	
 	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 	}
-
 }
 
 class Controller implements KeyListener {
