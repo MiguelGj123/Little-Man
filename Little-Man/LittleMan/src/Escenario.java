@@ -169,77 +169,7 @@ public class Escenario extends Observable{
 		
 	}
 	
-    public void getKeyPressed(int key) {
-
-            switch (key) {
-	            case 32: mov = Mov.B;
-	                    break;
-	            case 37: mov = Mov.L;
-	                    break;
-	            case 38: mov = Mov.U;
-	                    break;
-	            case 39: mov = Mov.R;
-	                    break;
-	            case 40: mov = Mov.D;
-	                    break;      
-	            default: mov = Mov.Q;
-            			break;
-                  }
-            
-            if (mov!=anterior) {
-                anterior=mov;
-                switch (mov) {
-	            	case Mov.B: this.pressBomba();
-	            			break;
-			        case Mov.L: this.pressLeft();
-			                break;
-			        case Mov.U: this.pressUp();
-			                break;
-			        case Mov.R: this.pressRight();
-			                break;
-			        case Mov.D: this.pressDown();
-			                break;
-			        default: ;
-			       			break;
-                }
-        	}
-    	}
-    public void getKeyReleased(int key) {
-    	
-            switch (key) {
-                case 32: mov = Mov.B;
-                         break;
-                case 37: mov = Mov.L;
-                        break;
-                case 38: mov = Mov.U;
-                        break;
-                case 39: mov = Mov.R;
-                        break;
-                case 40: mov = Mov.D;
-                        break;
-                default: mov = Mov.Q;
-                		break;
-                    }
-            
-            if (anterior==mov) {
-            	anterior=Mov.Q;
-            	switch (mov) {
-	            	case Mov.B: this.releaseBomba();
-	            			break;
-			        case Mov.L: this.releaseLeft();
-			                break;
-			        case Mov.U: this.releaseUp();
-			                break;
-			        case Mov.R: this.releaseRight();
-			                break;
-			        case Mov.D: this.releaseDown();
-			                break;
-			        default: ;
-			       			break;
-            	}
-            }
-            
-        }
+   
     public void pressBomba() {
     	bomb=true;
     	left=false;

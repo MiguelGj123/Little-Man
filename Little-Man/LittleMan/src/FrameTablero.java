@@ -134,6 +134,7 @@ public class FrameTablero extends JFrame implements Observer {
 
 class Controller implements KeyListener {
 	private Escenario escenario;
+	int anterior=-1;
 	
 	public Controller() {
 		this.escenario = Escenario.getEscenario();
@@ -142,13 +143,45 @@ class Controller implements KeyListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		escenario.getKeyPressed(keyCode);
+		if (keyCode!=anterior) {
+            anterior=keyCode;
+        	switch (keyCode) {
+            	case KeyEvent.VK_SPACE: Escenario.getEscenario().pressBomba();
+            			break;
+		        case KeyEvent.VK_A: Escenario.getEscenario().pressLeft();
+		                break;
+		        case KeyEvent.VK_W: Escenario.getEscenario().pressUp();
+		                break;
+		        case KeyEvent.VK_D: Escenario.getEscenario().pressRight();
+		                break;
+		        case KeyEvent.VK_S: Escenario.getEscenario().pressDown();
+		                break;
+		        default: ;
+		       			break;
+        	}
+		}
 	}
 	
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int keyCode = e.getKeyCode();
-		escenario.getKeyReleased(keyCode);
+			if (anterior==keyCode) {
+	        	anterior=-1;
+	        	switch (keyCode) {
+	            	case KeyEvent.VK_SPACE: Escenario.getEscenario().releaseBomba();
+	            			break;
+			        case KeyEvent.VK_A: Escenario.getEscenario().releaseLeft();
+			                break;
+			        case KeyEvent.VK_W: Escenario.getEscenario().releaseUp();
+			                break;
+			        case KeyEvent.VK_D: Escenario.getEscenario().releaseRight();
+			                break;
+			        case KeyEvent.VK_S: Escenario.getEscenario().releaseDown();
+			                break;
+			        default: ;
+			       			break;
+	        	}
+			}
 	}
 	
 	@Override
