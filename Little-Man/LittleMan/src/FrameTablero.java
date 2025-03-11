@@ -16,7 +16,7 @@ public class FrameTablero extends JFrame implements Observer {
 	private Escenario escenario;
 	private JLabel[][] celdas;
 	private boolean tableroInicializado = false; //Booleano para verificar que las celdas ya están inicializadas
-	private static final ImageIcon JUGADOR_ICONO = new ImageIcon("Pixels/whiteDown1.png");
+	private static final ImageIcon JUGADOR_ICONO = new ImageIcon("Pixels/whitedown1.png");
 	private static final ImageIcon BLOQUE_DURO_ICONO = new ImageIcon("Pixels/hard1.png");
 	private static final ImageIcon BLOQUE_BLANDO_ICONO = new ImageIcon("Pixels/soft3.png");
 
@@ -88,7 +88,7 @@ public class FrameTablero extends JFrame implements Observer {
     }
 	
 	private void actualizarCelda(int i, int j,Entidad ent) {
-        if (ent instanceof Jugador) {
+        if (ent instanceof Bomberman_blanco) {
             celdas[i][j].setIcon(JUGADOR_ICONO); // Imagen del jugador
         } else if (ent instanceof Bloque) {
             Bloque bloque = (Bloque) ent;
