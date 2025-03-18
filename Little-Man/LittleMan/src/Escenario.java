@@ -146,10 +146,35 @@ public class Escenario extends Observable{
 				
 			}
 		}
+		ArrayList<Integer> casillas = generarMatriz();
 		setChanged();
-		notifyObservers(this.tablero);
+		notifyObservers(casillas);
 	}
 	
+	private ArrayList<Integer> generarMatriz(){
+		ArrayList<Integer> casillas = new ArrayList<Integer>();
+		for(int i=0;i<FILAS;i++) {
+			for(int j=0;j<COLUMNAS;j++) {
+				if (tablero[i][j] instanceof Jugador) {
+                    casillas.add(20);
+                } else if (tablero[i][j] instanceof Bloque) {
+                    Bloque bloque = (Bloque) tablero[i][j];
+                    switch (bloque.getTipo()) {
+                        case DURO:
+                            casillas.add(10);
+                            break;
+                        case BLANDO:
+                        	casillas.add(11);
+                            break;
+                        case VACIO:
+                        	casillas.add(12);
+                            break;
+                    }
+                }
+			}
+		}
+		return casillas;
+	}
 	public Entidad getEntidad(int fila, int colu) {
 		Entidad miEntidad = new Entidad();
 		if(fila>=0 && fila<FILAS && colu>=0 && colu < COLUMNAS) {

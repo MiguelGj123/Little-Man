@@ -87,25 +87,21 @@ public class FrameTablero extends JFrame implements Observer {
         contentPane.repaint();
     }
 	
-	private void actualizarCelda(int i, int j,Entidad ent) {
-        if (ent instanceof Bomberman_blanco) {
-            celdas[i][j].setIcon(JUGADOR_ICONO); // Imagen del jugador
-        } else if (ent instanceof Bloque) {
-            Bloque bloque = (Bloque) ent;
-            switch (bloque.getTipo()) {
-                case DURO:
-                    celdas[i][j].setIcon(BLOQUE_DURO_ICONO);
-                    break;
-                case BLANDO:
-                    celdas[i][j].setIcon(BLOQUE_BLANDO_ICONO);
-                    break;
-                case VACIO:
-                	celdas[i][j].setIcon(null);
-            }
-        } else {
-            celdas[i][j].setIcon(null);
-        }
+	private void actualizarCelda(int i, int j,Integer pos) {
+        switch(pos) {
+        case 20:
+        	celdas[i][j].setIcon(JUGADOR_ICONO); // Imagen del jugador
+        	break;
+        case 10:
+        	celdas[i][j].setIcon(BLOQUE_DURO_ICONO);
+            break;
+        case 11:
+            celdas[i][j].setIcon(BLOQUE_BLANDO_ICONO);
+            break;
+        case 12:
+        	celdas[i][j].setIcon(null);
     }
+        } 
 	
 	@Override
 	public void update(Observable o, Object arg) {
@@ -114,11 +110,13 @@ public class FrameTablero extends JFrame implements Observer {
 		}
 		
 		if(o instanceof Escenario) {
-			if(arg instanceof Entidad[][]) {
-				Entidad[][] res = (Entidad[][])arg;
+			if(arg instanceof ArrayList) {
+				ArrayList<Integer> res = (ArrayList<Integer>) arg;
+				Integer cont =0;
 				 for (int i = 0; i < 13; i++) {
 			            for (int j = 0; j < 17; j++) {
-			                actualizarCelda(i,j,res[i][j]);
+			                actualizarCelda(i,j,res.get(cont));
+			                cont ++;
 			            }
 			     }
 				 repaint();
