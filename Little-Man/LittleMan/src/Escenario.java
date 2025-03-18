@@ -10,11 +10,13 @@ public class Escenario extends Observable{
 	private Entidad[][] tablero;
 	private Mov mov=Mov.Q, anterior=Mov.Q;
 	private Random random = new Random();
-	private Jugador Jseleccionado = new Bomberman_blanco();
-	private int posJX=0, posJY=0;
+	private Jugador jug = new Bomberman_blanco();
 	private Timer timer=null;
 	private int cont=1;
 	private boolean left=false, right=false, up=false, down=false, bomb=false;
+	private ArrayList<Bomba> bombas = new ArrayList<Bomba>();
+	private ArrayList<int[]> posBloques = new ArrayList<int[]>();
+
 	
 	private Escenario() {
 		tablero =new Entidad[FILAS][COLUMNAS];
@@ -29,7 +31,7 @@ public class Escenario extends Observable{
 	}
 	
 	public void seleccionarJugador(Jugador jugador) {
-		getEscenario().Jseleccionado=jugador;
+		getEscenario().jug=jugador;
 	}
 	
 	private void inicializarTablero() {
@@ -46,7 +48,7 @@ public class Escenario extends Observable{
 				}
 			}
 		}
-		tablero[0][0] =  Jseleccionado;
+		tablero[0][0] =  jug;
 		
 		//Todo a partir de aquí es solo pruebas
 		
@@ -76,38 +78,16 @@ public class Escenario extends Observable{
 				
 	}
 	private void actualizarEscenario() {
-		for (int i = 0; i < FILAS; i++) {
-			for (int j = 0; j < COLUMNAS; j++) {
-				if (tablero[i][j] instanceof Jugador) {
-                    System.out.print(" J ");
-                } else if (tablero[i][j] instanceof Bloque) {
-                    Bloque bloque = (Bloque) tablero[i][j];
-                    switch (bloque.getTipo()) {
-                        case DURO:
-                            System.out.print(" D ");
-                            break;
-                        case BLANDO:
-                            System.out.print(" B ");
-                            break;
-                        case VACIO:
-                            System.out.print(" . ");
-                            break;
-                    }
-                } else {
-                    System.out.print(" ? ");
-                }
-            }
-            System.out.println();
-		}
-		System.out.println("");
+		int posJX=jug.getPosX();
+		int posJY=jug.getPosY();
 		if (cont%3==0) {
 			if(left) {
 		    	int posBloque=posJX-1;
 		    	if (posBloque!=-1) {
 			    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
 			    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
-			    		tablero[posJY][posBloque]=Jseleccionado;
-			    		posJX=posBloque;
+			    		tablero[posJY][posBloque]=jug;
+			    		jug.setPosX(posBloque);
 			    	}
 		    	}
 	    	}
@@ -117,8 +97,8 @@ public class Escenario extends Observable{
 		    	if (posBloque!=-1) {
 			    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO ) {
 			    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
-			    		tablero[posBloque][posJX]=Jseleccionado;
-			    		posJY=posBloque;
+			    		tablero[posBloque][posJX]=jug;
+			    		jug.setPosY(posBloque);
 			    	}
 		    	}
 	    	}
@@ -127,8 +107,8 @@ public class Escenario extends Observable{
 		    	if (posBloque!=FILAS+1) {
 			    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
 			    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
-			    		tablero[posJY][posBloque]=Jseleccionado;
-			    		posJX=posBloque;
+			    		tablero[posJY][posBloque]=jug;
+			    		jug.setPosX(posBloque);
 			    	}
 		    	}
 	    	}
@@ -137,8 +117,8 @@ public class Escenario extends Observable{
 		    	if (posBloque!=COLUMNAS+1) {
 			    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO) {
 			    		tablero[posJY][posJX]=new Bloque(Tipo.VACIO);
-			    		tablero[posBloque][posJX]=Jseleccionado;
-			    		posJY=posBloque;
+			    		tablero[posBloque][posJX]=jug;
+			    		jug.setPosY(posBloque);
 			    	}
 		    	}
 	    	}
@@ -175,8 +155,23 @@ public class Escenario extends Observable{
 		}
 		return casillas;
 	}
+	private void crearBomba()
+	{
+		if (jug.menosXBombas())											// si el jugador puede poner bombas
+		{
+			if (!(bombas.get(bombas.size()-1).getPosX() == jug.getPosX() && 		// si no es la misma posicion
+				  bombas.get(bombas.size()-1).getPosY() == jug.getPosY()))		// que la ultima bomba puesta
+			{
+				bombas.add(new Bomba(jug.duracionBomba(), jug.getPosX(), jug.getPosY()));
+				jug.ponerBomba();
+			}
+		}
+		
+		
+	}
+
 	public Entidad getEntidad(int fila, int colu) {
-		Entidad miEntidad = new Entidad();
+		Entidad miEntidad = null;
 		if(fila>=0 && fila<FILAS && colu>=0 && colu < COLUMNAS) {
 			miEntidad= tablero[fila][colu];
 		}

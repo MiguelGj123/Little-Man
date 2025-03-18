@@ -1,46 +1,82 @@
 
 public class Bomberman_blanco extends Jugador 
 {
-	int contadorBombas = 0;
-	boolean bombaPuesta = false;
+	private int contadorBombas = 0;
+	private boolean bombaPuesta = false;
+	private int vidas;
+	private final int radioBomba = 1;
+	private final int duracionBomba = 60;
 	
 	public Bomberman_blanco() {
-		
+		super.setPosX(0);
+		super.setPosY(0);
+	}
+	
+	public boolean gestionarDaño()
+	{
+		vidas--;
+		return vidas == 0;
+	}
+	
+	public boolean menosXBombas()
+	{
+		return contadorBombas < 10;
 	}
 	
 	@Override
-	public boolean ponerBomba() 
+	public void ponerBomba() 
 	{
-		if (contadorBombas<10)
-	
-		{
-			bombaPuesta = true;
-			contadorBombas++;
-		}
-		
-		else
-		{
-			bombaPuesta = false;
-		}
-		
-		return bombaPuesta;
-		
+		contadorBombas++;
 	}
 	
+	
+	
 	@Override
-	public void bombaExplotada() 
+	public void bombaExplotada()
 	{
-		contadorBombas --;
-		
+		contadorBombas--;
 	}
 	
 	@Override
 	public int radioBomba() 
 	{
-		return 1;
+		return radioBomba;
+	}
+	
+	public int duracionBomba() 
+	{
+		return duracionBomba;
 	}
 	
 	public Tipo getTipo() {
 		return Tipo.JUGADOR;
 	}
+	
+	public void setPosX(int pPosX)
+	{
+		super.setPosX(pPosX);
+	}
+	
+	public void setPosY(int pPosY)
+	{
+		super.setPosY(pPosY);
+	}
+	
+	public int getPosX()
+	{
+		return super.getPosX();
+	}
+	
+	public int getPosY()
+	{
+		return super.getPosY();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 }

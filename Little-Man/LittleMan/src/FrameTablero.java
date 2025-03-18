@@ -131,11 +131,10 @@ public class FrameTablero extends JFrame implements Observer {
 }
 
 class Controller implements KeyListener {
-	private Escenario escenario;
+
 	int anterior=-1;
 	
 	public Controller() {
-		this.escenario = Escenario.getEscenario();
 	}
 	
 	@Override
