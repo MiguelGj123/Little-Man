@@ -48,10 +48,6 @@ public class Bomberman_blanco extends Jugador
 		return duracionBomba;
 	}
 	
-	public Tipo getTipo() {
-		return Tipo.JUGADOR;
-	}
-	
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);

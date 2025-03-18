@@ -19,6 +19,9 @@ public class FrameTablero extends JFrame implements Observer {
 	private static final ImageIcon JUGADOR_ICONO = new ImageIcon("Pixels/whitedown1.png");
 	private static final ImageIcon BLOQUE_DURO_ICONO = new ImageIcon("Pixels/hard1.png");
 	private static final ImageIcon BLOQUE_BLANDO_ICONO = new ImageIcon("Pixels/soft3.png");
+	private static final ImageIcon BLOQUE_FUEGO_ICONO = new ImageIcon("Pixels/miniBlast1.png");
+	private static final ImageIcon JUGADOR_BOMBA_ICONO = new ImageIcon("Pixels/whitewithbomb1.png");
+	private static final ImageIcon BOMBA_ICONO = new ImageIcon("Pixels/bomb1.png");
 
 
 	public static void main(String[] args) {
@@ -89,8 +92,14 @@ public class FrameTablero extends JFrame implements Observer {
 	
 	private void actualizarCelda(int i, int j,Integer pos) {
         switch(pos) {
+        case 30:
+        	celdas[i][j].setIcon(BOMBA_ICONO);
+        	break;
         case 20:
         	celdas[i][j].setIcon(JUGADOR_ICONO); // Imagen del jugador
+        	break;
+        case 21:
+        	celdas[i][j].setIcon(JUGADOR_BOMBA_ICONO);
         	break;
         case 10:
         	celdas[i][j].setIcon(BLOQUE_DURO_ICONO);
@@ -100,22 +109,24 @@ public class FrameTablero extends JFrame implements Observer {
             break;
         case 12:
         	celdas[i][j].setIcon(null);
+        	break;
+        case 13:
+        	celdas[i][j].setIcon(BLOQUE_FUEGO_ICONO);
+        	break;
     }
         } 
 	
-	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o, Object obj) {
 		if(!tableroInicializado) {
 			return;
 		}
-		
 		if(o instanceof Escenario) {
-			if(arg instanceof ArrayList) {
-				ArrayList<Integer> res = (ArrayList<Integer>) arg;
+			if(obj instanceof int[][]) {
+				int[][] res = (int[][]) obj;
 				Integer cont =0;
 				 for (int i = 0; i < 13; i++) {
 			            for (int j = 0; j < 17; j++) {
-			                actualizarCelda(i,j,res.get(cont));
+			                actualizarCelda(i,j,res[i][j]);
 			                cont ++;
 			            }
 			     }
@@ -128,6 +139,8 @@ public class FrameTablero extends JFrame implements Observer {
 	public void paint(Graphics g) {
 		super.paint(g);
 	}
+
+
 }
 
 class Controller implements KeyListener {
