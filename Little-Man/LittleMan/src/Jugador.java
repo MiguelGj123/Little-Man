@@ -1,6 +1,7 @@
 
 public abstract class Jugador extends Movible 
 {
+	public abstract boolean gestionarVida();
 
 	public abstract boolean menosXBombas();
 	
@@ -32,5 +33,7 @@ public abstract class Jugador extends Movible
 	{
 		return super.getPosY();
 	}
+
+
 
 }

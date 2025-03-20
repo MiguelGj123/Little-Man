@@ -6,14 +6,13 @@ public class Escenario extends Observable{
 	private static final int FILAS =13,COLUMNAS =17;
 	private static Escenario miEscenario;
 	private Bloque[][] tablero;
-	private Mov mov=Mov.Q, anterior=Mov.Q;
 	private Random random = new Random();
 	private Jugador jug = new Bomberman_blanco();
 	private Timer timer=null;
 	private int cont=1;
-	private boolean left=false, right=false, up=false, down=false, bomb=false;
+	private boolean left=false, right=false, up=false, down=false, bomb=false, jugadorMuerto=false;
 	private ArrayList<Bomba> bombas = new ArrayList<Bomba>();
-	private ArrayList<int[]> posBloques = new ArrayList<int[]>();
+	private ArrayList<Bloque> bloques = new ArrayList<Bloque>();
 
 	
 	private Escenario() {
@@ -37,11 +36,18 @@ public class Escenario extends Observable{
 			for (int j = 0; j < COLUMNAS; j++) {
 				if  ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)){
 					tablero[i][j]= new Bloque(Tipo.VACIO); // Poner bloques vacios en la esquina superior izquierda para zona de inicio
+					tablero[i][j].setPosX(j);
+					tablero[i][j].setPosY(i);
+
 				} else {
 					if (i % 2 != 0 && j % 2 != 0) {
 						tablero[i][j]= new Bloque(Tipo.DURO); //Poner bloques duros en posiciones impares
+						tablero[i][j].setPosX(j);
+						tablero[i][j].setPosY(i);
 					} else {
 						tablero[i][j]= random.nextBoolean() ? new Bloque(Tipo.VACIO) : new Bloque(Tipo.BLANDO);
+						tablero[i][j].setPosX(j);
+						tablero[i][j].setPosY(i);
 					}
 				}
 			}
@@ -78,11 +84,18 @@ public class Escenario extends Observable{
 	private void actualizarEscenario() {
 		int posJX=jug.getPosX();
 		int posJY=jug.getPosY();
-		if (cont%3==0) {
+		if (cont%2==0) {
 			if(left) {
 		    	int posBloque=posJX-1;
 		    	if (posBloque!=-1) {
-			    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
+		    		boolean noPasarL=false;
+		    		for (int i=0;i<bombas.size();i++) {
+		    			Bomba pBomba = bombas.get(i);
+		    			if (pBomba.getPosX()==posBloque && pBomba.getPosY()==posJY) {
+		    				noPasarL=true;
+		    			}
+		    		}
+			    	if (jugadorMuerto==false && noPasarL==false && tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
 			    		jug.setPosX(posBloque);
 			    	}
 		    	}
@@ -91,37 +104,117 @@ public class Escenario extends Observable{
 		    	int posBloque=posJY-1;
 		    	
 		    	if (posBloque!=-1) {
-			    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO ) {
+		    		boolean noPasarU=false;
+		    		for (int i=0;i<bombas.size();i++) {
+		    			Bomba pBomba = bombas.get(i);
+		    			if (pBomba.getPosX()==posJX && pBomba.getPosY()==posBloque) {
+		    				noPasarU=true;
+		    			}
+		    		}
+			    	if (jugadorMuerto==false && noPasarU==false && tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO ) {
 			    		jug.setPosY(posBloque);
 			    	}
 		    	}
 	    	}
 			if(right) {
 		    	int posBloque=posJX+1;
-		    	if (posBloque!=FILAS+1) {
-			    	if (tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
+		    	if (posBloque!=COLUMNAS) {
+		    		boolean noPasarR=false;
+		    		for (int i=0;i<bombas.size();i++) {
+		    			Bomba pBomba = bombas.get(i);
+		    			if (pBomba.getPosX()==posBloque && pBomba.getPosY()==posJY) {
+		    				noPasarR=true;
+		    			}
+		    		}
+			    	if (jugadorMuerto==false && noPasarR==false && tablero[posJY][posBloque].getTipo()!=Tipo.DURO && tablero[posJY][posBloque].getTipo()!=Tipo.BLANDO ) {
 			    		jug.setPosX(posBloque);
 			    	}
 		    	}
 	    	}
 			if(down) {
 		    	int posBloque=posJY+1;
-		    	if (posBloque!=COLUMNAS+1) {
-			    	if (tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO) {
+		    	if (posBloque!=FILAS) {
+		    		boolean noPasarD=false;
+		    		for (int i=0;i<bombas.size();i++) {
+		    			Bomba pBomba = bombas.get(i);
+		    			if (pBomba.getPosX()==posJX && pBomba.getPosY()==posBloque) {
+		    				noPasarD=true;
+		    			}
+		    		}
+			    	if (jugadorMuerto==false && noPasarD==false && tablero[posBloque][posJX].getTipo()!=Tipo.DURO && tablero[posBloque][posJX].getTipo()!=Tipo.BLANDO) {
 			    		jug.setPosY(posBloque);
 			    	}
 		    	}
 	    	}
 			if (bomb) {
-				
+				if(jugadorMuerto==false) {
+					crearBomba();
+				}
 			}
 		}
-
+		mirarBombas();
+		mirarFuego();
 		setChanged();
 		notifyObservers(generarMatriz());
 	}
 	
 
+
+	private void mirarFuego() {
+		for (int i=0;i<bloques.size();i++) {
+			Bloque pBloque = bloques.get(i);
+			if (pBloque.tick()) {
+				bloques.remove(i);
+			}
+			if (pBloque.getPosX()==jug.getPosX()&&pBloque.getPosY()==jug.getPosY()) {
+				if(jug.gestionarVida()) {
+					jugadorMuerto=true;	
+				}
+			}
+		}
+		
+	}
+
+	private void mirarBombas() {
+		for (int i=0;i<bombas.size();i++) {
+			Bomba pBomba = bombas.get(i);
+			if (pBomba.tick()) {
+				jug.bombaExplotada();
+				explosion(i);
+				bombas.remove(i);
+			}
+		}
+		
+	}
+
+	private void explosion(int pBomb) {
+		for (int i=0; i<jug.radioBomba()+1;i++) {
+			int centroExplosionY=bombas.get(pBomb).getPosY();
+			int centroExplosionX=bombas.get(pBomb).getPosX();
+			if(centroExplosionX+i!=COLUMNAS) {
+				if(tablero[centroExplosionY][centroExplosionX+i].romperbloque()) {
+					bloques.add(tablero[centroExplosionY][centroExplosionX+i]);
+				}
+			}
+			if(centroExplosionX-i!=-1) {
+				if(tablero[centroExplosionY][centroExplosionX-i].romperbloque()) {
+					bloques.add(tablero[centroExplosionY][centroExplosionX-i]);
+				}
+			}
+			if(centroExplosionY+i!=FILAS) {
+				if(tablero[centroExplosionY+i][centroExplosionX].romperbloque()) {
+					bloques.add(tablero[centroExplosionY+i][centroExplosionX]);
+				}
+			}
+			if(centroExplosionY-i!=-1) {
+				if(tablero[centroExplosionY-i][centroExplosionX].romperbloque()) {
+					bloques.add(tablero[centroExplosionY-i][centroExplosionX]);
+				}
+			}
+		}
+		
+		
+	}
 
 	private int[][] generarMatriz(){
 		int[][] casillas = new int[FILAS][COLUMNAS];
@@ -152,6 +245,9 @@ public class Escenario extends Observable{
 		}	else {
 				casillas[jug.getPosY()][jug.getPosX()]=20;
 			}
+		if (jugadorMuerto==true) {
+			casillas[jug.getPosY()][jug.getPosX()]=22;
+		}
 		
 		
 		return casillas;
@@ -171,12 +267,17 @@ public class Escenario extends Observable{
 	{
 		if (jug.menosXBombas())											// si el jugador puede poner bombas
 		{
-			if (!(bombas.get(bombas.size()-1).getPosX() == jug.getPosX() && 		// si no es la misma posicion
+			if (bombas.size()==0) {
+				bombas.add(new Bomba(jug.duracionBomba(), jug.getPosX(), jug.getPosY()));
+				jug.ponerBomba();
+			}
+			else if (!(bombas.get(bombas.size()-1).getPosX() == jug.getPosX() && 		// si no es la misma posicion
 				  bombas.get(bombas.size()-1).getPosY() == jug.getPosY()))		// que la ultima bomba puesta
 			{
 				bombas.add(new Bomba(jug.duracionBomba(), jug.getPosX(), jug.getPosY()));
 				jug.ponerBomba();
 			}
+			
 		}
 		
 		
@@ -218,6 +319,7 @@ public class Escenario extends Observable{
     	right=false;
     	down=false;
     	up=false;
+    	bomb=false;
 
     	
     	System.out.println("presionado Left");
@@ -227,6 +329,7 @@ public class Escenario extends Observable{
     	left=false;
     	right=false;
     	down=false;
+    	bomb=false;
 
     	
     	System.out.println("presionado Up");
@@ -236,6 +339,7 @@ public class Escenario extends Observable{
     	left=false;
     	down=false;
     	up=false;
+    	bomb=false;
  
     	
     	System.out.println("presionado Right"+tablero.length);
@@ -245,6 +349,7 @@ public class Escenario extends Observable{
     	left=false;
     	right=false;
     	up=false;
+    	bomb=false;
  
     	
     	

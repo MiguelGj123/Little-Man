@@ -12,9 +12,9 @@ public class Bloque extends Inamovible
 	
 	public boolean romperbloque()
 	{
-		if (tipo != Tipo.DURO || tipo != Tipo.FUEGO) 
+		if (tipo != Tipo.DURO && tipo != Tipo.FUEGO) 
 		{
-			this.tipo = tipo.FUEGO;
+			this.tipo = Tipo.FUEGO;
 			ticks = 40;
 			completado = true;
 		}
@@ -22,7 +22,7 @@ public class Bloque extends Inamovible
 		{
 			completado = false;
 		}
-		
+
 		return completado;					
 	}
 	

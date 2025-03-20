@@ -19,10 +19,10 @@ public class FrameTablero extends JFrame implements Observer {
 	private static final ImageIcon JUGADOR_ICONO = new ImageIcon("Pixels/whitedown1.png");
 	private static final ImageIcon BLOQUE_DURO_ICONO = new ImageIcon("Pixels/hard1.png");
 	private static final ImageIcon BLOQUE_BLANDO_ICONO = new ImageIcon("Pixels/soft3.png");
-	private static final ImageIcon BLOQUE_FUEGO_ICONO = new ImageIcon("Pixels/miniBlast1.png");
+	private static final ImageIcon BLOQUE_FUEGO_ICONO = new ImageIcon("Pixels/miniBlast1.gif");
 	private static final ImageIcon JUGADOR_BOMBA_ICONO = new ImageIcon("Pixels/whitewithbomb1.png");
 	private static final ImageIcon BOMBA_ICONO = new ImageIcon("Pixels/bomb1.png");
-
+	private static final ImageIcon JUGADOR_MUERTO_ICONO = new ImageIcon("Pixels/onFire2.png");
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -100,6 +100,9 @@ public class FrameTablero extends JFrame implements Observer {
         	break;
         case 21:
         	celdas[i][j].setIcon(JUGADOR_BOMBA_ICONO);
+        	break;
+        case 22:
+        	celdas[i][j].setIcon(JUGADOR_MUERTO_ICONO);
         	break;
         case 10:
         	celdas[i][j].setIcon(BLOQUE_DURO_ICONO);

@@ -3,7 +3,7 @@ public class Bomberman_blanco extends Jugador
 {
 	private int contadorBombas = 0;
 	private boolean bombaPuesta = false;
-	private int vidas;
+	private int vidas=1;
 	private final int radioBomba = 1;
 	private final int duracionBomba = 60;
 	
@@ -12,10 +12,10 @@ public class Bomberman_blanco extends Jugador
 		super.setPosY(0);
 	}
 	
-	public boolean gestionarDaño()
+	public boolean gestionarVida()
 	{
 		vidas--;
-		return vidas == 0;
+		return vidas <= 0;
 	}
 	
 	public boolean menosXBombas()
