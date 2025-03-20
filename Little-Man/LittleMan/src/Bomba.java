@@ -13,7 +13,7 @@ public class Bomba extends Inamovible {
 	{
 		ticks--;
 
-		return ticks==0;
+		return ticks<0;
 		
 	}
 	

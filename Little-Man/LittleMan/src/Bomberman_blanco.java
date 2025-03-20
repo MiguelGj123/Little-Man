@@ -17,6 +17,11 @@ public class Bomberman_blanco extends Jugador
 		vidas--;
 		return vidas <= 0;
 	}
+	public void sumarVida()
+	{
+		vidas=1;
+		return;
+	}
 	
 	public boolean menosXBombas()
 	{

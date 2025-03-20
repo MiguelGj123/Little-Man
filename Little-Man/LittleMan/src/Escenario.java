@@ -59,12 +59,18 @@ public class Escenario extends Observable{
 			
 		
 		//Aquí ya no son pruebas
+		jug.setPosX(0);
+		jug.setPosY(0);
+		bombas.clear();
+		bloques.clear();
+		jugadorMuerto=false;
+		jug.sumarVida();
 		setChanged();
 		notifyObservers();
 		timerStep();
 	}
 	private void timerStep() {
-		Timer timer = new Timer();
+		timer = new Timer();
 		TimerTask task = new TimerTask() {
 			@Override
 			public void run() {
@@ -188,27 +194,52 @@ public class Escenario extends Observable{
 	}
 
 	private void explosion(int pBomb) {
+		boolean seguirExplosionR=true;
+		boolean seguirExplosionL=true;
+		boolean seguirExplosionU=true;
+		boolean seguirExplosionD=true;
 		for (int i=0; i<jug.radioBomba()+1;i++) {
 			int centroExplosionY=bombas.get(pBomb).getPosY();
 			int centroExplosionX=bombas.get(pBomb).getPosX();
-			if(centroExplosionX+i!=COLUMNAS) {
-				if(tablero[centroExplosionY][centroExplosionX+i].romperbloque()) {
-					bloques.add(tablero[centroExplosionY][centroExplosionX+i]);
+			if(i==0) {
+				if(tablero[centroExplosionY][centroExplosionX].romperbloque()) {
+					bloques.add(tablero[centroExplosionY][centroExplosionX]);
+					
 				}
-			}
-			if(centroExplosionX-i!=-1) {
-				if(tablero[centroExplosionY][centroExplosionX-i].romperbloque()) {
-					bloques.add(tablero[centroExplosionY][centroExplosionX-i]);
+			} else {
+				
+				if(seguirExplosionR && centroExplosionX+i<COLUMNAS && centroExplosionX+i>-1) {
+					if(tablero[centroExplosionY][centroExplosionX+i].romperbloque()) {
+						bloques.add(tablero[centroExplosionY][centroExplosionX+i]);
+						
+					}
+					else {
+						seguirExplosionR=false;
+					}
 				}
-			}
-			if(centroExplosionY+i!=FILAS) {
-				if(tablero[centroExplosionY+i][centroExplosionX].romperbloque()) {
-					bloques.add(tablero[centroExplosionY+i][centroExplosionX]);
+				if(seguirExplosionL && centroExplosionX-i>-1 && centroExplosionX-i<COLUMNAS) {
+					if(tablero[centroExplosionY][centroExplosionX-i].romperbloque()) {
+						bloques.add(tablero[centroExplosionY][centroExplosionX-i]);
+					}
+					else {
+						seguirExplosionL=false;
+					}
 				}
-			}
-			if(centroExplosionY-i!=-1) {
-				if(tablero[centroExplosionY-i][centroExplosionX].romperbloque()) {
-					bloques.add(tablero[centroExplosionY-i][centroExplosionX]);
+				if(seguirExplosionU && centroExplosionY+i<FILAS && centroExplosionY+i>-1) {
+					if(tablero[centroExplosionY+i][centroExplosionX].romperbloque()) {
+						bloques.add(tablero[centroExplosionY+i][centroExplosionX]);
+					}
+					else {
+						seguirExplosionU=false;
+					}
+				}
+				if(seguirExplosionD && centroExplosionY-i>-1 && centroExplosionY-i<FILAS) {
+					if(tablero[centroExplosionY-i][centroExplosionX].romperbloque()) {
+						bloques.add(tablero[centroExplosionY-i][centroExplosionX]);
+					}
+					else {
+						seguirExplosionD=false;
+					}
 				}
 			}
 		}
@@ -311,7 +342,7 @@ public class Escenario extends Observable{
     	up=false;
     	
     	System.out.println("presionado Bomba");
-    	
+
     	
     }
     public void pressLeft() {
@@ -321,7 +352,6 @@ public class Escenario extends Observable{
     	up=false;
     	bomb=false;
 
-    	
     	System.out.println("presionado Left");
     }
     public void pressUp() {
@@ -342,7 +372,7 @@ public class Escenario extends Observable{
     	bomb=false;
  
     	
-    	System.out.println("presionado Right"+tablero.length);
+    	System.out.println("presionado Right");
     }
     public void pressDown() {
     	down=true;
@@ -354,6 +384,13 @@ public class Escenario extends Observable{
     	
     	
     	System.out.println("presionado Down");
+    }
+    public void pressEnter() {
+    	if (jugadorMuerto) {
+    		timer.purge();
+    		timer.cancel();
+    		inicializarTablero();
+    	}
     }
     public void releaseBomba() {
     	bomb=false;
@@ -374,6 +411,9 @@ public class Escenario extends Observable{
     public void releaseDown() {
     	down=false;
     	System.out.println("soltado Down");
+    }
+    public void releaseEnter() {
+    	
     }
 		                   
     

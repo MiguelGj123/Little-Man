@@ -169,6 +169,8 @@ class Controller implements KeyListener {
 		                break;
 		        case KeyEvent.VK_S: Escenario.getEscenario().pressDown();
 		                break;
+		        case KeyEvent.VK_ENTER: Escenario.getEscenario().pressEnter();
+		        		break;
 		        default: ;
 		       			break;
         	}
@@ -191,6 +193,8 @@ class Controller implements KeyListener {
 			                break;
 			        case KeyEvent.VK_S: Escenario.getEscenario().releaseDown();
 			                break;
+			        case KeyEvent.VK_ENTER: Escenario.getEscenario().releaseEnter();
+	        				break;
 			        default: ;
 			       			break;
 	        	}
