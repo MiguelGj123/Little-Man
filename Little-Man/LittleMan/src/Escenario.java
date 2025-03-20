@@ -341,9 +341,6 @@ public class Escenario extends Observable{
     	down=false;
     	up=false;
     	
-    	System.out.println("presionado Bomba");
-
-    	
     }
     public void pressLeft() {
     	left=true;
@@ -352,7 +349,6 @@ public class Escenario extends Observable{
     	up=false;
     	bomb=false;
 
-    	System.out.println("presionado Left");
     }
     public void pressUp() {
     	up=true;
@@ -361,8 +357,6 @@ public class Escenario extends Observable{
     	down=false;
     	bomb=false;
 
-    	
-    	System.out.println("presionado Up");
     }
     public void pressRight() {
     	right=true;
@@ -371,8 +365,6 @@ public class Escenario extends Observable{
     	up=false;
     	bomb=false;
  
-    	
-    	System.out.println("presionado Right");
     }
     public void pressDown() {
     	down=true;
@@ -381,9 +373,6 @@ public class Escenario extends Observable{
     	up=false;
     	bomb=false;
  
-    	
-    	
-    	System.out.println("presionado Down");
     }
     public void pressEnter() {
     	if (jugadorMuerto) {
@@ -394,23 +383,23 @@ public class Escenario extends Observable{
     }
     public void releaseBomba() {
     	bomb=false;
-    	System.out.println("soltado Bomba");
+
     }
     public void releaseLeft() {
     	left=false;
-    	System.out.println("soltado Left");
+
     }
     public void releaseUp() {
     	up=false;
-    	System.out.println("soltado Up");
+
     }
     public void releaseRight() {
     	right=false;
-    	System.out.println("soltado Right");
+
     }
     public void releaseDown() {
     	down=false;
-    	System.out.println("soltado Down");
+
     }
     public void releaseEnter() {
     	
