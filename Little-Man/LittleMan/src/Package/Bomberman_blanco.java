@@ -1,8 +1,7 @@
-
+package Package;
 public class Bomberman_blanco extends Jugador 
 {
 	private int contadorBombas = 0;
-	private boolean bombaPuesta = false;
 	private int vidas=1;
 	private final int radioBomba = 1;
 	private final int duracionBomba = 60;
@@ -12,17 +11,29 @@ public class Bomberman_blanco extends Jugador
 		super.setPosY(0);
 	}
 	
-	public boolean gestionarVida()
+	// Reduce una vida si aún tiene
+	public void gestionarVida()
 	{
-		vidas--;
-		return vidas <= 0;
+		if (vidas > 0)
+		{
+			vidas--;
+		}
 	}
+	
+	// Devuelve true si el jugador no tiene vidas
+	public boolean getEstaMuerto()
+	{
+		return vidas == 0;
+	}
+	
+	// Restaura la vida del jugador
 	public void sumarVida()
 	{
 		vidas=1;
 		return;
 	}
 	
+	// Verifica si puede colocar más bombas
 	public boolean menosXBombas()
 	{
 		return contadorBombas < 10;
@@ -33,8 +44,6 @@ public class Bomberman_blanco extends Jugador
 	{
 		contadorBombas++;
 	}
-	
-	
 	
 	@Override
 	public void bombaExplotada()
@@ -53,6 +62,7 @@ public class Bomberman_blanco extends Jugador
 		return duracionBomba;
 	}
 	
+	// Métodos delegados a la superclase
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);

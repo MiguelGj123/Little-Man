@@ -1,6 +1,8 @@
+package Package;
 
 public abstract class Movible extends Entidad{
-
+	
+	// Métodos que simplemente llaman a la superclase (Entidad)
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);

@@ -1,11 +1,11 @@
+package Package;
 
 public abstract class Entidad {
 	
-	private int posX, posY;
+	private int posX, posY; // Coordenadas de la entidad
 
 	public Tipo getTipo() {
-		// TODO Auto-generated method stub
-		return null;
+		return null; // Método a sobrescribir en subclases
 	}
 	
 	public void setPosX(int pPosX)

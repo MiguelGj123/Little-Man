@@ -1,9 +1,11 @@
-
+package Package;
 public abstract class Jugador extends Movible 
 {
 	
+	// Métodos abstractos que deben ser implementados por las subclases
+	public abstract void gestionarVida();
 	
-	public abstract boolean gestionarVida();
+	public abstract boolean getEstaMuerto();
 
 	public abstract boolean menosXBombas();
 	
@@ -17,7 +19,7 @@ public abstract class Jugador extends Movible
 
 	public abstract int duracionBomba();
 	
-
+	// Métodos delegados a la superclase
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);

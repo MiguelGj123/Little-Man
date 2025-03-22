@@ -1,30 +1,24 @@
+package Package;
 
 public class Bloque extends Inamovible 
 {
-	private boolean completado = false;
-	private Tipo tipo;
-	private int ticks;
+	private Tipo tipo; // Tipo de bloque (VACIO, BLANDO, DURO, FUEGO)
+	private int ticks; // Contador para la transición de estado
 	
 	public Bloque (Tipo tipo) 
 	{
 		this.tipo = tipo;
 	}
 	
-	public boolean romperbloque()
+	// Rompe el bloque si no es de tipo DURO
+	public void romperbloque()
 	{
 		if (tipo != Tipo.DURO) 
 		{
 			this.tipo = Tipo.FUEGO;
-			ticks = 40;
-			completado = true;
 			
+			ticks = 40;
 		}
-		else if (tipo==Tipo.FUEGO || tipo==Tipo.DURO) 
-		{
-			completado = false;
-		}
-
-		return completado;					
 	}
 	
 	public boolean tick()
@@ -33,7 +27,7 @@ public class Bloque extends Inamovible
 
 		if(ticks==0) 
 		{
-			tipo = tipo.VACIO;
+			tipo = tipo.VACIO; // El bloque se marca como VACIO tras el tiempo
 		}
 		
 		return ticks < 0;
@@ -42,7 +36,7 @@ public class Bloque extends Inamovible
 	public Tipo getTipo() {
 		return tipo;
 	}
-	
+	// Métodos delegados a la superclase
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);

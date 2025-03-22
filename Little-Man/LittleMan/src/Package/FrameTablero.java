@@ -1,3 +1,4 @@
+package Package;
 import java.awt.*;
 
 import javax.imageio.ImageIO;
@@ -9,12 +10,15 @@ import java.io.File;
 import java.util.*;
 import javax.swing.GroupLayout.Alignment;
 
+import Package.Escenario;
+
+
+
 public class FrameTablero extends JFrame implements Observer {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private Escenario escenario;
-	private JLabel[][] celdas;
+	private JLabel[][] celdas;// Celdas del tablero visual
 	private boolean tableroInicializado = false; //Booleano para verificar que las celdas ya están inicializadas
 	private static final ImageIcon JUGADOR_ICONO = new ImageIcon("Pixels/whitedown1.png");
 	private static final ImageIcon BLOQUE_DURO_ICONO = new ImageIcon("Pixels/hard1.png");
@@ -28,7 +32,7 @@ public class FrameTablero extends JFrame implements Observer {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					FrameTablero frame = new FrameTablero();
+					FrameTablero frame = new FrameTablero(); // Inicializa el JFrame
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -41,8 +45,7 @@ public class FrameTablero extends JFrame implements Observer {
 	 * Create the frame.
 	 */
 	public FrameTablero() {
-		escenario = Escenario.getEscenario();
-		escenario.addObserver(this);
+		Escenario.getEscenario().addObserver(this); // Registra el JFrame como observador
 		
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -53,25 +56,26 @@ public class FrameTablero extends JFrame implements Observer {
 			@Override
 			protected void paintComponent(Graphics g) {
 	            super.paintComponent(g);
-	            Image img = new ImageIcon(("Pixels/stageBack1.png")).getImage();
+	            Image img = new ImageIcon(("Pixels/stageBack1.png")).getImage(); // Fondo de pantalla
 	            g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
 	        }
 		};
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		
-		celdas = new JLabel[13][17];
+		celdas = new JLabel[13][17]; // 13 filas y 17 columnas para las celdas
 		contentPane.setLayout(new GridLayout(13,17));
 		
-		inicializarTableroVisual();
+		inicializarTableroVisual(); // Inicializa el tablero visual con celdas
 		tableroInicializado = true;
 		
 		
 		
 		
-		addKeyListener(new Controller());
+		addKeyListener(new Controller()); // Añade el controlador de teclado
 	}
 	
+	// Inicializa las celdas visuales en la GUI
 	private void inicializarTableroVisual() {
        
 
@@ -90,35 +94,37 @@ public class FrameTablero extends JFrame implements Observer {
         contentPane.repaint();
     }
 	
+	// Actualiza el icono de una celda específica según el valor
 	private void actualizarCelda(int i, int j,Integer pos) {
         switch(pos) {
-        case 30:
-        	celdas[i][j].setIcon(BOMBA_ICONO);
-        	break;
-        case 20:
-        	celdas[i][j].setIcon(JUGADOR_ICONO); // Imagen del jugador
-        	break;
-        case 21:
-        	celdas[i][j].setIcon(JUGADOR_BOMBA_ICONO);
-        	break;
-        case 22:
-        	celdas[i][j].setIcon(JUGADOR_MUERTO_ICONO);
-        	break;
-        case 10:
-        	celdas[i][j].setIcon(BLOQUE_DURO_ICONO);
-            break;
-        case 11:
-            celdas[i][j].setIcon(BLOQUE_BLANDO_ICONO);
-            break;
-        case 12:
-        	celdas[i][j].setIcon(null);
-        	break;
-        case 13:
-        	celdas[i][j].setIcon(BLOQUE_FUEGO_ICONO);
-        	break;
-    }
-        } 
+	        case 30:
+	        	celdas[i][j].setIcon(BOMBA_ICONO);// Bomba
+	        	break;
+	        case 20:
+	        	celdas[i][j].setIcon(JUGADOR_ICONO); // Jugador
+	        	break;
+	        case 21:
+	        	celdas[i][j].setIcon(JUGADOR_BOMBA_ICONO); // Jugador con bomba
+	        	break;
+	        case 22:
+	        	celdas[i][j].setIcon(JUGADOR_MUERTO_ICONO); // Jugador muerto
+	        	break;
+	        case 10:
+	        	celdas[i][j].setIcon(BLOQUE_DURO_ICONO); // Bloque duro
+	            break;
+	        case 11:
+	            celdas[i][j].setIcon(BLOQUE_BLANDO_ICONO); // Bloque blando
+	            break;
+	        case 12:
+	        	celdas[i][j].setIcon(null); // Espacio vacío
+	        	break;
+	        case 13:
+	        	celdas[i][j].setIcon(BLOQUE_FUEGO_ICONO); // Fuego
+	        	break;
+	    }
+	} 
 	
+	// Método que se llama cuando el escenario cambia (se actualiza)
 	public void update(Observable o, Object obj) {
 		if(!tableroInicializado) {
 			return;
@@ -129,23 +135,23 @@ public class FrameTablero extends JFrame implements Observer {
 				Integer cont =0;
 				 for (int i = 0; i < 13; i++) {
 			            for (int j = 0; j < 17; j++) {
-			                actualizarCelda(i,j,res[i][j]);
+			                actualizarCelda(i,j,res[i][j]); // Actualiza la celda
 			                cont ++;
 			            }
 			     }
-				 repaint();
+				 repaint(); // Vuelve a dibujar el tablero
 			}
 		}
 	}
 	
 	@Override
 	public void paint(Graphics g) {
-		super.paint(g);
+		super.paint(g); // Redibuja la ventana
 	}
 
 
 }
-
+//Controlador para las teclas presionadas
 class Controller implements KeyListener {
 
 	int anterior=-1;
@@ -159,17 +165,17 @@ class Controller implements KeyListener {
 		if (keyCode!=anterior) {
             anterior=keyCode;
         	switch (keyCode) {
-            	case KeyEvent.VK_SPACE: Escenario.getEscenario().pressBomba();
+            	case KeyEvent.VK_SPACE: Escenario.getEscenario().pressBomba(); // Espacio
             			break;
-		        case KeyEvent.VK_A: Escenario.getEscenario().pressLeft();
+		        case KeyEvent.VK_A: Escenario.getEscenario().pressLeft(); // Izquierda
 		                break;
-		        case KeyEvent.VK_W: Escenario.getEscenario().pressUp();
+		        case KeyEvent.VK_W: Escenario.getEscenario().pressUp(); // Arriba
 		                break;
-		        case KeyEvent.VK_D: Escenario.getEscenario().pressRight();
+		        case KeyEvent.VK_D: Escenario.getEscenario().pressRight(); // Derecha
 		                break;
-		        case KeyEvent.VK_S: Escenario.getEscenario().pressDown();
+		        case KeyEvent.VK_S: Escenario.getEscenario().pressDown(); // Abajo
 		                break;
-		        case KeyEvent.VK_ENTER: Escenario.getEscenario().pressEnter();
+		        case KeyEvent.VK_ENTER: Escenario.getEscenario().pressEnter(); // Enter
 		        		break;
 		        default: ;
 		       			break;
@@ -183,17 +189,17 @@ class Controller implements KeyListener {
 			if (anterior==keyCode) {
 	        	anterior=-1;
 	        	switch (keyCode) {
-	            	case KeyEvent.VK_SPACE: Escenario.getEscenario().releaseBomba();
+	            	case KeyEvent.VK_SPACE: Escenario.getEscenario().releaseBomba(); // Espacio
 	            			break;
-			        case KeyEvent.VK_A: Escenario.getEscenario().releaseLeft();
+			        case KeyEvent.VK_A: Escenario.getEscenario().releaseLeft(); // Izquierda
 			                break;
-			        case KeyEvent.VK_W: Escenario.getEscenario().releaseUp();
+			        case KeyEvent.VK_W: Escenario.getEscenario().releaseUp(); // Arriba
 			                break;
-			        case KeyEvent.VK_D: Escenario.getEscenario().releaseRight();
+			        case KeyEvent.VK_D: Escenario.getEscenario().releaseRight(); // Derecha
 			                break;
-			        case KeyEvent.VK_S: Escenario.getEscenario().releaseDown();
+			        case KeyEvent.VK_S: Escenario.getEscenario().releaseDown(); // Abajo
 			                break;
-			        case KeyEvent.VK_ENTER: Escenario.getEscenario().releaseEnter();
+			        case KeyEvent.VK_ENTER: Escenario.getEscenario().releaseEnter(); // Enter
 	        				break;
 			        default: ;
 			       			break;

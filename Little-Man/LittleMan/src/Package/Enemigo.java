@@ -1,6 +1,8 @@
+package Package;
 
 public abstract class Enemigo extends Movible {
 	
+	// Métodos delegados a la superclase
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);
