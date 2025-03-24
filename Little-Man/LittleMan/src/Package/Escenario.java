@@ -17,7 +17,7 @@ public class Escenario extends Observable{
 
 	private Escenario() {
 		tablero =new Bloque[COLUMNAS][FILAS];
-		inicializarTablero(); // Inicializa el tablero con bloques
+		inicializarTablero(); 
 	}
 	
 	public static Escenario getEscenario() {
@@ -36,17 +36,21 @@ public class Escenario extends Observable{
 		// Lógica para inicializar bloques en el tablero
 		for (int i = 0; i < COLUMNAS; i++) {
 			for (int j = 0; j < FILAS; j++) {
+				// Poner bloques vacios en la esquina superior izquierda para zona de inicio
 				if  ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)){
-					tablero[i][j]= new Bloque(Tipo.VACIO); // Poner bloques vacios en la esquina superior izquierda para zona de inicio
+					tablero[i][j]= new Bloque(Tipo.VACIO); 
 					tablero[i][j].setPosX(i);
 					tablero[i][j].setPosY(j);
 
 				} else {
+					//Poner bloques duros en posiciones impares
 					if (i % 2 != 0 && j % 2 != 0) {
-						tablero[i][j]= new Bloque(Tipo.DURO); //Poner bloques duros en posiciones impares
+						tablero[i][j]= new Bloque(Tipo.DURO); 
 						tablero[i][j].setPosX(i);
 						tablero[i][j].setPosY(j);
-					} else {
+					} 
+					//Poner bloques vacios y blandos aleatoriamente en el resto de posiciones
+					else {
 						tablero[i][j]= random.nextBoolean() ? new Bloque(Tipo.VACIO) : new Bloque(Tipo.BLANDO);
 						tablero[i][j].setPosX(i);
 						tablero[i][j].setPosY(j);
@@ -111,6 +115,15 @@ public class Escenario extends Observable{
 	
 	private void actualizarEscenario() {
 		
+		
+		actualizarPosicionJugador();
+		actualizarTicksBombas();
+		actualizarTicksFuego();
+		setChanged();
+		notifyObservers(generarMatriz());
+	}
+	
+	private void actualizarPosicionJugador() {
 		int posJX=jug.getPosX();						// posicion X actual del jugador	[COLUMNA]
 		int posJY=jug.getPosY();						// posicion Y actual del jugador	[FILA]
 		int cordNuevaX, cordNuevaY;						// posiciones XY nuevas despues del movimiento
@@ -124,8 +137,9 @@ public class Escenario extends Observable{
 			
 			if (!jug.getEstaMuerto())
 			{
+				// Crea una bomba si se presiona la tecla correspondiente
 				if (bomb) {
-					crearBomba(); // Crea una bomba si se presiona la tecla correspondiente
+					crearBomba(); 
 				}
 				// Lógica para mover al jugador según la dirección
 				if (left) {
@@ -174,14 +188,7 @@ public class Escenario extends Observable{
 				}
 			}
 		}
-		
-		actualizarTicksBombas();
-		actualizarTicksFuego();
-		setChanged();
-		notifyObservers(generarMatriz());
 	}
-	
-
 
 	private void actualizarTicksFuego()
 	{
@@ -228,7 +235,7 @@ public class Escenario extends Observable{
 			bloques.add (new int[] {centroExplosionX, centroExplosionY});
 		}
 		
-		for (int i = 1; i <= jug.radioBomba() || finLineaBomba.equals(new boolean[] {false, false, false, false}); i++)
+		for (int i = 1; i <= jug.radioBomba() || finLineaBomba.equals(new boolean[] {true, true, true, true}); i++)
 		{
 			for (int j = 0; j < 4; j++)
 			{
@@ -242,13 +249,13 @@ public class Escenario extends Observable{
 						case 0:		// izquierda
 							posBloqueExplotarX = centroExplosionX - i;
 							break;
-						case 1:
+						case 1:		// derecha
 							posBloqueExplotarX = centroExplosionX + i;
 							break;
-						case 2:
+						case 2:		// abajo
 							posBloqueExplotarY = centroExplosionY - i;
 							break;
-						case 3:
+						case 3:		// arriba
 							posBloqueExplotarY = centroExplosionY + i;
 							break;
 					}
@@ -321,9 +328,9 @@ public class Escenario extends Observable{
 		
 		if (casillas[jug.getPosX()][jug.getPosY()]==30)
 		{
-			casillas[jug.getPosX()][jug.getPosY()]=21;
+				casillas[jug.getPosX()][jug.getPosY()]=21;
 		}	else {
-			casillas[jug.getPosX()][jug.getPosY()]=20;
+				casillas[jug.getPosX()][jug.getPosY()]=20;
 		}
 		
 		if (jug.getEstaMuerto()==true)

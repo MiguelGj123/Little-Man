@@ -45,7 +45,7 @@ public class FrameTablero extends JFrame implements Observer {
 	 * Create the frame.
 	 */
 	public FrameTablero() {
-		Escenario.getEscenario().addObserver(this); // Registra el JFrame como observador
+		Escenario.getEscenario().addObserver(this); // Registra el JFrame como observador de Escenario
 		
 		setTitle("Bomberman");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
