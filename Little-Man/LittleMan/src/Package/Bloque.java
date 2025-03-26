@@ -1,61 +1,46 @@
 package Package;
 
-public class Bloque extends Inamovible 
+public class Bloque extends EntidadInamovible 
 {
-	private Tipo tipo; // Tipo de bloque (VACIO, BLANDO, DURO, FUEGO)
-	private int ticks; // Contador para la transición de estado
+	private int ticks;
 	
-	public Bloque (Tipo tipo) 
+	private BloqueState state;
+	
+	public Bloque (String pState) 
 	{
-		this.tipo = tipo;
+		state = BloqueFactory.getBloqueFactory().generate(pState);
 	}
 	
-	// Rompe el bloque si no es de tipo DURO
-	public void romperbloque()
+	public void cambiarTipo(BloqueState state)
 	{
-		if (tipo != Tipo.DURO) 
-		{
-			this.tipo = Tipo.FUEGO;
-			
+		this.state = state;
+	}
+	
+	public void romperbloque() {
+		if (state.romperBloque(this)) {
 			ticks = 40;
 		}
 	}
 	
-	public boolean tick()
-	{
+	public boolean tick(){
 		ticks--;
-
-		if(ticks==0) 
-		{
-			tipo = tipo.VACIO; // El bloque se marca como VACIO tras el tiempo
-		}
-		
-		return ticks < 0;
+		if(ticks==0) { cambiarTipo(BloqueFactory.getBloqueFactory().generate("VACIO")); }
+		return ticks <= 0;
 	}
 	
-	public Tipo getTipo() {
-		return tipo;
-	}
-	// Métodos delegados a la superclase
-	public void setPosX(int pPosX)
-	{
-		super.setPosX(pPosX);
-	}
+	public int getCodigoBloque() { return state.getCodigoBloque(); }
 	
-	public void setPosY(int pPosY)
-	{
-		super.setPosY(pPosY);
-	}
+	public boolean getJugadorChocaContraCelda() { return state.getJugadorChocaContraCelda(); }
 	
-	public int getPosX()
-	{
-		return super.getPosX();
-	}
+	public boolean getPuedeSerExplotado() { return state.getPuedeSerExplotado(); }
 	
-	public int getPosY()
-	{
-		return super.getPosY();
-	}
+	public void setPosX(int pPosX) { super.setPosX(pPosX); }
+	
+	public void setPosY(int pPosY) { super.setPosY(pPosY); }
+	
+	public int getPosX() { return super.getPosX(); }
+	
+	public int getPosY() { return super.getPosY(); }
 	
 	
 }

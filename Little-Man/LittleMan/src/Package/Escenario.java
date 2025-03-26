@@ -4,21 +4,27 @@ import java.util.*;
 
 
 public class Escenario extends Observable{
-	private static final int FILAS =13,COLUMNAS =17;
-	private static Escenario miEscenario;
-	private Bloque[][] tablero;
+	
 	private Random random = new Random();
-	private Jugador jug = new Bomberman_blanco();
+	
+	private static Escenario miEscenario;
+	private static final int FILAS = 11,COLUMNAS = 17;
+
 	private Timer timer=null;
 	private int cont=1;
 	private boolean left=false, right=false, up=false, down=false, bomb=false;
-	private ArrayList<Bomba> bombas = new ArrayList<Bomba>();
-	private ArrayList<int[]> bloques = new ArrayList<int[]>();
+	
+	private Bloque[][] matrizTableroBloques;
+	private EntidadMovibleJugador jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate("BLANCO");
+	private ArrayList<EntidadInamovibleBomba> listaTickBombas = new ArrayList<EntidadInamovibleBomba>();
+	private ArrayList<int[]> listaTickPosBloquesFuego = new ArrayList<int[]>();
 
 	private Escenario() {
-		tablero =new Bloque[COLUMNAS][FILAS];
-		inicializarTablero(); 
+		matrizTableroBloques =new Bloque[COLUMNAS][FILAS];
+		inicializarTablero();
 	}
+	
+	public void seleccionarJugador(String tipoJugador) { jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate("BLANCO"); }
 	
 	public static Escenario getEscenario() {
 		if (miEscenario == null) {
@@ -27,46 +33,35 @@ public class Escenario extends Observable{
 		return miEscenario;
 	}
 	
-	public void seleccionarJugador(Jugador jugador) {
-		getEscenario().jug=jugador;
-	}
-	
 	private void inicializarTablero()
 	{
-		// Lógica para inicializar bloques en el tablero
 		for (int i = 0; i < COLUMNAS; i++) {
 			for (int j = 0; j < FILAS; j++) {
-				// Poner bloques vacios en la esquina superior izquierda para zona de inicio
 				if  ((i == 0 && j == 0) || (i == 0 && j == 1) || (i == 1 && j == 0)){
-					tablero[i][j]= new Bloque(Tipo.VACIO); 
-					tablero[i][j].setPosX(i);
-					tablero[i][j].setPosY(j);
+					matrizTableroBloques[i][j]= new Bloque("VACIO"); // Poner bloques vacios en la esquina superior izquierda para zona de inicio
+					matrizTableroBloques[i][j].setPosX(i);
+					matrizTableroBloques[i][j].setPosY(j);
 
 				} else {
-					//Poner bloques duros en posiciones impares
 					if (i % 2 != 0 && j % 2 != 0) {
-						tablero[i][j]= new Bloque(Tipo.DURO); 
-						tablero[i][j].setPosX(i);
-						tablero[i][j].setPosY(j);
-					} 
-					//Poner bloques vacios y blandos aleatoriamente en el resto de posiciones
-					else {
-						tablero[i][j]= random.nextBoolean() ? new Bloque(Tipo.VACIO) : new Bloque(Tipo.BLANDO);
-						tablero[i][j].setPosX(i);
-						tablero[i][j].setPosY(j);
+						matrizTableroBloques[i][j]= new Bloque("DURO"); //Poner bloques duros en posiciones impares
+						matrizTableroBloques[i][j].setPosX(i);
+						matrizTableroBloques[i][j].setPosY(j);
+					} else {
+						matrizTableroBloques[i][j]= random.nextBoolean() ? new Bloque("VACIO") : new Bloque("BLANDO");
+						matrizTableroBloques[i][j].setPosX(i);
+						matrizTableroBloques[i][j].setPosY(j);
 					}
 				}
 			}
 		}
 
-
 		jug.setPosX(0);
 		jug.setPosY(0);
-		bombas.clear();
-		bloques.clear();
+		
+		listaTickBombas.clear();
+		listaTickPosBloquesFuego.clear();
 		jug.sumarVida();
-		setChanged();
-		notifyObservers();
 		timerStep();
 	}
 	
@@ -80,42 +75,15 @@ public class Escenario extends Observable{
 				if (cont==121) {
 					cont=1;
 				}
-				actualizarEscenario(); // Actualiza el escenario cada 50ms
+				actualizarEscenario();
 				
 			}
 		};
 		timer.scheduleAtFixedRate(task, 0, 50);
 	}
 	
-	private Bomba getBombaEnPosicionXY (int pPosX, int pPosY)				// devuelve la bomba que hay en una posicion XY
-	{																		// devuelve null si no hay bomba en esa posicion
-		Bomba pBomba;
-		
-		for (int i=0;i<bombas.size();i++)
-		{
-			pBomba = bombas.get(i);
-			if (pBomba.getPosX()==pPosX && pBomba.getPosY()==pPosY) {
-				return pBomba;
-			}
-		}
-		return null;
-	}
-	
-	private boolean hayFuegoEnPosicionXY (int pPosX, int pPosY)
+	private void actualizarEscenario()
 	{
-		for (int i=0;i<bloques.size();i++)
-		{
-			int[] pFuegos = bloques.get(i);
-			if (pFuegos[0]==pPosX && pFuegos[1]==pPosY) {
-				return true;
-			}
-		}
-		return false;
-	}
-	
-	private void actualizarEscenario() {
-		
-		
 		actualizarPosicionJugador();
 		actualizarTicksBombas();
 		actualizarTicksFuego();
@@ -123,122 +91,118 @@ public class Escenario extends Observable{
 		notifyObservers(generarMatriz());
 	}
 	
-	private void actualizarPosicionJugador() {
+	private void actualizarPosicionJugador()
+	{
 		int posJX=jug.getPosX();						// posicion X actual del jugador	[COLUMNA]
 		int posJY=jug.getPosY();						// posicion Y actual del jugador	[FILA]
-		int cordNuevaX, cordNuevaY;						// posiciones XY nuevas despues del movimiento
+		int posJXnew, posJYnew;							// posiciones XY nuevas despues del movimiento
 		boolean movimientoJugadorChocaConParedOBomba;	// flag si choca contra pared en coordenadas nuevas
 		
-		// Lógica de movimiento del jugador
-		if (cont%2==0) {
-			cordNuevaX = posJX;
-			cordNuevaY = posJY;
+		if (cont%2==0)
+		{
+			posJXnew = posJX;
+			posJYnew = posJY;
 			movimientoJugadorChocaConParedOBomba = false;
 			
-			if (!jug.getEstaMuerto())
-			{
-				// Crea una bomba si se presiona la tecla correspondiente
-				if (bomb) {
-					crearBomba(); 
-				}
-				// Lógica para mover al jugador según la dirección
-				if (left) {
-					if (posJX != 0)
-					{
-						cordNuevaX = posJX - 1;
-					} else {
-						movimientoJugadorChocaConParedOBomba = true;
-					}
-					
-				} else if (right) {
-					if (posJX != COLUMNAS - 1)
-					{
-						cordNuevaX = posJX + 1;
-					} else {
-						movimientoJugadorChocaConParedOBomba = true;
-					}
-					
-				} else if (up) {
-					if (posJY != 0)
-					{
-						cordNuevaY = posJY - 1;
-					} else {
-						movimientoJugadorChocaConParedOBomba = true;
-					}
-					
-				} else if (down) {
-					if (posJY != FILAS - 1)
-					{
-						cordNuevaY = posJY + 1;
-					} else {
-						movimientoJugadorChocaConParedOBomba = true;
-					}
-					
-				}
+			if (!jug.getEstaMuerto()) {
+				if (bomb) { crearBomba(); }
+				
+				posJXnew = (left  && posJX != 0			  ) ? posJX - 1 : posJXnew;
+				posJXnew = (right && posJX != COLUMNAS - 1) ? posJX + 1 : posJXnew;
+				posJYnew = (up    && posJY != 0			  ) ? posJY - 1 : posJYnew;
+				posJYnew = (down  && posJY != FILAS - 1   ) ? posJY + 1 : posJYnew;
 				
 				movimientoJugadorChocaConParedOBomba = 													// Jugador choca contra pared o bomba si
-						(  movimientoJugadorChocaConParedOBomba											// Ya chocaba contra el muro exterior
-						|| tablero[cordNuevaX][cordNuevaY].getTipo().getJugadorChocaContraCelda()		// o si la posicion es un bloque duro o blando
-						|| getBombaEnPosicionXY(cordNuevaX, cordNuevaY)	!= null);						// o si hay una bomba en la nueva posicion
+						(  ( left  && posJX == 0			)											// Choca contra exterior
+						|| ( right && posJX == COLUMNAS - 1	)
+						|| ( up    && posJY == 0			)
+						|| ( down  && posJY == FILAS - 1	)
+						|| matrizTableroBloques[posJXnew][posJYnew].getJugadorChocaContraCelda()		// o si la posicion es un bloque duro o blando
+						|| getBombaEnPosicionXY(posJXnew, posJYnew)	!= null);							// o si hay una bomba en la nueva posicion
 				
-				if (!movimientoJugadorChocaConParedOBomba)
-				{
-					jug.setPosX(cordNuevaX);
-					jug.setPosY(cordNuevaY);
+				if (!movimientoJugadorChocaConParedOBomba) {
+					jug.setPosX(posJXnew);
+					jug.setPosY(posJYnew);
 				}
 			}
 		}
 	}
 
-	private void actualizarTicksFuego()
-	{
-		for ( int i=0; i<bloques.size(); i++)					// Recorrer la lista de bloques para actualizarlos
-		{
-			int[] pBloque = bloques.get(i);						// Obtenemos el bloque que queremos actualizar
-			if (tablero[pBloque[0]][pBloque[1]].tick())	{		// Comprobamos si al actualizar termina su cuenta atras del fuego
-				bloques.remove(i);								// Si la cuenta atras del fuego termina eliminamos el bloque de la lista, ya que no nos hara falta actualizarlo mas.
-				i--;											// El elemento i+1 de la lista pasa a ser el elemento i, por lo que para actualizarlo es necesario retroceder un elemento en la lista
+	private void actualizarTicksFuego() {
+		for ( int i=0; i<listaTickPosBloquesFuego.size(); i++) {
+			int[] pBloque = listaTickPosBloquesFuego.get(i);				// Obtenemos el bloque que queremos actualizar
+			
+			if (matrizTableroBloques[pBloque[0]][pBloque[1]].tick()) {		// Comprobamos si al actualizar termina su cuenta atras del fuego
+				listaTickPosBloquesFuego.remove(i);							// Si la cuenta atras del fuego termina eliminamos el bloque de la lista, ya que no nos hara falta actualizarlo mas.
+				i--;														// El elemento i+1 de la lista pasa a ser el elemento i, por lo que para actualizarlo es necesario retroceder un elemento en la lista
 			}
-			// Si el fuego afecta al jugador, le quita una vida
-			if (  tablero[pBloque[0]][pBloque[1]].getPosX()==jug.getPosX()
-				&&tablero[pBloque[0]][pBloque[1]].getPosY()==jug.getPosY()) {		// Comprobar si este bloque (que al estar actualizandose sabemos que es fuego), y el jugador estan en la misma posicion      
-				jug.gestionarVida();												// Si es asi gestionamos el daño, le quitamos una vida
-			}
+			
+			if ( pBloque[0]==jug.getPosX() && pBloque[1]==jug.getPosY()) { jug.gestionarVida();	} // Si el jugador esta en la misma posicion que el fuego entonces se le gestiona el daño al jugador
 		}
 	}
 
-	private void actualizarTicksBombas()
-	{
-		for ( int i=0; i<bombas.size(); i++)					// Recorrer la lista de bloques para actualizarlos
-		{
-			Bomba pBomba = bombas.get(i);						// Obtenemos el bloque que queremos actualizar
+	private void actualizarTicksBombas() {
+		for ( int i=0; i<listaTickBombas.size(); i++) {
+			EntidadInamovibleBomba pBomba = listaTickBombas.get(i);			// Obtenemos el bloque que queremos actualizar
+			
 			if (pBomba.tick()) {								// Comprobamos si al actualizar termina su cuenta atras para explotar
 				jug.bombaExplotada();							// Indica al jugador que la bomba ha explotado
 				explosion(i);									// Gestiona la explosion
-				bombas.remove(i);								// Eliminamos la bomba de la lista de actualizaciones
-				i--;
+				listaTickBombas.remove(i);						// Eliminamos la bomba de la lista de actualizaciones
+				i--;											// El elemento i+1 de la lista pasa a ser el elemento i, por lo que para actualizarlo es necesario retroceder un elemento en la lista
+			}
+		}
+	}
+	
+	private int[][] generarMatriz(){
+		int[][] casillas = new int[COLUMNAS][FILAS];
+		
+		for(int i=0;i<COLUMNAS;i++){
+			for(int j=0;j<FILAS;j++){
+            	casillas[i][j]=matrizTableroBloques[i][j].getCodigoBloque();
 			}
 		}
 		
+		for (EntidadInamovibleBomba pBomba : listaTickBombas) {
+			casillas[pBomba.getPosX()][pBomba.getPosY()]=30;
+		}
+		
+		casillas[jug.getPosX()][jug.getPosY()] = (casillas[jug.getPosX()][jug.getPosY()]==30) ? 21 : ((jug.getEstaMuerto()) ? 22 : 20);
+		
+		return casillas;
+	}
+	
+	private EntidadInamovibleBomba getBombaEnPosicionXY (int pPosX, int pPosY)				// devuelve la bomba que hay en una posicion XY
+	{																						// devuelve null si no hay bomba en esa posicion
+		for (EntidadInamovibleBomba pBomba: listaTickBombas) {
+			if (pBomba.getPosX()==pPosX && pBomba.getPosY()==pPosY) { return pBomba; }
+		}
+		return null;
+	}
+	
+	private boolean hayFuegoEnPosicionXY (int pPosX, int pPosY)
+	{
+		for (int[] pFuegos : listaTickPosBloquesFuego) {
+			if (pFuegos[0]==pPosX && pFuegos[1]==pPosY) { return true; }
+		}
+		return false;
 	}
 
 	private void explosion(int pBomb) {
 		
-		int centroExplosionX=bombas.get(pBomb).getPosX();
-		int centroExplosionY=bombas.get(pBomb).getPosY();
+		int centroExplosionX=listaTickBombas.get(pBomb).getPosX();
+		int centroExplosionY=listaTickBombas.get(pBomb).getPosY();
 		int posBloqueExplotarX, posBloqueExplotarY;
 		boolean[] finLineaBomba = new boolean[] {false, false, false, false};
-		// Manejo de la explosión en el centro y en las direcciones
-		tablero[centroExplosionX][centroExplosionY].romperbloque();
+		
+		matrizTableroBloques[centroExplosionX][centroExplosionY].romperbloque();
 		if (!hayFuegoEnPosicionXY(centroExplosionX, centroExplosionY))
 		{
-			bloques.add (new int[] {centroExplosionX, centroExplosionY});
+			listaTickPosBloquesFuego.add (new int[] {centroExplosionX, centroExplosionY});
 		}
 		
-		for (int i = 1; i <= jug.radioBomba() || finLineaBomba.equals(new boolean[] {true, true, true, true}); i++)
-		{
-			for (int j = 0; j < 4; j++)
-			{
+		for (int i = 1; i <= jug.radioBomba() && !finLineaBomba.equals(new boolean[] {true, true, true, true}); i++) {
+			for (int j = 0; j < 4; j++) {
 				posBloqueExplotarX = centroExplosionX;
 				posBloqueExplotarY = centroExplosionY;
 				
@@ -249,13 +213,13 @@ public class Escenario extends Observable{
 						case 0:		// izquierda
 							posBloqueExplotarX = centroExplosionX - i;
 							break;
-						case 1:		// derecha
+						case 1:
 							posBloqueExplotarX = centroExplosionX + i;
 							break;
-						case 2:		// abajo
+						case 2:
 							posBloqueExplotarY = centroExplosionY - i;
 							break;
-						case 3:		// arriba
+						case 3:
 							posBloqueExplotarY = centroExplosionY + i;
 							break;
 					}
@@ -264,194 +228,95 @@ public class Escenario extends Observable{
 						|| posBloqueExplotarX >= COLUMNAS
 						|| posBloqueExplotarY < 0
 						|| posBloqueExplotarY >= FILAS
-						|| !tablero[posBloqueExplotarX][posBloqueExplotarY].getTipo().getPuedeSerExplotado())
+						|| !matrizTableroBloques[posBloqueExplotarX][posBloqueExplotarY].getPuedeSerExplotado())
 					{
 						finLineaBomba[j] = true;
 					} else {
-						tablero[posBloqueExplotarX][posBloqueExplotarY].romperbloque();
-						if (!hayFuegoEnPosicionXY(posBloqueExplotarX, posBloqueExplotarY))
-						{
-							bloques.add (new int[] {posBloqueExplotarX, posBloqueExplotarY});
+						matrizTableroBloques[posBloqueExplotarX][posBloqueExplotarY].romperbloque();
+						if (!hayFuegoEnPosicionXY(posBloqueExplotarX, posBloqueExplotarY)) {
+							listaTickPosBloquesFuego.add (new int[] {posBloqueExplotarX, posBloqueExplotarY});
 						}
 					}
 				}
 			}
 		}
 	}
-		
-	
-	private int[][] generarInversaMatriz(int[][] matrizA)
-	{
-		int[][] matrizReturn = new int[matrizA[0].length][matrizA.length];
-		for (int i = 0; i < matrizA.length; i++)
-		{
-			for (int j = 0; j < matrizA[i].length; j++)
-			{
-				matrizReturn[j][i] = matrizA[i][j];
-			}
-		}
-		return matrizReturn;
-	}
-	
 
-	private int[][] generarMatriz(){
-		int[][] casillas = new int[COLUMNAS][FILAS];
-		
-		// Lógica para generar la matriz del escenario
-		for(int i=0;i<COLUMNAS;i++)
-		{
-			for(int j=0;j<FILAS;j++)
-			{
-                    switch (tablero[i][j].getTipo())
-                    {
-                        case DURO:
-                            casillas[i][j]=10;
-                            break;
-                        case BLANDO:
-                        	casillas[i][j]=11;
-                            break;
-                        case VACIO:
-                        	casillas[i][j]=12;
-                            break;
-                        case FUEGO:
-                        	casillas[i][j]=13;
-                            break;     
-                    } 
-			}
-		}
-		
-		for (int i=0;i<bombas.size();i++)
-		{
-			Bomba pBomba = bombas.get(i);
-			casillas[pBomba.getPosX()][pBomba.getPosY()]=30;
-		}
-		
-		if (casillas[jug.getPosX()][jug.getPosY()]==30)
-		{
-				casillas[jug.getPosX()][jug.getPosY()]=21;
-		}	else {
-				casillas[jug.getPosX()][jug.getPosY()]=20;
-		}
-		
-		if (jug.getEstaMuerto()==true)
-		{
-			casillas[jug.getPosX()][jug.getPosY()]=22;
-		}
-		
-		return generarInversaMatriz(casillas);
-	}
-	
 	private void crearBomba()
 	{
-		// Crear bomba si es posible
-		if (jug.menosXBombas())											// si el jugador puede poner bombas
-		{
-			if (bombas.size()==0) {
-				bombas.add(new Bomba(jug.duracionBomba(), jug.getPosX(), jug.getPosY()));
+		if (jug.puedePonerBombas()) {
+			if (listaTickBombas.size()==0) {
+				listaTickBombas.add(new EntidadInamovibleBomba(jug.duracionBomba(), jug.getPosX(), jug.getPosY()));
 				jug.ponerBomba();
-			}
-			else if ( !(bombas.get(bombas.size()-1).getPosX() == jug.getPosX() && 		// si no es la misma posicion
-						bombas.get(bombas.size()-1).getPosY() == jug.getPosY()))		// que la ultima bomba puesta
+			} else if ( !(listaTickBombas.get(listaTickBombas.size()-1).getPosX() == jug.getPosX() && 		// si no es la misma posicion
+						  listaTickBombas.get(listaTickBombas.size()-1).getPosY() == jug.getPosY()))		// que la ultima bomba puesta
 			{
-				bombas.add(new Bomba(jug.duracionBomba(), jug.getPosX(), jug.getPosY()));
+				listaTickBombas.add(new EntidadInamovibleBomba(jug.duracionBomba(), jug.getPosX(), jug.getPosY()));
 				jug.ponerBomba();
 			}
 		}
 	}
 
-	public Entidad getEntidad(int fila, int colu) {
-		Entidad miEntidad = null;
-		if(fila>=0 && fila<FILAS && colu>=0 && colu < COLUMNAS) {
-			miEntidad= tablero[fila][colu];
-		}
-		return miEntidad;
-	}
 	
-	public void setEntidad(int fila, int colu, Bloque miEntidad) {
-		if(fila>=0 && fila<FILAS && colu>=0 && colu < COLUMNAS) {
-			tablero[fila][colu]=miEntidad;
-			setChanged();
-			notifyObservers();
-		}
-		
-		
-		
-	}
 	
-	// Métodos para manejar las entradas del jugador
-    public void pressBomba() {
-    	bomb=true;
-    	left=false;
-    	right=false;
-    	down=false;
-    	up=false;
-    	
-    }
+	
     public void pressLeft() {
-    	left=true;
-    	right=false;
-    	down=false;
-    	up=false;
-    	bomb=false;
-
+    	left	=true;
+    	right =false;
+    	up	  =false;
+    	down  =false;
+    	bomb  =false;
     }
-    public void pressUp() {
-    	up=true;
-    	left=false;
-    	right=false;
-    	down=false;
-    	bomb=false;
-
-    }
+    
     public void pressRight() {
-    	right=true;
-    	left=false;
-    	down=false;
-    	up=false;
-    	bomb=false;
- 
+    	left  =false;
+    	right	=true;
+    	up	  =false;
+    	down  =false;
+    	bomb  =false;
     }
+    
+    public void pressUp() {
+    	left  =false;
+    	right =false;
+    	up		=true;
+    	down  =false;
+    	bomb  =false;
+    }
+    
     public void pressDown() {
-    	down=true;
-    	left=false;
-    	right=false;
-    	up=false;
-    	bomb=false;
- 
+    	left  = false;
+    	right = false;
+    	up	  = false;
+    	down	= true;
+    	bomb  = false;
     }
+    
     public void pressEnter() {
-    	
-    	//Resetear el juego solo si el jugador está muerto
     	if (jug.getEstaMuerto()) {
     		timer.purge();
     		timer.cancel();
     		inicializarTablero();
     	}
     }
-    public void releaseBomba() {
-    	bomb=false;
-
+    
+    public void pressBomba() {
+    	left  =false;
+    	right =false;
+    	up	  =false;
+    	down  =false;
+    	bomb	=true;
     }
-    public void releaseLeft() {
-    	left=false;
-
-    }
-    public void releaseUp() {
-    	up=false;
-
-    }
-    public void releaseRight() {
-    	right=false;
-
-    }
-    public void releaseDown() {
-    	down=false;
-
-    }
-    public void releaseEnter() {
-    	
-    }
-		                   
+    
+    public void releaseBomba()	{ bomb	= false;	}
+    public void releaseLeft()	{ left	= false;	}
+    public void releaseUp()		{ up	= false;	}
+    public void releaseRight()	{ right	= false;	}
+    public void releaseDown()	{ down	= false;	}
+    public void releaseEnter()	{ }
+	
+    public int getCOLUMNAS () { return COLUMNAS; }
+    public int getFILAS () { return FILAS; }
     
 		                
 		                

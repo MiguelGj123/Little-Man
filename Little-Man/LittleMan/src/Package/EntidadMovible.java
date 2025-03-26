@@ -1,8 +1,7 @@
 package Package;
 
-public abstract class Inamovible extends Entidad{
-	
-	// Métodos que simplemente llaman a la superclase (Entidad)
+public abstract class EntidadMovible extends Entidad{
+
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);
@@ -22,5 +21,5 @@ public abstract class Inamovible extends Entidad{
 	{
 		return super.getPosY();
 	}
-
+	
 }

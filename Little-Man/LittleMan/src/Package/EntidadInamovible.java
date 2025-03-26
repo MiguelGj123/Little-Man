@@ -1,8 +1,7 @@
 package Package;
 
-public abstract class Enemigo extends Movible {
+public abstract class EntidadInamovible extends Entidad{
 	
-	// Métodos delegados a la superclase
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);

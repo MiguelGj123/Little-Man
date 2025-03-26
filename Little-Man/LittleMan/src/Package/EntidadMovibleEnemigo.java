@@ -1,8 +1,7 @@
 package Package;
 
-public abstract class Movible extends Entidad{
+public abstract class EntidadMovibleEnemigo extends EntidadMovible {
 	
-	// Métodos que simplemente llaman a la superclase (Entidad)
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);
@@ -22,5 +21,5 @@ public abstract class Movible extends Entidad{
 	{
 		return super.getPosY();
 	}
-	
+
 }

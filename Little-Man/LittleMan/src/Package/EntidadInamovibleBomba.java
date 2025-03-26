@@ -1,9 +1,9 @@
 package Package;
 
-public class Bomba extends Inamovible {
-	private int ticks; // Duración de la bomba antes de explotar
+public class EntidadInamovibleBomba extends EntidadInamovible {
+	private int ticks;
 	
-	public Bomba(int pDuracionBomba, int pPosX, int pPosY)
+	public EntidadInamovibleBomba(int pDuracionBomba, int pPosX, int pPosY)
 	{
 		ticks = pDuracionBomba;
 		super.setPosX(pPosX);
@@ -14,10 +14,10 @@ public class Bomba extends Inamovible {
 	{
 		ticks--;
 
-		return ticks<0; // Devuelve true cuando la bomba debe explotar
+		return ticks<0;
 		
 	}
-	// Métodos que solo delegan en la superclase
+	
 	public void setPosX(int pPosX)
 	{
 		super.setPosX(pPosX);
