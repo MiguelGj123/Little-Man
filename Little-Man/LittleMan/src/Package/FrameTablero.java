@@ -17,14 +17,17 @@ public class FrameTablero extends JFrame implements Observer {
 	private JLabel[][] celdas;
 	private int tableroColumnas, tableroFilas;
 	private boolean tableroInicializado = false; //Booleano para verificar que las celdas ya están inicializadas
-	private static final ImageIcon JUGADOR_ICONO = new ImageIcon("Pixels/whitedown1.png");
+	private static final ImageIcon JUGADOR_BLANCO_ICONO = new ImageIcon("Pixels/whitedown1.png");
 	private static final ImageIcon BLOQUE_DURO_ICONO = new ImageIcon("Pixels/hard1.png");
 	private static final ImageIcon BLOQUE_BLANDO_ICONO = new ImageIcon("Pixels/soft3.png");
 	private static final ImageIcon BLOQUE_FUEGO_ICONO = new ImageIcon("Pixels/miniBlast1.gif");
-	private static final ImageIcon JUGADOR_BOMBA_ICONO = new ImageIcon("Pixels/whitewithbomb1.png");
+	private static final ImageIcon JUGADOR_BLANCO_BOMBA_ICONO = new ImageIcon("Pixels/whitewithbomb1.png");
 	private static final ImageIcon BOMBA_ICONO = new ImageIcon("Pixels/bomb1.png");
 	private static final ImageIcon JUGADOR_MUERTO_ICONO = new ImageIcon("Pixels/onFire2.png");
+	private static final ImageIcon JUGADOR_NEGRO_ICONO = new ImageIcon("Pixels/blackdown1.png");
+	private static final ImageIcon JUGADOR_NEGRO_BOMBA_ICONO = new ImageIcon("Pixels/blackwithbomb1.png");
 
+	/*
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -37,44 +40,44 @@ public class FrameTablero extends JFrame implements Observer {
 			}
 		});
 	}
-
+	*/
 	/**
 	 * Create the frame.
 	 */
 	
 	
-	public FrameTablero() {
-		Escenario.getEscenario().addObserver(this);
-	}
-	
-	private void inicializarTableroVisual() {
-		try {
-			setTitle("Bomberman");
-			setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			setBounds(100, 100, tableroColumnas * 45, tableroFilas * 45);
-			setResizable(false);
-			
-			contentPane = new JPanel() {
-				@Override
-				protected void paintComponent(Graphics g) {
-		            super.paintComponent(g);
-		            Image img = new ImageIcon(("Pixels/stageBack1.png")).getImage();
-		            g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-		        }
-			};
-			contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-			setContentPane(contentPane);
-			
-			celdas = new JLabel[tableroColumnas][tableroFilas];
-			contentPane.setLayout(new GridLayout(tableroFilas, tableroColumnas));
-			
-			tableroInicializado = true;
-			
-			addKeyListener(new Controller());
-		
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	public FrameTablero(String playerTipo) {
+        Escenario.getEscenario(playerTipo).addObserver(this);
+    }
+
+    private void inicializarTableroVisual() {
+        try {
+            setTitle("Bomberman");
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setBounds(100, 100, tableroColumnas * 45, tableroFilas * 45);
+            setResizable(false);
+
+            contentPane = new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    Image img = new ImageIcon(("Pixels/stageBack1.png")).getImage();
+                    g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+                }
+            };
+            contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+            setContentPane(contentPane);
+
+            celdas = new JLabel[tableroColumnas][tableroFilas];
+            contentPane.setLayout(new GridLayout(tableroFilas, tableroColumnas));
+
+            tableroInicializado = true;
+
+            addKeyListener(new Controller());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 		
 
@@ -99,13 +102,19 @@ public class FrameTablero extends JFrame implements Observer {
 	        	celdas[columna][fila].setIcon(BOMBA_ICONO);
 	        	break;
 	        case 20:
-	        	celdas[columna][fila].setIcon(JUGADOR_ICONO); // Imagen del jugador
+	        	celdas[columna][fila].setIcon(JUGADOR_BLANCO_ICONO); // Imagen del jugador
 	        	break;
 	        case 21:
-	        	celdas[columna][fila].setIcon(JUGADOR_BOMBA_ICONO);
+	        	celdas[columna][fila].setIcon(JUGADOR_BLANCO_BOMBA_ICONO);
 	        	break;
 	        case 22:
 	        	celdas[columna][fila].setIcon(JUGADOR_MUERTO_ICONO);
+	        	break;
+	        case 25:
+	        	celdas[columna][fila].setIcon(JUGADOR_NEGRO_ICONO);
+	        	break;
+	        case 26:
+	        	celdas[columna][fila].setIcon(JUGADOR_NEGRO_BOMBA_ICONO);
 	        	break;
 	        case 10:
 	        	celdas[columna][fila].setIcon(BLOQUE_DURO_ICONO);
@@ -134,6 +143,7 @@ public class FrameTablero extends JFrame implements Observer {
 			            	tableroFilas    = res[columna].length;
 			            	inicializarTableroVisual();
 		            	}
+		            	
 		                actualizarCelda (columna, fila, res[columna][fila]);
 		            }
 				}

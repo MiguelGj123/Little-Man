@@ -4,34 +4,43 @@ import java.util.*;
 
 
 public class Escenario extends Observable{
-	
-	private Random random = new Random();
-	
-	private static Escenario miEscenario;
-	private static final int FILAS = 11,COLUMNAS = 17;
 
-	private Timer timer=null;
-	private int cont=1;
-	private boolean left=false, right=false, up=false, down=false, bomb=false;
-	
-	private Bloque[][] matrizTableroBloques;
-	private EntidadMovibleJugador jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate("BLANCO");
-	private ArrayList<EntidadInamovibleBomba> listaTickBombas = new ArrayList<EntidadInamovibleBomba>();
-	private ArrayList<int[]> listaTickPosBloquesFuego = new ArrayList<int[]>();
+    private Random random = new Random();
 
-	private Escenario() {
-		matrizTableroBloques =new Bloque[COLUMNAS][FILAS];
-		inicializarTablero();
-	}
-	
-	public void seleccionarJugador(String tipoJugador) { jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate("BLANCO"); }
-	
-	public static Escenario getEscenario() {
-		if (miEscenario == null) {
-			miEscenario = new Escenario();
-		}
-		return miEscenario;
-	}
+    private static Escenario miEscenario;
+    private static final int FILAS = 11,COLUMNAS = 17;
+
+    private Timer timer=null;
+    private int cont=1;
+    private boolean left=false, right=false, up=false, down=false, bomb=false;
+
+    private Bloque[][] matrizTableroBloques;
+    private EntidadMovibleJugador jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate("BLANCO");
+    private ArrayList<EntidadInamovibleBomba> listaTickBombas = new ArrayList<EntidadInamovibleBomba>();
+    private ArrayList<int[]> listaTickPosBloquesFuego = new ArrayList<int[]>();
+
+
+    private Escenario() {
+        matrizTableroBloques =new Bloque[COLUMNAS][FILAS];
+        inicializarTablero();
+    }
+
+    private void seleccionarJugador(String tipoJugador) { jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate(tipoJugador); }
+
+    public static Escenario getEscenario() {
+        if (miEscenario == null) {
+            miEscenario = new Escenario();
+        }
+        return miEscenario;
+    }
+
+    public static Escenario getEscenario(String playerTipo) {
+        if (miEscenario == null) {
+            miEscenario = new Escenario();
+            miEscenario.seleccionarJugador(playerTipo);
+        }
+        return miEscenario;
+    }
 	
 	private void inicializarTablero()
 	{
@@ -167,7 +176,7 @@ public class Escenario extends Observable{
 			casillas[pBomba.getPosX()][pBomba.getPosY()]=30;
 		}
 		
-		casillas[jug.getPosX()][jug.getPosY()] = (casillas[jug.getPosX()][jug.getPosY()]==30) ? 21 : ((jug.getEstaMuerto()) ? 22 : 20);
+		casillas[jug.getPosX()][jug.getPosY()] = (casillas[jug.getPosX()][jug.getPosY()]==30) ? jug.getCodigoJugador()+1 : ((jug.getEstaMuerto()) ? 22 : jug.getCodigoJugador());
 		
 		return casillas;
 	}

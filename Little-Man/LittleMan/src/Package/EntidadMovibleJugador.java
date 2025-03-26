@@ -8,14 +8,16 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	private int vidas;
 	private final int radioBomba;
 	private final int duracionBomba;
+	private final int codigoJugador;
 	
-	public EntidadMovibleJugador(int maxBombas, int vidas, int radioBomba, int duracionBomba) {
+	public EntidadMovibleJugador(int maxBombas, int vidas, int radioBomba, int duracionBomba, int codigoJugador) {
 		this.maxBombas = maxBombas;
 		this.vidas = vidas;
 		this.radioBomba = radioBomba;
 		this.duracionBomba = duracionBomba;
+		this.codigoJugador = codigoJugador;
 	}
-	
+	public int		getCodigoJugador()	{ return codigoJugador;}
 	public void		gestionarVida()		{ if (vidas > 0) { vidas--; } }
 	
 	public boolean	getEstaMuerto()		{ return vidas == 0; }
