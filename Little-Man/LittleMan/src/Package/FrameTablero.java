@@ -22,10 +22,13 @@ public class FrameTablero extends JFrame implements Observer {
 	private static final ImageIcon BLOQUE_BLANDO_ICONO = new ImageIcon("Pixels/soft3.png");
 	private static final ImageIcon BLOQUE_FUEGO_ICONO = new ImageIcon("Pixels/miniBlast1.gif");
 	private static final ImageIcon JUGADOR_BLANCO_BOMBA_ICONO = new ImageIcon("Pixels/whitewithbomb1.png");
-	private static final ImageIcon BOMBA_ICONO = new ImageIcon("Pixels/bomb1.png");
-	private static final ImageIcon JUGADOR_MUERTO_ICONO = new ImageIcon("Pixels/onFire2.png");
+	private static final ImageIcon BOMBA_SUPER_ICONO = new ImageIcon("Pixels/bomb1.png");
+	private static final ImageIcon BOMBA_ULTRA_ICONO = new ImageIcon("Pixels/bomb2.png");
+	private static final ImageIcon JUGADOR_BLANCO_MUERTO_ICONO = new ImageIcon("Pixels/onFire2.png");
 	private static final ImageIcon JUGADOR_NEGRO_ICONO = new ImageIcon("Pixels/blackdown1.png");
-	private static final ImageIcon JUGADOR_NEGRO_BOMBA_ICONO = new ImageIcon("Pixels/blackwithbomb1.png");
+	private static final ImageIcon JUGADOR_NEGRO_BOMBA_ICONO = new ImageIcon("Pixels/blackwithbomb2.png");
+	private static final ImageIcon JUGADOR_NEGRO_MUERTO_ICONO = new ImageIcon("Pixels/onFire4.png");
+	private static final ImageIcon ENEMIGO_BALOON = new ImageIcon("Pixels/baloon1.png");
 
 	/*
 	public static void main(String[] args) {
@@ -98,8 +101,14 @@ public class FrameTablero extends JFrame implements Observer {
 	
 	private void actualizarCelda(int columna, int fila,Integer pos) {
         switch(pos) {
+        	case 40:
+        		celdas[columna][fila].setIcon(ENEMIGO_BALOON);
+        		break;
 	        case 30:
-	        	celdas[columna][fila].setIcon(BOMBA_ICONO);
+	        	celdas[columna][fila].setIcon(BOMBA_SUPER_ICONO);
+	        	break;
+	        case 35:
+	        	celdas[columna][fila].setIcon(BOMBA_ULTRA_ICONO);
 	        	break;
 	        case 20:
 	        	celdas[columna][fila].setIcon(JUGADOR_BLANCO_ICONO); // Imagen del jugador
@@ -108,13 +117,16 @@ public class FrameTablero extends JFrame implements Observer {
 	        	celdas[columna][fila].setIcon(JUGADOR_BLANCO_BOMBA_ICONO);
 	        	break;
 	        case 22:
-	        	celdas[columna][fila].setIcon(JUGADOR_MUERTO_ICONO);
+	        	celdas[columna][fila].setIcon(JUGADOR_BLANCO_MUERTO_ICONO);
 	        	break;
 	        case 25:
 	        	celdas[columna][fila].setIcon(JUGADOR_NEGRO_ICONO);
 	        	break;
 	        case 26:
 	        	celdas[columna][fila].setIcon(JUGADOR_NEGRO_BOMBA_ICONO);
+	        	break;
+	        case 27:
+	        	celdas[columna][fila].setIcon(JUGADOR_NEGRO_MUERTO_ICONO);
 	        	break;
 	        case 10:
 	        	celdas[columna][fila].setIcon(BLOQUE_DURO_ICONO);

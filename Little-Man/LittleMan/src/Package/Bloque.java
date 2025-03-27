@@ -30,7 +30,7 @@ public class Bloque extends EntidadInamovible
 	
 	public int getCodigoBloque() { return state.getCodigoBloque(); }
 	
-	public boolean getJugadorChocaContraCelda() { return state.getJugadorChocaContraCelda(); }
+	public boolean getChocaContraCelda() { return state.getJugadorChocaContraCelda(); }
 	
 	public boolean getPuedeSerExplotado() { return state.getPuedeSerExplotado(); }
 	

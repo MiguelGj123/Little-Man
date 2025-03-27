@@ -18,13 +18,14 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 		this.codigoJugador = codigoJugador;
 	}
 	public int		getCodigoJugador()	{ return codigoJugador;}
+	
 	public void		gestionarVida()		{ if (vidas > 0) { vidas--; } }
 	
 	public boolean	getEstaMuerto()		{ return vidas == 0; }
 	
-	public boolean	puedePonerBombas() 	{ return contadorBombas < maxBombas; }
-	
 	public void		sumarVida()			{ vidas = (vidas<= 0) ? 1 : vidas + 1; }
+	
+	public boolean	puedePonerBombas() 	{ return contadorBombas < maxBombas; }
 	
 	public void		ponerBomba()		{ contadorBombas++; }
 	
