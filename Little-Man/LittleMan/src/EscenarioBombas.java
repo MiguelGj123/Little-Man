@@ -61,9 +61,9 @@ public class EscenarioBombas {
 		return bombaPuesta;
 	}
 	
-	public int[][] generarMatrizAniadirBloques(int[][] matrizEditar){
+	public int[][][] generarMatrizAniadirBloques(int[][][] matrizEditar){
 		for (EntidadInamovibleBomba pBomba : listaBombas) {
-			matrizEditar[pBomba.getPosX()][pBomba.getPosY()] = pBomba.getCodigoBomba();
+			matrizEditar[pBomba.getPosX()][pBomba.getPosY()][3] = pBomba.getCodigoBomba();
 		}
 		return matrizEditar;
 	}

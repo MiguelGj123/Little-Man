@@ -6,7 +6,7 @@ public class EscenarioTablero {
     private Random random = new Random();
 	
 	private static EscenarioTablero miTablero;
-    private static final int FILAS = 11,COLUMNAS = 17;
+    private static final int FILAS = 11,COLUMNAS = 17, NIVEL =5;
     
     private EntidadInamovibleBloque[][] matrizTablero;
     private ArrayList<int[]> listaPosFuegos = new ArrayList<int[]>();
@@ -132,13 +132,13 @@ public class EscenarioTablero {
 		}
 	}
 	
-	public int[][] generarMatrizAniadirBloques()
+	public int[][][] generarMatrizAniadirBloques()
 	{
-		int[][] matrizGenerada = new int[COLUMNAS][FILAS];
+		int[][][] matrizGenerada = new int[COLUMNAS][FILAS][NIVEL];
 		
 		for (int columna = 0; columna < COLUMNAS; columna++) {
 			for (int fila = 0; fila < FILAS; fila++) {
-				matrizGenerada[columna][fila] = matrizTablero[columna][fila].getCodigoBloque();
+				matrizGenerada[columna][fila][1] = matrizTablero[columna][fila].getCodigoBloque();
 			}
 		}
 		

@@ -106,9 +106,9 @@ public class EscenarioEnemigos {
 	}
 	
 	
-	public int[][] generarMatrizAniadirBloques(int[][] matrizEditar){
+	public int[][][] generarMatrizAniadirBloques(int[][][] matrizEditar){
 		for (EntidadMovibleEnemigo pEnemigo : listaEnemigos) {
-			matrizEditar[pEnemigo.getPosX()][pEnemigo.getPosY()] = pEnemigo.getCodigoEnemigo();
+			matrizEditar[pEnemigo.getPosX()][pEnemigo.getPosY()][2] = pEnemigo.getCodigoEnemigo();
 		}
 		return matrizEditar;
 	}

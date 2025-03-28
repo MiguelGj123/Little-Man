@@ -9,160 +9,122 @@ import java.io.File;
 import java.util.*;
 import javax.swing.GroupLayout.Alignment;
 
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.image.BufferedImage;
+import java.util.*;
+
 public class FrameTablero extends JFrame implements Observer {
+    private static final long serialVersionUID = 1L;
+    private JPanel contentPane;
+    private int tableroColumnas, tableroFilas;
+    private boolean tableroInicializado = false;
+    private BufferedImage tableroBuffer;
+    private Image fondoTablero = new ImageIcon("Pixels/stageBack1.png").getImage();
+    private static final ImageIcon[] ICONOS = {
+        new ImageIcon("Pixels/hard1.png"), // Bloque duro (10)
+        new ImageIcon("Pixels/soft3.png"), // Bloque blando (11)
+        new ImageIcon("Pixels/miniBlast1.gif"), // Explosión (13)
+        new ImageIcon("Pixels/whitedown1.png"), // Jugador blanco (20)
+        new ImageIcon("Pixels/whitewithbomb1.png"), // Jugador blanco con bomba (21)
+        new ImageIcon("Pixels/onFire2.png"), // Jugador blanco muerto (22)
+        new ImageIcon("Pixels/blackdown1.png"), // Jugador blanco (20)
+        new ImageIcon("Pixels/blackwithbomb2.png"), // Jugador blanco con bomba (21)
+        new ImageIcon("Pixels/onFire4.png"), // Jugador blanco muerto (22)
+        new ImageIcon("Pixels/bomb1.png"), // Bomba (30)
+        new ImageIcon("Pixels/bomb2.png"), // Bomba ultra (35)
+        new ImageIcon("Pixels/baloon1.png") // Enemigo (40)
+    };
+    private static final int[] CODIGOS = {10, 11, 13, 20, 21, 22, 25, 26, 27, 30, 35, 40};
 
-	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JLabel[][] celdas;
-	private int tableroColumnas, tableroFilas;
-	private boolean tableroInicializado = false; //Booleano para verificar que las celdas ya están inicializadas
-	private static final ImageIcon JUGADOR_BLANCO_ICONO = new ImageIcon("Pixels/whitedown1.png");
-	private static final ImageIcon BLOQUE_DURO_ICONO = new ImageIcon("Pixels/hard1.png");
-	private static final ImageIcon BLOQUE_BLANDO_ICONO = new ImageIcon("Pixels/soft3.png");
-	private static final ImageIcon BLOQUE_FUEGO_ICONO = new ImageIcon("Pixels/miniBlast1.gif");
-	private static final ImageIcon JUGADOR_BLANCO_BOMBA_ICONO = new ImageIcon("Pixels/whitewithbomb1.png");
-	private static final ImageIcon BOMBA_SUPER_ICONO = new ImageIcon("Pixels/bomb1.png");
-	private static final ImageIcon BOMBA_ULTRA_ICONO = new ImageIcon("Pixels/bomb2.png");
-	private static final ImageIcon JUGADOR_BLANCO_MUERTO_ICONO = new ImageIcon("Pixels/onFire2.png");
-	private static final ImageIcon JUGADOR_NEGRO_ICONO = new ImageIcon("Pixels/blackdown1.png");
-	private static final ImageIcon JUGADOR_NEGRO_BOMBA_ICONO = new ImageIcon("Pixels/blackwithbomb2.png");
-	private static final ImageIcon JUGADOR_NEGRO_MUERTO_ICONO = new ImageIcon("Pixels/onFire4.png");
-	private static final ImageIcon ENEMIGO_BALOON = new ImageIcon("Pixels/baloon1.png");
-
-	/*
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FrameTablero frame = new FrameTablero();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	*/
-	/**
-	 * Create the frame.
-	 */
-	
-	
-	public FrameTablero(String playerTipo) {
+    public FrameTablero(String playerTipo) {
         Escenario.getEscenario(playerTipo).addObserver(this);
     }
 
     private void inicializarTableroVisual() {
-        try {
-            setTitle("Bomberman");
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            setBounds(100, 100, tableroColumnas * 45, tableroFilas * 45);
-            setResizable(false);
-
-            contentPane = new JPanel() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Image img = new ImageIcon(("Pixels/stageBack1.png")).getImage();
-                    g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
-                }
-            };
-            contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-            setContentPane(contentPane);
-
-            celdas = new JLabel[tableroColumnas][tableroFilas];
-            contentPane.setLayout(new GridLayout(tableroFilas, tableroColumnas));
-
-            tableroInicializado = true;
-
-            addKeyListener(new Controller());
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-		
-
-		for (int fila = 0; fila < tableroFilas; fila++) {
-			for (int columna = 0; columna < tableroColumnas; columna++) {				// aniadir labels a matriz celdas
-                celdas[columna][fila] = new JLabel();
-                celdas[columna][fila].setOpaque(false);
-                celdas[columna][fila].setHorizontalAlignment(SwingConstants.CENTER);
-                celdas[columna][fila].setVerticalAlignment(SwingConstants.CENTER);
-
-                contentPane.add(celdas[columna][fila]);
-            }
-        }
+        setTitle("Bomberman");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false);
         
-        contentPane.revalidate();
-        contentPane.repaint();
+        contentPane = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.drawImage(fondoTablero, 0, 0, getWidth(), getHeight(), this);
+                if (tableroBuffer != null) {
+                    g.drawImage(tableroBuffer, 0, 0, this);
+                }
+            }
+        };
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        tableroBuffer = new BufferedImage(tableroColumnas * 45, tableroFilas * 45, BufferedImage.TYPE_INT_ARGB);
+        contentPane.setPreferredSize(new Dimension(tableroColumnas * 45, tableroFilas * 45));
+        pack();
+        
+        tableroInicializado = true;
+        addKeyListener(new Controller());
     }
-	
-	private void actualizarCelda(int columna, int fila,Integer pos) {
-        switch(pos) {
-        	case 40:
-        		celdas[columna][fila].setIcon(ENEMIGO_BALOON);
-        		break;
-	        case 30:
-	        	celdas[columna][fila].setIcon(BOMBA_SUPER_ICONO);
-	        	break;
-	        case 35:
-	        	celdas[columna][fila].setIcon(BOMBA_ULTRA_ICONO);
-	        	break;
-	        case 20:
-	        	celdas[columna][fila].setIcon(JUGADOR_BLANCO_ICONO); // Imagen del jugador
-	        	break;
-	        case 21:
-	        	celdas[columna][fila].setIcon(JUGADOR_BLANCO_BOMBA_ICONO);
-	        	break;
-	        case 22:
-	        	celdas[columna][fila].setIcon(JUGADOR_BLANCO_MUERTO_ICONO);
-	        	break;
-	        case 25:
-	        	celdas[columna][fila].setIcon(JUGADOR_NEGRO_ICONO);
-	        	break;
-	        case 26:
-	        	celdas[columna][fila].setIcon(JUGADOR_NEGRO_BOMBA_ICONO);
-	        	break;
-	        case 27:
-	        	celdas[columna][fila].setIcon(JUGADOR_NEGRO_MUERTO_ICONO);
-	        	break;
-	        case 10:
-	        	celdas[columna][fila].setIcon(BLOQUE_DURO_ICONO);
-	            break;
-	        case 11:
-	            celdas[columna][fila].setIcon(BLOQUE_BLANDO_ICONO);
-	            break;
-	        case 12:
-	        	celdas[columna][fila].setIcon(null);
-	        	break;
-	        case 13:
-	        	celdas[columna][fila].setIcon(BLOQUE_FUEGO_ICONO);
-	        	break;
-		}
-    } 
-	
-	public void update(Observable o, Object obj) {
-		if (o instanceof Escenario) {
-			if (obj instanceof int[][]) {
-				int[][] res = (int[][]) obj;										// [COLUMNAS][FILAS]
-				
-				for (int columna = 0; columna < res.length; columna++) {			// PARA CADA COLUMNA
-		            for (int fila = 0; fila < res[columna].length; fila++) {		// PARA CADA FILA
-		            	if(!tableroInicializado) {
-			            	tableroColumnas = res.length;
-			            	tableroFilas    = res[columna].length;
-			            	inicializarTableroVisual();
-		            	}
-		            	
-		                actualizarCelda (columna, fila, res[columna][fila]);
-		            }
-				}
-			}
-		}
-	}
+
+    private ImageIcon obtenerIcono(int codigo) {
+        for (int i = 0; i < CODIGOS.length; i++) {
+            if (CODIGOS[i] == codigo) return ICONOS[i];
+        }
+        return null;
+    }
+
+    @Override
+    public void update(Observable o, Object obj) {
+        if (o instanceof Escenario && obj instanceof int[][][]) {
+            int[][][] res = (int[][][]) obj;
+
+            if (!tableroInicializado) {
+                tableroColumnas = res.length;
+                tableroFilas = res[0].length;
+                inicializarTableroVisual();
+            }
+
+            Graphics g = tableroBuffer.getGraphics();
+            g.drawImage(fondoTablero, 0, 0, tableroBuffer.getWidth(), tableroBuffer.getHeight(), null);
+
+            for (int columna = 0; columna < res.length; columna++) {
+                for (int fila = 0; fila < res[columna].length; fila++) {
+                    ArrayList<ImageIcon> imagenesSuperpuestas = new ArrayList<>();
+                    for (int nivel = 0; nivel < res[columna][fila].length; nivel++) {
+                        ImageIcon icono = obtenerIcono(res[columna][fila][nivel]);
+                        if (icono != null) {imagenesSuperpuestas.add(icono);}
+                    }
+
+                    if (!imagenesSuperpuestas.isEmpty()) {
+                        ImageIcon nuevaImagen = combinarMultiplesImagenes(imagenesSuperpuestas.toArray(new ImageIcon[0]));
+                        g.drawImage(nuevaImagen.getImage(), columna * 45, fila * 45, null);
+                    }
+                }
+            }
+            g.dispose();
+            repaint();
+        }
+    }
+
+    private ImageIcon combinarMultiplesImagenes(ImageIcon[] imagenes) {
+        if (imagenes.length == 0) return null;
+        
+        int width = imagenes[0].getIconWidth();
+        int height = imagenes[0].getIconHeight();
+        BufferedImage resultado = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+        Graphics g = resultado.getGraphics();
+        
+        for (ImageIcon icono : imagenes) {
+            g.drawImage(icono.getImage(), 0, 0, null);
+        }
+        g.dispose();
+        
+        return new ImageIcon(resultado);
+    }
 }
 
+	
 class Controller implements KeyListener {
 
 	int anterior=-1;

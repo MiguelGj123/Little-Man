@@ -21,10 +21,10 @@ public class EntidadInamovibleBombaFactory {
 		switch (pTipoBomba)
 		{
 			case "BLANCO":
-				tipoBomba = new EntidadInamovibleBombaBlanca(posX, posY);
+				tipoBomba = new EntidadInamovibleBombaSuper(posX, posY);
 				break;
 			case "NEGRO":
-				tipoBomba = new EntidadInamovibleBombaNegra(posX, posY);
+				tipoBomba = new EntidadInamovibleBombaUltra(posX, posY);
 				break;
 			default:
 				tipoBomba = null;

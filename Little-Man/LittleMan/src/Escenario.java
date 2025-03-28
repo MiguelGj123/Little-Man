@@ -92,9 +92,9 @@ public class Escenario extends Observable{
 		notifyObservers(generarMatriz());
 	}
 
-	private int[][] generarMatriz(){
+	private int[][][] generarMatriz(){
 		
-		int[][] matrizDevolver;
+		int[][][] matrizDevolver;
 		matrizDevolver = tablero.generarMatrizAniadirBloques();
 		matrizDevolver = bombas.generarMatrizAniadirBloques(matrizDevolver);
 		matrizDevolver = enemigos.generarMatrizAniadirBloques(matrizDevolver);
@@ -103,37 +103,12 @@ public class Escenario extends Observable{
 		return matrizDevolver;
 	}
 
-	public void pressLeft() {
-    	left	=true;
-    	right =false;
-    	up	  =false;
-    	down  =false;
-    	bomb  =false;
-    }
+	public void pressLeft() 	{ left 	= true; right 	= up 	= down 	= bomb = false; }
+    public void pressRight() 	{ right = true; left 	= up 	= down 	= bomb = false; }
+    public void pressUp() 		{ up 	= true; left 	= right = down 	= bomb = false; }
+    public void pressDown() 	{ down 	= true; left 	= right = up 	= bomb = false; }
+    public void pressBomba() 	{ bomb 	= true; left 	= right = up 	= down = false; }
     
-    public void pressRight() {
-    	left  =false;
-    	right	=true;
-    	up	  =false;
-    	down  =false;
-    	bomb  =false;
-    }
-    
-    public void pressUp() {
-    	left  =false;
-    	right =false;
-    	up		=true;
-    	down  =false;
-    	bomb  =false;
-    }
-    
-    public void pressDown() {
-    	left  = false;
-    	right = false;
-    	up	  = false;
-    	down	= true;
-    	bomb  = false;
-    }
     public void pressEnter() {
     	if (jugador.getEstaMuerto()) {
     		timer.purge();
@@ -141,13 +116,7 @@ public class Escenario extends Observable{
     		inicializarTablero(jugador.getTipoJugador());
     	}
     }
-    public void pressBomba() {
-    	left  =false;
-    	right =false;
-    	up	  =false;
-    	down  =false;
-    	bomb	=true;
-    }
+    
     
     public void releaseBomba()	{ bomb	= false;	}
     public void releaseLeft()	{ left	= false;	}

@@ -59,13 +59,13 @@ public class EscenarioJugador {
 	
 	
 	
-	public int[][] generarMatrizAniadirBloques(int[][] matrizEditar){
+	public int[][][] generarMatrizAniadirBloques(int[][][] matrizEditar){
 		if (jug.getEstaMuerto()) {
-			matrizEditar[getPosX()][getPosY()] = jug.getCodigoJugadorMuerto();
+			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugadorMuerto();
 		} else if (Escenario.getEscenario().hayBombaEn(getPosX(), getPosY())) {
-			matrizEditar[getPosX()][getPosY()] = jug.getCodigoJugadorConBomba();
+			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugadorConBomba();
 		} else {
-			matrizEditar[getPosX()][getPosY()] = jug.getCodigoJugador();
+			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugador();
 		}
 		return matrizEditar;
 	}
