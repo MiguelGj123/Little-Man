@@ -32,14 +32,16 @@ public class FrameTablero extends JFrame implements Observer {
         new ImageIcon("Pixels/whitedown1.png"), // Jugador blanco (20)
         new ImageIcon("Pixels/whitewithbomb1.png"), // Jugador blanco con bomba (21)
         new ImageIcon("Pixels/onFire2.png"), // Jugador blanco muerto (22)
+        new ImageIcon("Pixels/whitehappy1.png"), //w Jugador blanco victoria (23)
         new ImageIcon("Pixels/blackdown1.png"), // Jugador negro (25)
         new ImageIcon("Pixels/blackwithbomb2.png"), // Jugador negro con bomba (26)
         new ImageIcon("Pixels/onFire4.png"), // Jugador negro muerto (27)
+        new ImageIcon("Pixels/blackhappy1.png"), // Jugador negro victoria (28)
         new ImageIcon("Pixels/bomb1.png"), // Bomba (30)
         new ImageIcon("Pixels/bomb2.png"), // Bomba ultra (35)
         new ImageIcon("Pixels/baloon1.png") // Enemigo (40)
     };
-    private static final int[] CODIGOS_ICONOS = {10, 11, 13, 20, 21, 22, 25, 26, 27, 30, 35, 40};
+    private static final int[] CODIGOS_ICONOS = {10, 11, 13, 20, 21, 22, 23, 25, 26, 27, 28, 30, 35, 40};
 
     public FrameTablero(String playerTipo) { 
         Escenario.getEscenario(playerTipo).addObserver(this);

@@ -7,7 +7,7 @@ public class EscenarioJugador {
 	
 	private static EscenarioJugador miJugador;
     private EntidadMovibleJugador jug;
-    private boolean sfx=true;
+    private boolean sfx=true, win=false;
     
     private EscenarioJugador() {}
     
@@ -66,10 +66,23 @@ public class EscenarioJugador {
 	
 	
 	public int[][][] generarMatrizAniadirBloques(int[][][] matrizEditar){
-		if (jug.getEstaMuerto()) {
+		if (win) {
 			if (sfx) {
 				sfx=false;
-				SoundManager.getSoundManager().stopSound("3");
+				SoundManager.getSoundManager().stopSound("music");
+				SoundManager.getSoundManager().playSound("win");
+			}
+			if (jug.getCodigoJugador()==20) {
+				matrizEditar[getPosX()][getPosY()][4] = 23;
+			} else if (jug.getCodigoJugador()==25) {
+				matrizEditar[getPosX()][getPosY()][4] = 28;
+				
+			}
+		} else if (jug.getEstaMuerto())  {
+			
+			if (sfx) {
+				sfx=false;
+				SoundManager.getSoundManager().stopSound("music");
 				SoundManager.getSoundManager().playSound("die");
 			}
 			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugadorMuerto();
@@ -79,6 +92,7 @@ public class EscenarioJugador {
 			sfx=true;
 			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugador();
 		}
+		
 		return matrizEditar;
 	}
 	
@@ -86,8 +100,9 @@ public class EscenarioJugador {
 	
 	
 
-	
-	
+	public void setWin() {win=true;}
+	public void resetWin() {win=false;}
+	public boolean getWin() {return win;}
 	public int getPosX() { return jug.getPosX(); }
 	public int getPosY() { return jug.getPosY(); }
 	public boolean getPuedePonerBomba() { return jug.puedePonerBombas(); }

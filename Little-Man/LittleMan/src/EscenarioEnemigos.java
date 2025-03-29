@@ -15,6 +15,7 @@ public class EscenarioEnemigos {
     private ArrayList<EntidadMovibleEnemigo> listaEnemigos = new ArrayList<EntidadMovibleEnemigo>();
     private int contadorSpawnear;
     private boolean visible;
+    private boolean win=false;
     
     private EscenarioEnemigos() {}
     
@@ -118,19 +119,26 @@ public class EscenarioEnemigos {
 				listaEnemigos.remove(i);
 				i--;
 			}
+			if (listaEnemigos.isEmpty()){
+				win=true;
+			}
 		}
 	}
 	
 	
 	public int[][][] generarMatrizAniadirBloques(int[][][] matrizEditar){
 		if (visible) {
-			for (EntidadMovibleEnemigo pEnemigo : listaEnemigos) {
-				matrizEditar[pEnemigo.getPosX()][pEnemigo.getPosY()][2] = pEnemigo.getCodigoEnemigo();
+			if (!win) {
+				for (EntidadMovibleEnemigo pEnemigo : listaEnemigos) {
+					matrizEditar[pEnemigo.getPosX()][pEnemigo.getPosY()][2] = pEnemigo.getCodigoEnemigo();
+				}
+			} else {
+				matrizEditar[0][0][2]=1;
 			}
 		}
 		return matrizEditar;
 	}
 	
-	
+	public void resetWin() {win=false;}
     
 }

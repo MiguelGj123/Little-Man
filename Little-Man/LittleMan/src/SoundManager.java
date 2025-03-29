@@ -17,7 +17,7 @@ public class SoundManager {
     }
 
     // Precargar sonidos en memoria
-    public void loadSound(String name, String path) {
+    private void loadSound(String name, String path) {
         try {
             File soundFile = new File(path);
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
@@ -47,6 +47,16 @@ public class SoundManager {
                 clip.stop(); // Detiene el sonido si ya está reproduciéndose
             }
         }
+    }
+    public void soundsToLoad() {
+    	loadSound("bombExplode", "sfx/bombExplode.wav");
+    	loadSound("die", "sfx/die.wav");
+    	loadSound("enemyDies", "sfx/enemyDies.wav");
+    	loadSound("itemGet", "sfx/itemGet.wav");
+    	loadSound("placeBomb", "sfx/placeBomb.wav");
+    	loadSound("walk", "sfx/walk.wav");
+    	loadSound("music", "sfx/3-Track-3.wav");
+    	loadSound("win", "sfx/5-Track-5.wav");
     }
     
 

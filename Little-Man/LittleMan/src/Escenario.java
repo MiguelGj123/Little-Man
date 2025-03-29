@@ -1,5 +1,7 @@
 import java.util.*;
 
+import javax.swing.ImageIcon;
+
 
 
 public class Escenario extends Observable{
@@ -35,7 +37,8 @@ public class Escenario extends Observable{
 	
 	private void inicializarTablero(String playerTipo)
 	{
-		SoundManager.getSoundManager().playSound("3");
+		SoundManager.getSoundManager().soundsToLoad();
+		SoundManager.getSoundManager().playSound("music");
 		tablero.inicializarTablero();
 		enemigos.inicializarEnemigos(tablero.getPosicionesVacias(), COLUMNAS, FILAS);
 		bombas.inicializarBombas();
@@ -64,7 +67,7 @@ public class Escenario extends Observable{
 	private void actualizarEscenario() {	
 		enemigos.actualizarTicksEnemigos();
 		
-		if (cont%2 == 0 && !jugador.getEstaMuerto()) {
+		if (cont%2 == 0 && !jugador.getEstaMuerto() && !jugador.getWin()) {
 			if (bomb && jugador.getPuedePonerBomba()) {
 				if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY())) {
 					jugador.gestionarPonerBomba();
@@ -97,8 +100,24 @@ public class Escenario extends Observable{
 		int[][][] matrizDevolver;
 		matrizDevolver = tablero.generarMatrizAniadirBloques();
 		matrizDevolver = bombas.generarMatrizAniadirBloques(matrizDevolver);
-		matrizDevolver = enemigos.generarMatrizAniadirBloques(matrizDevolver);
 		matrizDevolver = jugador.generarMatrizAniadirBloques(matrizDevolver);
+		int[][][] matrizDevolverWin = enemigos.generarMatrizAniadirBloques(matrizDevolver);
+		if (matrizDevolverWin[0][0][2]==1) {
+			for (int columna = 0; columna < matrizDevolver.length; columna++) {
+                for (int fila = 0; fila < matrizDevolver[columna].length; fila++) {
+                	if (matrizDevolver[columna][fila][4]==20 ) {
+                		matrizDevolver[columna][fila][4]=23;
+                		jugador.setWin();
+                	} else if(matrizDevolver[columna][fila][4]==25){
+                		matrizDevolver[columna][fila][4]=28;
+                		jugador.setWin();
+                	}
+                }
+			}
+			
+		} else {
+			matrizDevolver = enemigos.generarMatrizAniadirBloques(matrizDevolver);
+		}
 		
 		return matrizDevolver;
 	}
@@ -110,7 +129,9 @@ public class Escenario extends Observable{
     public void pressBomba() 	{ bomb 	= true; left 	= right = up 	= down = false; }
     
     public void pressEnter() {
-    	if (jugador.getEstaMuerto()) {
+    	if (jugador.getEstaMuerto() || jugador.getWin()) {
+    		jugador.resetWin();
+    		enemigos.resetWin();
     		timer.purge();
     		timer.cancel();
     		inicializarTablero(jugador.getTipoJugador());
