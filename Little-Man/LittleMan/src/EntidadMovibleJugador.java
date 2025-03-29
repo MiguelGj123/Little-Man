@@ -4,6 +4,7 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	
 	private int contadorBombas = 0;
 	private int vidas;
+	private int codigoMov=1;
 	private final int maxBombas;
 	private final String tipoBomba;
 	private final int[] codigosJugador;
@@ -39,6 +40,10 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	public void		bombaExplotada()			{ contadorBombas--; }
 	
 	public boolean	puedePonerBombas() 			{ return contadorBombas < maxBombas; }
+	
+	public void		setCodigoMov(int pCodigoMov){ codigoMov=pCodigoMov; }
+	
+	public int		getCodigoMov()				{ return codigoMov; }
 	
 	public void		setPosX(int pPosX)			{ super.setPosX(pPosX); }
 	

@@ -29,11 +29,17 @@ public class FrameTablero extends JFrame implements Observer {
         new ImageIcon("Pixels/hard1.png"), // Bloque duro (10)
         new ImageIcon("Pixels/soft3.png"), // Bloque blando (11)
         new ImageIcon("Pixels/miniBlast1.gif"), // Explosión (13)
-        new ImageIcon("Pixels/whitedown1.png"), // Jugador blanco (20)
+        new ImageIcon("Pixels/whitedown1.png"), // Jugador blanco (201)
+        new ImageIcon("Pixels/whiteleft2.png"), // Jugador blanco (202)
+        new ImageIcon("Pixels/whiteup2.png"), // Jugador blanco (203)
+        new ImageIcon("Pixels/whiteright2.png"), // Jugador blanco (204)
         new ImageIcon("Pixels/whitewithbomb1.png"), // Jugador blanco con bomba (21)
         new ImageIcon("Pixels/onFire2.png"), // Jugador blanco muerto (22)
         new ImageIcon("Pixels/whitehappy1.png"), //w Jugador blanco victoria (23)
-        new ImageIcon("Pixels/blackdown1.png"), // Jugador negro (25)
+        new ImageIcon("Pixels/blackdown1.png"), // Jugador negro (251)
+        new ImageIcon("Pixels/blackleft2.png"), // Jugador negro (252)
+        new ImageIcon("Pixels/blackup2.png"), // Jugador negro (253)
+        new ImageIcon("Pixels/blackright2.png"), // Jugador negro (254)
         new ImageIcon("Pixels/blackwithbomb2.png"), // Jugador negro con bomba (26)
         new ImageIcon("Pixels/onFire4.png"), // Jugador negro muerto (27)
         new ImageIcon("Pixels/blackhappy1.png"), // Jugador negro victoria (28)
@@ -41,7 +47,7 @@ public class FrameTablero extends JFrame implements Observer {
         new ImageIcon("Pixels/bomb2.png"), // Bomba ultra (35)
         new ImageIcon("Pixels/baloon1.png") // Enemigo (40)
     };
-    private static final int[] CODIGOS_ICONOS = {10, 11, 13, 20, 21, 22, 23, 25, 26, 27, 28, 30, 35, 40};
+    private static final int[] CODIGOS_ICONOS = {10, 11, 13, 201, 202, 203, 204, 21, 22, 23, 251, 252, 253, 254, 26, 27, 28, 30, 35, 40};
 
     public FrameTablero(String playerTipo) { 
         Escenario.getEscenario(playerTipo).addObserver(this);
@@ -131,7 +137,6 @@ public class FrameTablero extends JFrame implements Observer {
         
         for (ImageIcon icono : imagenes) {
             g.drawImage(icono.getImage(), (width - icono.getIconWidth()) / 2  , (height - icono.getIconHeight()) / 2, null);
-//            g.drawImage(icono.getImage(), 0 , 0 , null);
         }
         g.dispose();
         

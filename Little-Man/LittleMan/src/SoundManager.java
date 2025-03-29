@@ -48,15 +48,18 @@ public class SoundManager {
             }
         }
     }
+    private void loadAsync(String nombre, String path) {
+    	new Thread(() -> loadSound(nombre,path)).start();
+    }
     public void soundsToLoad() {
-    	loadSound("bombExplode", "sfx/bombExplode.wav");
-    	loadSound("die", "sfx/die.wav");
-    	loadSound("enemyDies", "sfx/enemyDies.wav");
-    	loadSound("itemGet", "sfx/itemGet.wav");
-    	loadSound("placeBomb", "sfx/placeBomb.wav");
-    	loadSound("walk", "sfx/walk.wav");
+    	loadAsync("bombExplode", "sfx/bombExplode.wav");
+    	loadAsync("die", "sfx/die.wav");
+    	loadAsync("enemyDies", "sfx/enemyDies.wav");
+    	loadAsync("itemGet", "sfx/itemGet.wav");
+    	loadAsync("placeBomb", "sfx/placeBomb.wav");
+    	loadAsync("walk", "sfx/walk.wav");
+    	loadAsync("win", "sfx/5-Track-5.wav");
     	loadSound("music", "sfx/3-Track-3.wav");
-    	loadSound("win", "sfx/5-Track-5.wav");
     }
     
 

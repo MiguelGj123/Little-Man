@@ -20,11 +20,17 @@ public class Escenario extends Observable{
 	EscenarioJugador jugador = EscenarioJugador.getJugador();
 	
 
+	private Escenario() {
+    }
+	
     private Escenario(String playerTipo) {
     	inicializarTablero(playerTipo);
     }
 
     public static Escenario getEscenario() {
+    	if (miEscenario == null) {
+        	miEscenario = new Escenario();
+        }
         return miEscenario;
     }
     
@@ -66,7 +72,6 @@ public class Escenario extends Observable{
 	
 	private void actualizarEscenario() {	
 		enemigos.actualizarTicksEnemigos();
-		
 		if (cont%2 == 0 && !jugador.getEstaMuerto() && !jugador.getWin()) {
 			if (bomb && jugador.getPuedePonerBomba()) {
 				if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY())) {
@@ -105,10 +110,16 @@ public class Escenario extends Observable{
 		if (matrizDevolverWin[0][0][2]==1) {
 			for (int columna = 0; columna < matrizDevolver.length; columna++) {
                 for (int fila = 0; fila < matrizDevolver[columna].length; fila++) {
-                	if (matrizDevolver[columna][fila][4]==20 ) {
+                	if (	matrizDevolver[columna][fila][4]==201 || 
+                			matrizDevolver[columna][fila][4]==202 || 
+                			matrizDevolver[columna][fila][4]==203 || 
+                			matrizDevolver[columna][fila][4]==204) {
                 		matrizDevolver[columna][fila][4]=23;
                 		jugador.setWin();
-                	} else if(matrizDevolver[columna][fila][4]==25){
+                	} else if(	matrizDevolver[columna][fila][4]==251  || 
+                				matrizDevolver[columna][fila][4]==252  || 
+                				matrizDevolver[columna][fila][4]==253  || 
+                				matrizDevolver[columna][fila][4]==254){
                 		matrizDevolver[columna][fila][4]=28;
                 		jugador.setWin();
                 	}

@@ -39,16 +39,30 @@ public class EscenarioJugador {
 			posJXnew = (mov.equals("R") && posJX != COLUMNAS - 1) ? posJX + 1 : posJXnew;
 			posJYnew = (mov.equals("U") && posJY != 0			) ? posJY - 1 : posJYnew;
 			posJYnew = (mov.equals("D") && posJY != FILAS - 1	) ? posJY + 1 : posJYnew;
-			
+		
 			movimientoJugadorChocaConParedOBomba = 																// Jugador choca contra pared o bomba si
 					(  ( mov.equals("L") && posJX == 0				)											// Choca contra exterior
 					|| ( mov.equals("R") && posJX == COLUMNAS - 1	)
 					|| ( mov.equals("U") && posJY == 0				)
 					|| ( mov.equals("D") && posJY == FILAS - 1		)
 					|| Escenario.getEscenario().chocaConPos(posJXnew, posJYnew));					// o si hay una bomba o bloque en la nueva posicion
+
+				
 			
 			if (!movimientoJugadorChocaConParedOBomba && (posJX != posJXnew || posJY != posJYnew)) {
 				SoundManager.getSoundManager().playSound("walk");
+				if (posJXnew==posJX-1) {
+					jug.setCodigoMov(2);
+				}
+				if (posJXnew==posJX+1) {
+					jug.setCodigoMov(4);
+				}
+				if (posJYnew==posJY-1) {
+					jug.setCodigoMov(3);
+				}
+				if (posJYnew==posJY+1) {
+					jug.setCodigoMov(1);
+				}
 				jug.setPosX(posJXnew);
 				jug.setPosY(posJYnew);
 			}
@@ -78,6 +92,7 @@ public class EscenarioJugador {
 				matrizEditar[getPosX()][getPosY()][4] = 28;
 				
 			}
+			
 		} else if (jug.getEstaMuerto())  {
 			
 			if (sfx) {
@@ -90,7 +105,8 @@ public class EscenarioJugador {
 			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugadorConBomba();
 		} else {
 			sfx=true;
-			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugador();
+			int codigoFinal = Integer.parseInt(jug.getCodigoJugador() + "" + jug.getCodigoMov());
+			matrizEditar[getPosX()][getPosY()][4] = codigoFinal;
 		}
 		
 		return matrizEditar;
@@ -105,6 +121,7 @@ public class EscenarioJugador {
 	public boolean getWin() {return win;}
 	public int getPosX() { return jug.getPosX(); }
 	public int getPosY() { return jug.getPosY(); }
+	public int getCodigoMov() { return jug.getCodigoMov(); }
 	public boolean getPuedePonerBomba() { return jug.puedePonerBombas(); }
 	public boolean getEstaMuerto() { return jug.getEstaMuerto(); }
 	public void gestionarVida() { jug.gestionarVida(); }
