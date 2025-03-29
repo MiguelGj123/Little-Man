@@ -35,7 +35,7 @@ public class Escenario extends Observable{
 	
 	private void inicializarTablero(String playerTipo)
 	{
-		
+		SoundManager.getSoundManager().playSound("3");
 		tablero.inicializarTablero();
 		enemigos.inicializarEnemigos(tablero.getPosicionesVacias(), COLUMNAS, FILAS);
 		bombas.inicializarBombas();

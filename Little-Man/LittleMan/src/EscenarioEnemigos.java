@@ -1,6 +1,10 @@
+
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Random;
+
+
 
 public class EscenarioEnemigos {
 	
@@ -20,6 +24,7 @@ public class EscenarioEnemigos {
     	}
     	return misEnemigos;
     }
+    
     
     public void darValoresColumnasFilas (int COLUMNAS, int FILAS) {
     	this.COLUMNAS = COLUMNAS;
@@ -51,7 +56,7 @@ public class EscenarioEnemigos {
 	public void actualizarTicksEnemigos() {
 		if (contadorSpawnear > 0) {
 			contadorSpawnear--;
-			if (contadorSpawnear%10 == 0) visible = !visible;
+			if (contadorSpawnear%5 == 0) visible = !visible;
 			if (contadorSpawnear == 0) visible = true;
 		} else {
 			for ( int i=0; i<listaEnemigos.size(); i++) {
@@ -109,6 +114,7 @@ public class EscenarioEnemigos {
 	public void gestionarFuego(int posFX, int posFY) {
 		for (int i = 0; i < listaEnemigos.size(); i++) {
 			if (listaEnemigos.get(i).getPosX() == posFX && listaEnemigos.get(i).getPosY() == posFY) {
+				SoundManager.getSoundManager().playSound("enemyDies");
 				listaEnemigos.remove(i);
 				i--;
 			}

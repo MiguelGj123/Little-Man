@@ -1,6 +1,11 @@
 
+import javax.sound.sampled.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
+
+
 
 public class EscenarioBombas {
 	
@@ -17,6 +22,7 @@ public class EscenarioBombas {
     	}
     	return misBombas;
     }
+
     
     public void inicializarBombas() { listaBombas.clear(); }
     
@@ -52,9 +58,11 @@ public class EscenarioBombas {
 		boolean bombaPuesta = false;
 		
 		if (listaBombas.size()==0) {
+			SoundManager.getSoundManager().playSound("placeBomb");
 			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY));
 			bombaPuesta = true;
 		} else if ( !(listaBombas.get(listaBombas.size()-1).getPosX() == posJX && listaBombas.get(listaBombas.size()-1).getPosY() == posJY )) {		// si no es la misma posicion que la ultima bomba puesta
+			SoundManager.getSoundManager().playSound("placeBomb");
 			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY));
 			bombaPuesta = true;
 		}

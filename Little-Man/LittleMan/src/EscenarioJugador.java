@@ -1,9 +1,13 @@
 
+
+
+
 public class EscenarioJugador {
 	
 	
 	private static EscenarioJugador miJugador;
     private EntidadMovibleJugador jug;
+    private boolean sfx=true;
     
     private EscenarioJugador() {}
     
@@ -14,6 +18,7 @@ public class EscenarioJugador {
     	return miJugador;
     }
 	
+    
 	
 	public void inicializarJugador(String playerTipo){
 		jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate(playerTipo, 0, 0);
@@ -42,7 +47,8 @@ public class EscenarioJugador {
 					|| ( mov.equals("D") && posJY == FILAS - 1		)
 					|| Escenario.getEscenario().chocaConPos(posJXnew, posJYnew));					// o si hay una bomba o bloque en la nueva posicion
 			
-			if (!movimientoJugadorChocaConParedOBomba) {
+			if (!movimientoJugadorChocaConParedOBomba && (posJX != posJXnew || posJY != posJYnew)) {
+				SoundManager.getSoundManager().playSound("walk");
 				jug.setPosX(posJXnew);
 				jug.setPosY(posJYnew);
 			}
@@ -61,10 +67,16 @@ public class EscenarioJugador {
 	
 	public int[][][] generarMatrizAniadirBloques(int[][][] matrizEditar){
 		if (jug.getEstaMuerto()) {
+			if (sfx) {
+				sfx=false;
+				SoundManager.getSoundManager().stopSound("3");
+				SoundManager.getSoundManager().playSound("die");
+			}
 			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugadorMuerto();
 		} else if (Escenario.getEscenario().hayBombaEn(getPosX(), getPosY())) {
 			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugadorConBomba();
 		} else {
+			sfx=true;
 			matrizEditar[getPosX()][getPosY()][4] = jug.getCodigoJugador();
 		}
 		return matrizEditar;

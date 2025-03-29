@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.image.BufferedImage;
 import java.util.*;
 
+
 public class FrameTablero extends JFrame implements Observer {
     private static final long serialVersionUID = 1L;
     private JPanel contentPane;
@@ -22,6 +23,8 @@ public class FrameTablero extends JFrame implements Observer {
     private boolean tableroInicializado = false;
     private BufferedImage tableroBuffer;
     private Image fondoTablero = new ImageIcon("Pixels/stageBack1.png").getImage();
+
+
     private static final ImageIcon[] ICONOS = {
         new ImageIcon("Pixels/hard1.png"), // Bloque duro (10)
         new ImageIcon("Pixels/soft3.png"), // Bloque blando (11)
@@ -36,9 +39,9 @@ public class FrameTablero extends JFrame implements Observer {
         new ImageIcon("Pixels/bomb2.png"), // Bomba ultra (35)
         new ImageIcon("Pixels/baloon1.png") // Enemigo (40)
     };
-    private static final int[] CODIGOS = {10, 11, 13, 20, 21, 22, 25, 26, 27, 30, 35, 40};
+    private static final int[] CODIGOS_ICONOS = {10, 11, 13, 20, 21, 22, 25, 26, 27, 30, 35, 40};
 
-    public FrameTablero(String playerTipo) {
+    public FrameTablero(String playerTipo) { 
         Escenario.getEscenario(playerTipo).addObserver(this);
     }
 
@@ -68,8 +71,8 @@ public class FrameTablero extends JFrame implements Observer {
     }
 
     private ImageIcon obtenerIcono(int codigo) {
-        for (int i = 0; i < CODIGOS.length; i++) {
-            if (CODIGOS[i] == codigo) return ICONOS[i];
+        for (int i = 0; i < CODIGOS_ICONOS.length; i++) {
+            if (CODIGOS_ICONOS[i] == codigo) return ICONOS[i];
         }
         return null;
     }
@@ -99,7 +102,7 @@ public class FrameTablero extends JFrame implements Observer {
                     if (!imagenesSuperpuestas.isEmpty()) {
                         ImageIcon nuevaImagen = combinarMultiplesImagenes(imagenesSuperpuestas.toArray(new ImageIcon[0]));
                         g.drawImage(nuevaImagen.getImage(), (columna ) * 45 + (46 - nuevaImagen.getIconWidth()) / 2 ,  (fila ) * 45 + (46 - nuevaImagen.getIconHeight()) / 2 , null);
-//                        g.drawImage(nuevaImagen.getImage(), columna * 45, fila * 45, null);
+ 
                     }
                 }
             }
@@ -114,15 +117,13 @@ public class FrameTablero extends JFrame implements Observer {
         int width = imagenes[0].getIconWidth();
         int height = imagenes[0].getIconHeight();
         
-        System.out.println("AAA_ " + width + " " + height);
         
         for (ImageIcon icono : imagenes) {
         	if (icono.getIconHeight() > height) height = icono.getIconHeight(); 
         	if (icono.getIconWidth() > width) width= icono.getIconWidth();
-        	System.out.println("A_ " + width + " " + height);
+ 
         }
-        System.out.println("");
-        
+ 
         BufferedImage resultado = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
         Graphics g = resultado.getGraphics();
         

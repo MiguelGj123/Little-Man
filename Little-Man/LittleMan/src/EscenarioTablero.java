@@ -1,5 +1,9 @@
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.File;
+import java.io.IOException;
+
 
 public class EscenarioTablero {
 	
@@ -10,10 +14,14 @@ public class EscenarioTablero {
     
     private EntidadInamovibleBloque[][] matrizTablero;
     private ArrayList<int[]> listaPosFuegos = new ArrayList<int[]>();
+
     
     
     
     private EscenarioTablero() {}
+    
+    
+
     
     public static EscenarioTablero getTablero(){
     	if (miTablero == null) {
@@ -21,6 +29,7 @@ public class EscenarioTablero {
     	}
     	return miTablero;
     }
+    
     
 	public void inicializarTablero()
 	{
@@ -84,7 +93,7 @@ public class EscenarioTablero {
 
 		int posBloqueExplotarX, posBloqueExplotarY;
 		boolean[] finLineaBomba = new boolean[] {false, false, false, false};
-		
+		SoundManager.getSoundManager().playSound("bombExplode");
 		matrizTablero[centroExplosionX][centroExplosionY].romperbloque();
 		if (!hayFuegoEnPosicionXY(centroExplosionX, centroExplosionY))
 		{
