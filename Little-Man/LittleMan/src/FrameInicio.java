@@ -83,7 +83,7 @@ public class FrameInicio extends JFrame implements Observer {
         setVisible(true);
         MenuPrincipal.getMenuPrincipal().addObserver(this);
         addMouseListener(new Controller());
-        addKeyListener(new Controller2());
+        addKeyListener(new Controller());
     }
     
     
@@ -202,7 +202,7 @@ public class FrameInicio extends JFrame implements Observer {
         }
     }
     
-    class Controller implements  MouseListener {
+    class Controller implements  MouseListener,KeyListener {
     	
     	public Controller() {
     	}
@@ -241,13 +241,7 @@ public class FrameInicio extends JFrame implements Observer {
 		@Override
 		public void mouseExited(MouseEvent e) {
 		}
-    
-    }
- class Controller2 implements  KeyListener {
-    	
-    	public Controller2() {
-    	}
-
+		
 		@Override
 		public void keyTyped(KeyEvent e) {
 			
@@ -269,8 +263,7 @@ public class FrameInicio extends JFrame implements Observer {
 			
 			
 		}
-
-		
     
     }
+    
 }
