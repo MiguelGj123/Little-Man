@@ -5,6 +5,12 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,7 +23,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 
-public class FrameInicio extends JFrame {
+public class FrameInicio extends JFrame implements Observer {
 
 	private final int ANCHO = 1000;
 	private final int LARGO = 606;
@@ -75,6 +81,9 @@ public class FrameInicio extends JFrame {
         setResizable(false); 
         setLocationRelativeTo(null);
         setVisible(true);
+        MenuPrincipal.getMenuPrincipal().addObserver(this);
+        addMouseListener(new Controller());
+        addKeyListener(new Controller2());
     }
     
     
@@ -180,5 +189,88 @@ public class FrameInicio extends JFrame {
         label.setBounds(x, y, width, height);
         label.setVisible(isVisible);
         return label;
+    }
+    
+    @Override
+    public void update(Observable o, Object obj) {
+        if(o instanceof MenuPrincipal && MenuPrincipal.getMenuPrincipal().isReady()) {
+        	String personaje = (String) obj;
+        	FrameTablero nuevoframe = new FrameTablero(personaje);
+        	nuevoframe.setVisible(true);
+        	this.setVisible(false);
+        	dispose();
+        }
+    }
+    
+    class Controller implements  MouseListener {
+    	
+    	public Controller() {
+    	}
+
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			int x = e.getX();
+			int y = e.getY();
+			String jugadorSeleccionado = null;
+			if(x>140 && x<226) {
+				if(y>323 && y<443) {
+					jugadorSeleccionado = "BLANCO";
+				}
+			}
+			else if(x<325 && x>259) {
+				if(y>408 && y<559) {
+					jugadorSeleccionado = "NEGRO";
+				}
+			}
+			MenuPrincipal.getMenuPrincipal().seleccionPersonaje(jugadorSeleccionado);
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) {
+			
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) {
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) {
+		}
+    
+    }
+ class Controller2 implements  KeyListener {
+    	
+    	public Controller2() {
+    	}
+
+		@Override
+		public void keyTyped(KeyEvent e) {
+			
+			
+		}
+		
+		
+		@Override
+		public void keyPressed(KeyEvent e) {
+			int keyCode = e.getKeyCode();
+			if(keyCode==KeyEvent.VK_ENTER) {
+				MenuPrincipal.getMenuPrincipal().iniciarJuego();
+			}
+			
+		}
+
+		@Override
+		public void keyReleased(KeyEvent e) {
+			
+			
+		}
+
+		
+    
     }
 }
