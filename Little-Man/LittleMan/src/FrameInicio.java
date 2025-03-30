@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -19,9 +20,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingWorker;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
+import javax.swing.Timer;
 
 public class FrameInicio extends JFrame implements Observer {
 
@@ -31,6 +34,7 @@ public class FrameInicio extends JFrame implements Observer {
 	private static final ImageIcon ICONO_TITULO = new ImageIcon("Pixels/title.png");
 	private static final ImageIcon ICONO_IMAGEN = new ImageIcon("Pixels/back.png");
 	private static final ImageIcon ICONO_EXPLOSION = new ImageIcon("Pixels/explotion-explode.gif");
+	private JLabel explosion;
 																	
 	private static final ImageIcon[] ICONOS_PERSONAJES = {
 	        new ImageIcon("Pixels/bomber1.png"),
@@ -65,7 +69,7 @@ public class FrameInicio extends JFrame implements Observer {
         layeredPane.setPreferredSize(new Dimension(ANCHO, LARGO)); 
         layeredPane.setLayout(null);
         
-        JLabel explosion = crearFondoExplosion(600,600);
+        explosion = crearFondoExplosion(600,600);
         JLabel fondo = crearFondo(ANCHO, LARGO);
         JLabel titulo = crearTitulo(600,200);
         JLabel fondoBoss = crearFondoBoss(280,310);
@@ -76,6 +80,7 @@ public class FrameInicio extends JFrame implements Observer {
         layeredPane.add(fondoBoss, Integer.valueOf(3));
         layeredPane.add(personajes, Integer.valueOf(4));
         add(layeredPane);
+        explosion.setVisible(false);
         
         pack();
         setResizable(false); 
@@ -194,11 +199,22 @@ public class FrameInicio extends JFrame implements Observer {
     @Override
     public void update(Observable o, Object obj) {
         if(o instanceof MenuPrincipal && MenuPrincipal.getMenuPrincipal().isReady()) {
-        	String personaje = (String) obj;
-        	FrameTablero nuevoframe = new FrameTablero(personaje);
-        	nuevoframe.setVisible(true);
-        	this.setVisible(false);
-        	dispose();
+        	explosion.setVisible(true);
+        	new SwingWorker<Void,Void>(){
+        		@Override
+        		protected Void doInBackground() throws Exception {
+        			//Espera 2 segundos
+        			Thread.sleep(1100);
+        			return null;
+        		}
+        		@Override
+        		protected void done() {
+        			String personaje = (String) obj;
+                	FrameTablero nuevoframe = new FrameTablero(personaje);
+                	nuevoframe.setVisible(true);
+                	dispose();
+        		}
+        	}.execute();
         }
     }
     
