@@ -77,14 +77,14 @@ public class EscenarioTablero {
 	public void actualizarTicksFuego() {
 		
 		for ( int i=0; i<listaPosFuegos.size(); i++) {
-			int[] pBloque = listaPosFuegos.get(i);														// Obtenemos el bloque que queremos actualizar
+			int[] pBloque = listaPosFuegos.get(i);										// Obtenemos el bloque que queremos actualizar
 			
-			if (matrizTablero[pBloque[0]][pBloque[1]].tick()) {											// Comprobamos si al actualizar termina su cuenta atras del fuego
-				listaPosFuegos.remove(i);																// Si la cuenta atras del fuego termina eliminamos el bloque de la lista, ya que no nos hara falta actualizarlo mas.
-				i--;																					// El elemento i+1 de la lista pasa a ser el elemento i, por lo que para actualizarlo es necesario retroceder un elemento en la lista
+			if (matrizTablero[pBloque[0]][pBloque[1]].tick()) {							// Comprobamos si al actualizar termina su cuenta atras del fuego
+				listaPosFuegos.remove(i);												// Si la cuenta atras del fuego termina eliminamos el bloque de la lista, ya que no nos hara falta actualizarlo mas.
+				i--;																	// El elemento i+1 de la lista pasa a ser el elemento i, por lo que para actualizarlo es necesario retroceder un elemento en la lista
 			}
 			
-			Escenario.getEscenario().gestionarFuego(pBloque[0],pBloque[1]);								// El escenario se encarga de notificar a los jugadores y enemigos que en esa posicion mueren
+			Escenario.getEscenario().gestionarFuego(pBloque[0],pBloque[1]);				// El escenario se encarga de notificar a los jugadores y enemigos que en esa posicion mueren
 		}
 	}
 	
@@ -94,7 +94,6 @@ public class EscenarioTablero {
 		boolean[] finLineaBomba = new boolean[] {false, false, false, false};
 		listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.BOMB_EXPLODE));
 		listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.BOMB_EXPLODE));
-		
 		
 		
 		matrizTablero[centroExplosionX][centroExplosionY].romperbloque();

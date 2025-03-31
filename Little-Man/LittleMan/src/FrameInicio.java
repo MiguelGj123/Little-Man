@@ -52,8 +52,6 @@ public class FrameInicio extends JFrame implements Observer {
 	        new ImageIcon("Pixels/pass1.png"),
 	        new ImageIcon("Pixels/bomb1.png"),	        
 	    };
-
-	   
 	    
 	/**
 	 * Create the frame.
@@ -178,7 +176,6 @@ public class FrameInicio extends JFrame implements Observer {
         return panelCentral;
     }
  
-
     private JLabel crearLabelConImagen(ImageIcon imagen, int x, int y, int width, int height, boolean isVisible, double multTamaño) 
     {
         ImageIcon iconoOriginal = imagen;
@@ -239,6 +236,7 @@ public class FrameInicio extends JFrame implements Observer {
 				}
 			}
 			MenuPrincipal.getMenuPrincipal().seleccionPersonaje(jugadorSeleccionado);
+			MenuPrincipal.getMenuPrincipal().iniciarJuego();
 		}
 
 		@Override
@@ -264,13 +262,9 @@ public class FrameInicio extends JFrame implements Observer {
 			
 		}
 		
-		
 		@Override
 		public void keyPressed(KeyEvent e) {
-			int keyCode = e.getKeyCode();
-			if(keyCode==KeyEvent.VK_ENTER) {
-				MenuPrincipal.getMenuPrincipal().iniciarJuego();
-			}
+			
 			
 		}
 
