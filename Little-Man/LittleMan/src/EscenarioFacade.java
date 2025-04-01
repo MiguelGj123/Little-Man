@@ -140,7 +140,16 @@ public class EscenarioFacade {
     	return EscenarioTablero.getTablero().getChocaContraCelda(posX, posY);
     }
 
-
+    public boolean getMuerto () {
+    	return jugador.getEstaMuerto();
+    }
+    
+    public void gestionarEnter () {
+    	if (jugador.getEstaMuerto() || jugador.getWin()) {
+    		inicializarTablero(jugador.getTipoJugador(), COLUMNAS, FILAS);
+    	}
+    	
+    }
 	
 
 	

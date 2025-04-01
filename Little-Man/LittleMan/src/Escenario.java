@@ -87,15 +87,9 @@ public class Escenario extends Observable{
     public void pressBomba() 	{ bomb 	= true; left 	= right = up 	= down = false; }
     
     public void pressEnter() {
-    	/*
-    	if (jugador.getEstaMuerto() || jugador.getWin()) {
-    		jugador.resetWin();
-    		enemigos.resetWin();
-    		timer.purge();
-    		timer.cancel();
-    		inicializarTablero(jugador.getTipoJugador());
-    	}
-    	*/
+
+    	miEscenarioFacade.gestionarEnter();
+    	
     }
     
     
