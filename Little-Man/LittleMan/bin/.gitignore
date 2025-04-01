@@ -36,3 +36,8 @@
 /SonidoCodigos.class
 /SonidoCodigosEnum.class
 /SoundManager.class
+/MenuPrincipalPersonaje.class
+/MenuPrincipalPersonajeBlanco.class
+/MenuPrincipalPersonajeFactory.class
+/MenuPrincipalPersonajeNegro.class
+/MenuPrincipalPersonajeState.class
