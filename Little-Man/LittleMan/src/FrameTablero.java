@@ -54,7 +54,7 @@ public class FrameTablero extends JFrame implements Observer {
     }
 
     private void inicializarTableroVisual() {
-        setTitle("Bomberman");
+    	setTitle("Bomberman");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         
@@ -66,7 +66,9 @@ public class FrameTablero extends JFrame implements Observer {
                 if (tableroBuffer != null) {
                     g.drawImage(tableroBuffer, 0, 0, this);
                 }
+                
             }
+            
         };
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
@@ -74,6 +76,8 @@ public class FrameTablero extends JFrame implements Observer {
         contentPane.setPreferredSize(new Dimension(tableroColumnas * 45, tableroFilas * 45));
         pack();
         
+        setLocationRelativeTo(null); 
+
         tableroInicializado = true;
         addKeyListener(new Controller());
     }
