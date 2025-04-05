@@ -64,10 +64,12 @@ public class EscenarioBombas {
 			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.PLACE_BOMB));
 			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY));
 			bombaPuesta = true;
+			
 		} else if ( !(listaBombas.get(listaBombas.size()-1).getPosX() == posJX && listaBombas.get(listaBombas.size()-1).getPosY() == posJY )) {		// si no es la misma posicion que la ultima bomba puesta
 			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.PLACE_BOMB));
 			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY));
 			bombaPuesta = true;
+			
 		}
 		return bombaPuesta;
 	}

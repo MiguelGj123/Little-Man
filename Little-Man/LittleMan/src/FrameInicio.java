@@ -315,7 +315,8 @@ public class FrameInicio extends JFrame implements Observer {
 	        		@Override
 	        		protected void done() {
 	        			String personaje = (String) obj;
-	                	FrameTablero nuevoframe = new FrameTablero(personaje);
+	                	String pantalla = (String) obj;
+						FrameTablero nuevoframe = new FrameTablero(personaje,pantalla );
 	                	nuevoframe.setVisible(true);
 	                	dispose();
 	        		}
@@ -407,6 +408,7 @@ public class FrameInicio extends JFrame implements Observer {
 	            		*/
 	            		
 	            		MenuPrincipal.getMenuPrincipal().pressEnter();
+	            		
 	            			break;
 	            		
 

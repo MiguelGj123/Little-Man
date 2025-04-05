@@ -9,6 +9,7 @@ public class EscenarioFacade {
 	private EscenarioEnemigos enemigos = EscenarioEnemigos.getEnemigos();
 	private EscenarioBombas bombas = EscenarioBombas.getBombas();
 	private EscenarioJugador jugador = EscenarioJugador.getJugador();
+	private String pantalla;
 
 	
 	
@@ -24,11 +25,12 @@ public class EscenarioFacade {
     	return miEscenarioFacade;
     }
 
-	public void inicializarTablero(String playerTipo, int COLUMNAS, int FILAS)
+	public void inicializarTablero(String playerTipo, int COLUMNAS, int FILAS, String pantalla)
 	{
 		this.COLUMNAS = COLUMNAS;
 		this.FILAS = FILAS;
-		tablero.inicializarTablero();
+		System.out.println(pantalla);
+		tablero.inicializarTablero(pantalla);
 		enemigos.inicializarEnemigos(tablero.getPosicionesVacias(), COLUMNAS, FILAS);
 		bombas.inicializarBombas();
 		jugador.inicializarJugador(playerTipo);
@@ -146,7 +148,7 @@ public class EscenarioFacade {
     
     public void gestionarEnter () {
     	if (jugador.getEstaMuerto() || jugador.getWin()) {
-    		inicializarTablero(jugador.getTipoJugador(), COLUMNAS, FILAS);
+    		inicializarTablero(jugador.getTipoJugador(), COLUMNAS, FILAS,pantalla);
     	}
     	
     }

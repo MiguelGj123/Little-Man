@@ -14,13 +14,14 @@ public class Escenario extends Observable{
 	private boolean left=false, right=false, up=false, down=false, bomb=false;
 	private int cont=1;
 	private Timer timer=null;
+	private String pantalla;
 		
 
 	private Escenario() {
     }
 	
-    private Escenario(String playerTipo) {
-    	inicializarTablero(playerTipo);
+    private Escenario(String playerTipo, String pantalla) {
+    	inicializarTablero(playerTipo,pantalla);
     }
 
     public static Escenario getEscenario() {
@@ -28,15 +29,15 @@ public class Escenario extends Observable{
         return miEscenario;
     }
     
-    public static Escenario getEscenario(String playerTipo) {
-        if (miEscenario == null) miEscenario = new Escenario(playerTipo);
+    public static Escenario getEscenario(String playerTipo,String pantalla) {
+        if (miEscenario == null) miEscenario = new Escenario(playerTipo,pantalla);
         return miEscenario;
     }
 	
-	private void inicializarTablero(String playerTipo)
+	private void inicializarTablero(String playerTipo,String pantalla)
 	{
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-		miEscenarioFacade.inicializarTablero(playerTipo, COLUMNAS, FILAS);
+		miEscenarioFacade.inicializarTablero(playerTipo, COLUMNAS, FILAS, pantalla);
 		timerStep();
 	}
 

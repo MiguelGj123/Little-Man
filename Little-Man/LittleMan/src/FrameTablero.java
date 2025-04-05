@@ -22,8 +22,8 @@ public class FrameTablero extends JFrame implements Observer {
     private int tableroColumnas, tableroFilas;
     private boolean tableroInicializado = false;
     private BufferedImage tableroBuffer;
-    private Image fondoTablero = new ImageIcon("Pixels/stageBack1.png").getImage();
-
+    private Image fondoTablero;
+    private String pantalla; // Tipo de tablero (normal, vacio, noduro)
 
     private static final ImageIcon[] ICONOS = {
         new ImageIcon("Pixels/hard1.png"), // Bloque duro (10)
@@ -49,10 +49,12 @@ public class FrameTablero extends JFrame implements Observer {
     };
     private static final int[] CODIGOS_ICONOS = {10, 11, 13, 201, 202, 203, 204, 21, 22, 23, 251, 252, 253, 254, 26, 27, 28, 30, 35, 40};
 
-    public FrameTablero(String playerTipo) { 
-        Escenario.getEscenario(playerTipo).addObserver(this);
+    public FrameTablero(String playerTipo, String pantalla) {
+        this.pantalla = pantalla;
+        Escenario.getEscenario(playerTipo, pantalla).addObserver(this);
+        this.fondoTablero = cargarFondo(pantalla);
     }
-
+    
     private void inicializarTableroVisual() {
     	setTitle("Bomberman");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -87,6 +89,18 @@ public class FrameTablero extends JFrame implements Observer {
             if (CODIGOS_ICONOS[i] == codigo) return ICONOS[i];
         }
         return null;
+    }
+    
+    private Image cargarFondo(String pantalla) {
+        switch (pantalla.toLowerCase()) {
+            case "vacio":
+                return new ImageIcon("Pixels/stageBack2.png").getImage();
+            case "noduro":
+                return new ImageIcon("Pixels/stageBack3.png").getImage();
+            case "normal":
+            default:
+                return new ImageIcon("Pixels/stageBack1.png").getImage();
+        }
     }
     
     private void inicializarSonidos() {

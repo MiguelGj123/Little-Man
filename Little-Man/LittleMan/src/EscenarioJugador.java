@@ -145,4 +145,5 @@ public class EscenarioJugador {
 	public String getTipoJugador() { return jug.getTipoJugador(); }
 	
 	
+	
 }

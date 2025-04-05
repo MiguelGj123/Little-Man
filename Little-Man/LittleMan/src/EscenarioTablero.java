@@ -31,12 +31,30 @@ public class EscenarioTablero {
     }
     
     
-	public void inicializarTablero()
+	public void inicializarTablero(String tipo)
 	{
 		matrizTablero = new EntidadInamovibleBloque[COLUMNAS][FILAS];
 		listaPosFuegos.clear();
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-		
+	
+		switch (tipo) {
+        case "normal":
+        	inicializarTableroNormal();
+            break;
+        case "vacio":
+        	inicializarTableroVacio();
+            break;
+        case "noduro":
+        	inicializarTableroNoDuros();
+            break;
+        default:
+        	inicializarTableroNormal();
+		}	
+	}
+	
+	
+	
+	private void inicializarTableroNormal() {
 		for (int columna = 0; columna < COLUMNAS; columna++) {
 			for (int fila = 0; fila < FILAS; fila++) {
 				if  (columna + fila <= 1){
@@ -51,6 +69,34 @@ public class EscenarioTablero {
 			}
 		}
 	}
+	
+	
+	private void inicializarTableroNoDuros() {	
+		for (int columna = 0; columna < COLUMNAS; columna++) {
+	        for (int fila = 0; fila < FILAS; fila++) {
+	            if ((columna == 0 && fila == 0) || (columna == 1 && fila == 0) || (columna == 0 && fila == 1)) {
+	            	matrizTablero[columna][fila] = new EntidadInamovibleBloque("VACIO", columna, fila);
+	            } else {
+	            	matrizTablero[columna][fila] = random.nextBoolean() ? new EntidadInamovibleBloque("VACIO", columna, fila) : new EntidadInamovibleBloque("BLANDO", columna, fila); // Bloques blandos o vacíos aleatoriamente
+	            }
+	        }
+	    }
+	}
+	
+	
+	private void inicializarTableroVacio() {
+		for (int columna = 0; columna < COLUMNAS; columna++) {
+	        for (int fila = 0; fila < FILAS; fila++) {
+	        	if ((columna == 0 && fila == 0) || (columna == 1 && fila == 0) || (columna == 0 && fila == 1)) {
+	            	matrizTablero[columna][fila] = new EntidadInamovibleBloque("VACIO", columna, fila);
+	            } else {
+	            	matrizTablero[columna][fila] = new EntidadInamovibleBloque("VACIO", columna, fila);	            
+	            	}
+	        	}
+	        }
+	}
+	
+	
 	
 	public ArrayList<int[]> getPosicionesVacias() {
 		ArrayList<int[]> posicionesVacias = new ArrayList<>();
