@@ -9,7 +9,7 @@ public class EscenarioFacade {
 	private EscenarioEnemigos enemigos = EscenarioEnemigos.getEnemigos();
 	private EscenarioBombas bombas = EscenarioBombas.getBombas();
 	private EscenarioJugador jugador = EscenarioJugador.getJugador();
-	private String pantalla;
+	private String tipoPantalla;
 
 	
 	
@@ -18,6 +18,7 @@ public class EscenarioFacade {
 	private EscenarioFacade() {
     }
 	
+	
     public static EscenarioFacade getEscenarioFacade() {
     	if (miEscenarioFacade == null) {
     		miEscenarioFacade = new EscenarioFacade();
@@ -25,10 +26,14 @@ public class EscenarioFacade {
     	return miEscenarioFacade;
     }
 
+    
 	public void inicializarTablero(String playerTipo, int COLUMNAS, int FILAS, String pantalla)
 	{
 		this.COLUMNAS = COLUMNAS;
 		this.FILAS = FILAS;
+		this.tipoPantalla = pantalla;                   //Guardar el tipoPantalla para el reinicio
+	    tablero.inicializarTablero(pantalla);
+	    
 		System.out.println(pantalla);
 		tablero.inicializarTablero(pantalla);
 		enemigos.inicializarEnemigos(tablero.getPosicionesVacias(), COLUMNAS, FILAS);
@@ -36,6 +41,7 @@ public class EscenarioFacade {
 		jugador.inicializarJugador(playerTipo);
 
 	}
+	
 	
 	public void actualizarEscenario(int cont, boolean bomb, boolean left, boolean right, boolean up, boolean down) {
 		enemigos.actualizarTicksEnemigos();
@@ -64,6 +70,7 @@ public class EscenarioFacade {
 		tablero.actualizarTicksFuego();
 
 	}
+	
 	
 	public int[][][] generarMatrizImagenes(){
 		
@@ -97,6 +104,7 @@ public class EscenarioFacade {
 		
 		return matrizDevolver;
 	}
+	
 	
 	public String[] generarVectorSonidos() {
 		ArrayList<String> codigosSonido = new ArrayList<String>();
@@ -148,7 +156,7 @@ public class EscenarioFacade {
     
     public void gestionarEnter () {
     	if (jugador.getEstaMuerto() || jugador.getWin()) {
-    		inicializarTablero(jugador.getTipoJugador(), COLUMNAS, FILAS,pantalla);
+    		inicializarTablero(jugador.getTipoJugador(), COLUMNAS, FILAS, this.tipoPantalla);
     	}
     	
     }
