@@ -33,7 +33,7 @@ public class FrameTablero extends JFrame implements Observer {
     	
     	// Crear Frame
     	
-    	setTitle("Bomberman Menu");										// Ventana Titulo
+    	setTitle("Bomberman");										// Ventana Titulo
     	setSize(config.getANCHO(), config.getALTO());					// Ventana Dimensiones
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);					// Ventana Operacion Cerrar
     	setLocationRelativeTo(null);
@@ -45,7 +45,7 @@ public class FrameTablero extends JFrame implements Observer {
     	
     	pane = Frm__Pane.getPane();
     	pane.setPreferredSize(new Dimension(config.getANCHO(), config.getALTO()));
-		pane = pane.iniciarPane(params[0]);
+		pane = pane.iniciarPane(params[1]);
 		
 		
         Escenario.getEscenario().addObserver(this);

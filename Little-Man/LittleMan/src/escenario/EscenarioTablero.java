@@ -41,13 +41,13 @@ public class EscenarioTablero {
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
 	
 		switch (tipo) {
-        case "normal":
+        case "NORMAL":
         	inicializarTableroNormal();
             break;
-        case "vacio":
+        case "VACIO":
         	inicializarTableroVacio();
             break;
-        case "noduro":
+        case "NO_DURO":
         	inicializarTableroNoDuros();
             break;
         default:

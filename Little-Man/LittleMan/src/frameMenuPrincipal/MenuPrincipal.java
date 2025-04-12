@@ -61,16 +61,16 @@ public class MenuPrincipal {
 		}
 		switch (pEscenario) {
 		case 1:
-			this.escenario="normal";
+			this.escenario="NORMAL";
 			break;
 		case 2:
-			this.escenario="noduro";
+			this.escenario="NO_DURO";
 			break;
 		case 3:
-			this.escenario="vacio";
+			this.escenario="VACIO";
 			break;
 		default:
-			this.escenario="normal";
+			this.escenario="NORMAL";
 			break;
 		}
 		
