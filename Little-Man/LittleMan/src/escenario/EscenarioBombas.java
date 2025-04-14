@@ -12,7 +12,7 @@ import sonido.SonidoCodigosEnum;
 
 public class EscenarioBombas {
 	
-	Random random = new Random();
+	private Random random = new Random();
 	
 	private static EscenarioBombas misBombas;
 	private EscenarioFacade miEscenarioFacade;

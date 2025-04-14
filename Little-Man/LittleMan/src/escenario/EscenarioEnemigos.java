@@ -14,7 +14,7 @@ import sonido.SonidoCodigosEnum;
 
 public class EscenarioEnemigos {
 	
-	Random random = new Random();
+	private Random random = new Random();
 
 	private int COLUMNAS, FILAS;
 	private static EscenarioEnemigos misEnemigos;
