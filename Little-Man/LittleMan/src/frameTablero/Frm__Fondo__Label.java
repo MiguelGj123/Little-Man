@@ -14,7 +14,6 @@ public class Frm__Fondo__Label extends JLabel{
 	private Frm__CONFIG config = Frm__CONFIG.getConfig();
 
 	public Frm__Fondo__Label(String param) {
-		System.out.println(param);
 		ImageIcon fondoSeleccionado = fondoNormal;
     	if (param.equals("NORMAL" )) fondoSeleccionado = fondoNormal;
     	if (param.equals("VACIO"  )) fondoSeleccionado = fondoVacio;

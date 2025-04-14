@@ -38,7 +38,7 @@ public class FrameTablero extends JFrame implements Observer {
     	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);					// Ventana Operacion Cerrar
     	setLocationRelativeTo(null);
     	
-    	System.out.println("Frame Tablero ___ Dimensiones Tablero" + config.getANCHO() + " " + config.getALTO());
+    	//System.out.println("Frame Tablero ___ Dimensiones Tablero" + config.getANCHO() + " " + config.getALTO());
     	
     	
     	// Inicializar el LayeredPane en el que se guardará el contenido
@@ -51,7 +51,7 @@ public class FrameTablero extends JFrame implements Observer {
         Escenario.getEscenario().addObserver(this);
         
         configurarVentana();
-        inicializarSonidos();
+        inicializarSonidos(params[3]);
         aniadirObserverMouseKeyListener();
         
         pack();
@@ -72,8 +72,9 @@ public class FrameTablero extends JFrame implements Observer {
     }
 
     
-    private void inicializarSonidos() {
-    	SoundManager.getSoundManager().soundsToLoad();
+    private void inicializarSonidos(String volumen) {
+    	SoundManager.getSoundManager().close();
+    	SoundManager.getSoundManager().soundsToLoadEscenario(volumen);
     }
     
 
@@ -105,7 +106,11 @@ public class FrameTablero extends JFrame implements Observer {
                 if (comandoSonido.equals("PARAR_SONIDO")) {
                 	SoundManager.getSoundManager().stopSound(nombreSonido);
                 } else if (comandoSonido.equals("SONAR_SONIDO")) {
-                	SoundManager.getSoundManager().playSound(nombreSonido);
+                	if (nombreSonido.equals("MENU")) {
+                		SoundManager.getSoundManager().playSoundMusic(nombreSonido);
+                	} else {
+                		SoundManager.getSoundManager().playSound(nombreSonido);
+                	}
                 }
             }
     	}

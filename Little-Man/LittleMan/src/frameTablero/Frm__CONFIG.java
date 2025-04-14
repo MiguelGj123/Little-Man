@@ -19,7 +19,7 @@ public class Frm__CONFIG {
 	}
 	
 	public static void iniciarConfig(int COLUMNAS, int FILAS, int PXL_LADO) {
-		System.out.println("AAAA FrameTableroValoresConfig Iniciar Config");
+		//System.out.println("AAAA FrameTableroValoresConfig Iniciar Config");
 		if (miConfig == null) miConfig = new Frm__CONFIG(COLUMNAS, FILAS, PXL_LADO);
 	}
 	

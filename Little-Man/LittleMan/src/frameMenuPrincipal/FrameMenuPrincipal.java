@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
 import frameTablero.FrameTablero;
+import sonido.SoundManager;
 
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -47,7 +48,7 @@ public class FrameMenuPrincipal extends JFrame {
 	private boolean opcionesAbiertas = false;
 	
 	private int seleccionFila0 = 1;
-	private int seleccionFila1 = 0;
+	private int seleccionFila1 = 1;
 	private int seleccionFila2 = 1;
     private int valorFinalFila2= 1;
 	private JLabel imagenCombinada;
@@ -108,6 +109,7 @@ public class FrameMenuPrincipal extends JFrame {
     
     public FrameMenuPrincipal() 
     {
+    	inicializarSonidos();
     	crearVentana();
     	crearJPanel();
         generarJLabelsFrame();
@@ -117,6 +119,11 @@ public class FrameMenuPrincipal extends JFrame {
         aniadirObserverMouseKeyListener();
         
 		actualizarJugadorColor("BLANCO");
+    }
+    private void inicializarSonidos() {
+    	SoundManager.getSoundManager().close();
+    	SoundManager.getSoundManager().soundsToLoadMenu();
+    	SoundManager.getSoundManager().playSoundMusic("MUSIC_MENU"+seleccionFila1);
     }
     
     private void crearVentana() {										// Se crea la ventana "Bomberman Menu" con las dimensiones definidas ANCHO y LARGO
@@ -286,14 +293,17 @@ public class FrameMenuPrincipal extends JFrame {
             final int botonIndex = i;
 
             boton.addActionListener(e -> {
+            	
                 if (filaIndex == 0) {
                     seleccionFila0 = botonIndex;
                 } else if (filaIndex == 1) {
+                	SoundManager.getSoundManager().stopSound("MUSIC_MENU"+seleccionFila1);
                     seleccionFila1 = botonIndex;
+                    SoundManager.getSoundManager().playSoundMusic("MUSIC_MENU"+seleccionFila1);
                 }else if (filaIndex == 2) {
                     seleccionFila2 = botonIndex;
                 }
-
+                SoundManager.getSoundManager().playSound("SELECT_MENU"+seleccionFila1);
                 actualizarImagenCombinada(); // método que actualiza la imagen
             });
         }
@@ -435,7 +445,8 @@ public class FrameMenuPrincipal extends JFrame {
     
     private void actualizarJugadorColor(String quitarGris) {												// actualizarJugadorColor se encarga de actualizar que jugadores se ven en blanco y negro, y cuales de color en el menu principal
     	int personaje = -1;																					// se inicializa el personaje seleccionado a un valor que no es posible
-    	
+    	SoundManager.getSoundManager().stopSound("MINI_EXPLODE"+seleccionFila1);
+        SoundManager.getSoundManager().playSound("MINI_EXPLODE"+seleccionFila1);
     	switch (quitarGris) {																				// personaje toma el valor de la posicion de ICONOS_PERSONAJES que corresponde al personaje seleccionado
     		case "BLANCO":																					
     			personaje = 0;
@@ -476,7 +487,7 @@ public class FrameMenuPrincipal extends JFrame {
                     explosionTimer.stop(); // Detener el timer después de ejecutarse
                 }
             });
-
+            
             explosionTimer.setRepeats(false); // Solo se ejecuta una vez
             explosionTimer.start();
         }
@@ -493,11 +504,12 @@ public class FrameMenuPrincipal extends JFrame {
         return null; // No se encontró
     }
     private void iniciarJuegoMenuPrincipal(String[] params) {
-	    FrameTablero nuevoframe = new FrameTablero(new String[] {params[0], params[1]}, new int[] {17, 11});
+	    FrameTablero nuevoframe = new FrameTablero(new String[] {params[0], params[1], params[2], params[3]}, new int[] {17, 11});
 		nuevoframe.setVisible(true);
 		dispose();
     }
     private void explosionVisible() {
+    	SoundManager.getSoundManager().playSound("BOMB_EXPLODE"+seleccionFila1);
     	explosion.setVisible(true);
     }
     private int getOpcion(int fila) {

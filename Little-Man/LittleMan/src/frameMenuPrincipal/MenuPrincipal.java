@@ -44,19 +44,19 @@ public class MenuPrincipal {
 		}
 		switch (pVolumen) {
 		case 0:
-			this.volumen="apagado";
+			this.volumen="APAGADO";
 			break;
 		case 1:
-			this.volumen="bajo";
+			this.volumen="BAJO";
 			break;
 		case 2:
-			this.volumen="medio";
+			this.volumen="MEDIO";
 			break;
 		case 3:
-			this.volumen="alto";
+			this.volumen="ALTO";
 			break;
 		default:
-			this.volumen="bajo";
+			this.volumen="BAJO";
 			break;
 		}
 		switch (pEscenario) {

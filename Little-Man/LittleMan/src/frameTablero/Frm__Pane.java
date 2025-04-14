@@ -4,6 +4,7 @@ import javax.swing.JLayeredPane;
 
 public class Frm__Pane extends JLayeredPane{
 	private static final long serialVersionUID = 1L;
+	private String stage;
 
 	private static Frm__Pane frame;
 	
@@ -25,10 +26,11 @@ public class Frm__Pane extends JLayeredPane{
 	}
 		
 	public Frm__Pane iniciarPane(String param) {
+		stage=param;
 		fondo = new Frm__Fondo__Panel(param);
 		fondo.setBounds(0, 0, config.getANCHO(), config.getALTO());
 		
-		bloques = new Frm__Bloques__Panel();
+		bloques = new Frm__Bloques__Panel(param);
 		bloques.setBounds(0, 0, config.getANCHO(), config.getALTO());
 		
 		bombas = new Frm__Bombas__Panel();
@@ -50,7 +52,7 @@ public class Frm__Pane extends JLayeredPane{
 	
 	
 	public void actualizarTablero(int[][][] res) {
-		bloques.actualizarBloques(res[0]);
+		bloques.actualizarBloques(res[0],stage);
 		bombas.actualizarBombas(res[1]);
 		enemigos.actualizarEnemigos(res[2]);
 		jugador.actualizarJugador(res[3]);

@@ -8,7 +8,7 @@ public class Frm__Bloques__Panel extends JPanel{
 	private Frm__CONFIG config = Frm__CONFIG.getConfig();
 	private Frm__Bloques__Label[][] labels = new Frm__Bloques__Label[config.getCOLUMNAS()][config.getFILAS()];
 	
-    public Frm__Bloques__Panel() {
+    public Frm__Bloques__Panel(String param) {
     	setOpaque(false);
 		setLayout(null);
 		
@@ -16,7 +16,7 @@ public class Frm__Bloques__Panel extends JPanel{
 				
 		for (int columna = 0; columna < labels.length; columna++) {
 			for (int fila = 0; fila < labels[columna].length; fila++) {
-				labels[columna][fila] = new Frm__Bloques__Label(10);
+				labels[columna][fila] = new Frm__Bloques__Label(10, param);
 				
 				if (labels[columna][fila].getIcon() != null) {
 	                int pAncho = labels[columna][fila].getIcon().getIconWidth();
@@ -40,11 +40,11 @@ public class Frm__Bloques__Panel extends JPanel{
     
     
 
-	public void actualizarBloques(int[][] res) {
+	public void actualizarBloques(int[][] res, String param) {
 		for (int columna = 0; columna < res.length; columna++) {
 			for (int fila = 0; fila < res[columna].length; fila++) {
 				//System.out.print("[" + res[columna][fila] + "] ");
-				labels[columna][fila].changeState(res[columna][fila]);
+				labels[columna][fila].changeState(res[columna][fila], param);
 			}
 			//System.out.print("\n");
 		}

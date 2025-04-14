@@ -8,8 +8,8 @@ public class Frm__Bloques__Label extends JLabel{
 	
 	private ImageIcon imagen;
 
-	public Frm__Bloques__Label(int param) {
-		ImageIcon icono = Frm__Bloques__Icon__Generator.getFactory().getScaledImageIcon(param);
+	public Frm__Bloques__Label(int param, String stage) {
+		ImageIcon icono = Frm__Bloques__Icon__Generator.getFactory().getScaledImageIcon(param, stage);
 		//System.out.println("Frm_Bloques_Laebl icono.esNull:" + icono == null);
 		if (icono != null) {
 			setVisible(true);
@@ -22,8 +22,8 @@ public class Frm__Bloques__Label extends JLabel{
 		setOpaque(false);
 	}
 	
-	public void changeState(int param) {
-		ImageIcon icono = Frm__Bloques__Icon__Generator.getFactory().getScaledImageIcon(param);
+	public void changeState(int param, String stage) {
+		ImageIcon icono = Frm__Bloques__Icon__Generator.getFactory().getScaledImageIcon(param, stage);
 		//System.out.println("Frm_Bloques_Laebl icono.esNull:" + icono == null);
 		if (icono != null) {
 			setVisible(true);

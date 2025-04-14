@@ -11,7 +11,7 @@ public class Frm__Bloques__Icon__Generator {
 		return factory;
 	}
 	
-	public ImageIcon getScaledImageIcon(int tipo) {
+	public ImageIcon getScaledImageIcon(int tipo, String param) {
 		ImageIcon icono;
 		
 		switch (tipo) {
@@ -19,7 +19,12 @@ public class Frm__Bloques__Icon__Generator {
 				icono = new ImageIcon("Pixels/hard1.png");
 				break;
 			case 11:
-				icono = new ImageIcon("Pixels/soft3.png");
+				if (param=="NORMAL") {
+					icono = new ImageIcon("Pixels/soft3.png");
+				}
+				else{
+					icono = new ImageIcon("Pixels/hard2.png");
+				}
 				break;
 			case 13:
 				icono = new ImageIcon("Pixels/miniBlast1.gif");
