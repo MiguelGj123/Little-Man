@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SoundManager {
-    private static final SoundManager miSoundManager = new SoundManager();
+    private static SoundManager miSoundManager;
     private final Map<String, Clip> soundClips = new HashMap<>();
     private String music=null;
 
@@ -15,6 +15,7 @@ public class SoundManager {
 
     // Método para obtener la única instancia del Singleton
     public static SoundManager getSoundManager() {
+    	if (miSoundManager==null) miSoundManager= new SoundManager();
         return miSoundManager;
     }
 

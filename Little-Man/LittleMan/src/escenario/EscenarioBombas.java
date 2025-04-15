@@ -11,9 +11,7 @@ import sonido.SonidoCodigosEnum;
 
 
 public class EscenarioBombas {
-	
-	private Random random = new Random();
-	
+
 	private static EscenarioBombas misBombas;
 	private EscenarioFacade miEscenarioFacade;
     private ArrayList<EntidadInamovibleBomba> listaBombas = new ArrayList<EntidadInamovibleBomba>();

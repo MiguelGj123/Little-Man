@@ -65,7 +65,6 @@ public class FrameMenuPrincipal extends JFrame {
 	private JLabel fondoBoss;	
 	private JLabel iconoOpciones;
 	private JPanel panelOpciones;
-	private JPanel imagenesOpciones;
 															
 	
 	// Se guardan las siguientes imagenes en un vector ICONOS_PERSONAJES
