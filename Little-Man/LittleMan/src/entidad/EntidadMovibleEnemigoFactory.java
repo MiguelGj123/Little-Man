@@ -24,6 +24,9 @@ public class EntidadMovibleEnemigoFactory {
 			case "BALOON":
 				enemigo = new EntidadMovibleEnemigoBaloon(posX, posY);
 				break;
+			case "DORIA":
+				enemigo = new EntidadMovibleEnemigoDoria(posX, posY);
+				break;
 			default:
 				enemigo = new EntidadMovibleEnemigoBaloon(posX, posY);
 				break;

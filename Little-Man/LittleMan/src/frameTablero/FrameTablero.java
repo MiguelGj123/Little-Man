@@ -106,7 +106,7 @@ public class FrameTablero extends JFrame implements Observer {
                 if (comandoSonido.equals("PARAR_SONIDO")) {
                 	SoundManager.getSoundManager().stopSound(nombreSonido);
                 } else if (comandoSonido.equals("SONAR_SONIDO")) {
-                	if (nombreSonido.equals("MENU")) {
+                	if (nombreSonido.equals("MENU")||nombreSonido.equals("MUSIC")) {
                 		SoundManager.getSoundManager().playSoundMusic(nombreSonido);
                 	} else {
                 		SoundManager.getSoundManager().playSound(nombreSonido);

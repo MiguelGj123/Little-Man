@@ -16,6 +16,7 @@ public class Frm__Enemigos__Panel extends JPanel{
 				
 		for (int columna = 0; columna < labels.length; columna++) {
 			for (int fila = 0; fila < labels[columna].length; fila++) {
+				
 				labels[columna][fila] = new Frm__Enemigos__Label(40);
 				
 				if (labels[columna][fila].getIcon() != null) {

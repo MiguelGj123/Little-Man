@@ -140,6 +140,14 @@ public class EscenarioFacade {
     	}
     	
     }
+    public int getPosXJ() {
+    	int posXJ=this.jugador.getPosX();
+    	return posXJ;
+    }
+    public int getPosYJ() {
+    	int posYJ=this.jugador.getPosY();
+    	return posYJ;
+    }
     
     public void gestionarPlayerWin() { jugador.setWin(); }
     

@@ -72,6 +72,9 @@ public class SoundManager {
     public void stopSound(String name) {
         Clip clip = soundClips.get(name);
         if (clip != null) {
+        	if (name=="MENU"||name=="MUSIC") {
+        		music = null;
+        	}
             if (clip.isRunning()) {
                 clip.stop(); // Detiene el sonido si ya está reproduciéndose
             }

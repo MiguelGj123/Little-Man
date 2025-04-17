@@ -18,6 +18,9 @@ public class Frm__Enemigos__Icon__Generator{
 			case 40: 
 				icono = new ImageIcon("Pixels/baloon1.png");
 				break;
+			case 41: 
+				icono = new ImageIcon("Pixels/doria1.png");
+				break;
 			default:
 				icono = null;
 				break;
