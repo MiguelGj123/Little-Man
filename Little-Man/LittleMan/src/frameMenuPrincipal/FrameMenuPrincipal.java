@@ -502,11 +502,7 @@ public class FrameMenuPrincipal extends JFrame {
         }
         return null; // No se encontró
     }
-    private void iniciarJuegoMenuPrincipal(String[] params) {
-	    FrameTablero nuevoframe = new FrameTablero(new String[] {params[0], params[1], params[2], params[3]}, new int[] {17, 11});
-		nuevoframe.setVisible(true);
-		dispose();
-    }
+    
     private void explosionVisible() {
     	SoundManager.getSoundManager().playSound("BOMB_EXPLODE"+seleccionFila1);
     	explosion.setVisible(true);
@@ -549,8 +545,8 @@ public class FrameMenuPrincipal extends JFrame {
             startGameTimer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                	iniciarJuegoMenuPrincipal(params);
-                	Escenario.getEscenario().inicializarTablero(params[0], params[1], params[2]);
+                	Escenario.getEscenario().inicializarTablero(params[0], params[1], params[2], params [3]);
+                	dispose();
                     startGameTimer.stop(); // Detener el timer después de ejecutarse
                 }
             });

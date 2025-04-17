@@ -77,8 +77,8 @@ public class SoundManager {
             }
         }
     }
-    private void loadAsync(String nombre, String path) {
-    	new Thread(() -> loadSound(nombre,path)).start();
+    private void loadAsync(String name, String path) {
+    	new Thread(() -> loadSound(name,path)).start();
     }
     public void soundsToLoadMenu() {
     		loadAsync("BOMB_EXPLODE1", "sfx/bombExplode1.wav");

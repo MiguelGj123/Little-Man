@@ -3,12 +3,14 @@ import java.util.*;
 
 import javax.swing.ImageIcon;
 
+import frameTablero.FrameTablero;
+
 
 
 public class Escenario extends Observable{
 	
 	private static Escenario miEscenario;
-	private static EscenarioFacade miEscenarioFacade;
+	private EscenarioFacade miEscenarioFacade;
 	
 	private static final int FILAS = 11,COLUMNAS = 17;
 	
@@ -21,8 +23,8 @@ public class Escenario extends Observable{
 	private Escenario() {
     }
 	
-    private Escenario(String playerTipo, String pantalla, String dificultad) {
-    	inicializarTablero(playerTipo, pantalla, dificultad);
+    private Escenario(String playerTipo, String pantalla, String dificultad, String volumen) {
+    	inicializarTablero(playerTipo, pantalla, dificultad, volumen);
     }
 
     public static Escenario getEscenario() {
@@ -30,17 +32,23 @@ public class Escenario extends Observable{
         return miEscenario;
     }
     
-    public static Escenario getEscenario(String playerTipo, String pantalla, String dificultad) {
-        if (miEscenario == null) miEscenario = new Escenario(playerTipo, pantalla, dificultad);
+    public static Escenario getEscenario(String playerTipo, String pantalla, String dificultad, String volumen) {
+        if (miEscenario == null) miEscenario = new Escenario(playerTipo, pantalla, dificultad, volumen);
         return miEscenario;
     }
 	
-	public void inicializarTablero(String playerTipo,String pantalla,String dificultad)
+	public void inicializarTablero(String playerTipo,String pantalla,String dificultad,String volumen)
 	{
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
 		miEscenarioFacade.inicializarTablero(playerTipo, COLUMNAS, FILAS, pantalla, dificultad);
+		String[] params= {playerTipo, pantalla, dificultad, volumen};
+		iniciarJuegoFrame(params);
 		timerStep();
 	}
+	private void iniciarJuegoFrame(String[] params) {
+	    FrameTablero nuevoframe = new FrameTablero(params, new int[] {17, 11});
+		nuevoframe.setVisible(true);
+    }
 
 	private void timerStep()
 	{
