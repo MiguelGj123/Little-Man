@@ -144,27 +144,17 @@ public class EscenarioEnemigos {
 		movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew);	// Enemigo choca contra pared o bomba si
 		
 		if (movimientoEnemigoChocaConParedOBomba && acercamientoJugador) {
-			if (posEXnew < posEX) {
+			if (posEXnew != posEX) {
 				posEXnew=posEX;
 				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)<0  && posEY != 0			) ? posEY - 1 : posEYnew;
 				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)>0   && posEY != FILAS - 1  ) ? posEY + 1 : posEYnew;
-				movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew);
-			} else if (posEXnew > posEX) {
-				posEXnew=posEX;
-				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)<0  && posEY != 0			) ? posEY - 1 : posEYnew;
-				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)>0   && posEY != FILAS - 1  ) ? posEY + 1 : posEYnew;
-				movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew);
-			} else if (posEYnew < posEY) {
+				movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew); 
+			} else if (posEYnew != posEY) {
 				posEYnew=posEY;
 				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)<0 && posEX != 0			) ? posEX - 1 : posEXnew;
 				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)>0 && posEX != COLUMNAS - 1) ? posEX + 1 : posEXnew;
 				movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew);
-			} else if (posEYnew > posEY) {
-				posEYnew=posEY;
-				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)<0 && posEX != 0			) ? posEX - 1 : posEXnew;
-				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)>0 && posEX != COLUMNAS - 1) ? posEX + 1 : posEXnew;
-				movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew);
-			}
+			} 
 		}
 		
 		if (!movimientoEnemigoChocaConParedOBomba) {
