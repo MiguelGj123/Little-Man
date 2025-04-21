@@ -81,7 +81,7 @@ public class Escenario extends Observable{
 		int[][][] matrizImagenes = miEscenarioFacade.generarMatrizImagenes();
 		String[] vectorSonidos = miEscenarioFacade.generarVectorSonidos();
 		if (temporizador<=0) {
-			miEscenarioFacade.gestionarMuerte();
+			miEscenarioFacade.gestionarGolpe();
 		}
 		setChanged();
 		notifyObservers(matrizImagenes);
@@ -89,6 +89,9 @@ public class Escenario extends Observable{
 		notifyObservers(vectorSonidos);
 		setChanged();
 		notifyObservers(temporizador);
+		setChanged();
+		notifyObservers(miEscenarioFacade.getVidas());
+		
 	}
 	
 	

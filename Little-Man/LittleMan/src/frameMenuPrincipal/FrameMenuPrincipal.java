@@ -151,7 +151,7 @@ public class FrameMenuPrincipal extends JFrame {
         iconoOpciones = crearIconoOpciones();
         panelOpciones = crearPanelOpciones();
         imagenCombinada = new JLabel();
-    	imagenCombinada.setBounds(600-50, 400-20, 154, 154);
+    	imagenCombinada.setBounds(600-200, 400-20, 154, 154);
     } 
     
     private void aniadirJLabels() {										// Se añaden al JFrame inicial los JLABEL y JPANEL que hemos inicializado
@@ -456,8 +456,7 @@ public class FrameMenuPrincipal extends JFrame {
     
     private void actualizarJugadorColor(String quitarGris) {												// actualizarJugadorColor se encarga de actualizar que jugadores se ven en blanco y negro, y cuales de color en el menu principal
     	int personaje = -1;																					// se inicializa el personaje seleccionado a un valor que no es posible
-    	SoundManager.getSoundManager().stopSound("MINI_EXPLODE"+seleccionFila1);
-        SoundManager.getSoundManager().playSound("MINI_EXPLODE"+seleccionFila1);
+    	
     	switch (quitarGris) {																				// personaje toma el valor de la posicion de ICONOS_PERSONAJES que corresponde al personaje seleccionado
     		case "BLANCO":																					
     			personaje = 0;
@@ -483,10 +482,11 @@ public class FrameMenuPrincipal extends JFrame {
     		((JLabel)personajes.getComponent(personaje)).setVisible(true);									// Se muestra el personaje que esta seleccionado
     		
     		((JLabel)explosiones_personaje.getComponent(personaje)).setVisible(true);						// Se muestra el personaje que esta seleccionado
-    		
+    		SoundManager.getSoundManager().stopSound("MINI_EXPLODE"+seleccionFila1);
+            SoundManager.getSoundManager().playSound("MINI_EXPLODE"+seleccionFila1);
     		  
             if (explosionTimer  != null && explosionTimer.isRunning()) {										// Cancelar cualquier timer previo antes de iniciar uno nuevo
-                explosionTimer.stop();
+            	explosionTimer.stop();
             }
 
             explosionTimer = new Timer(900, new ActionListener() {

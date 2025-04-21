@@ -10,14 +10,18 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	private final String tipoBomba;
 	private final int[] codigosJugador;
 	private final String tipoJugador;
+	private int ticks;
+	private int ticksInicial;
 	
-	public EntidadMovibleJugador(int maxBombas, int vidas, String tipoBomba, int[] codigosJugador, String tipoJugador, int posX, int posY) {
+	public EntidadMovibleJugador(int maxBombas, int vidas, String tipoBomba, int[] codigosJugador, String tipoJugador, int posX, int posY, int pInvencibilidad) {
 		super (posX, posY);
 		this.maxBombas = maxBombas;
 		this.vidas = vidas;
 		this.tipoBomba = tipoBomba;
 		this.codigosJugador = codigosJugador;
 		this.tipoJugador = tipoJugador;
+		this.ticks= pInvencibilidad;
+		this.ticksInicial = pInvencibilidad;
 	}
 	
 	public int		getCodigoJugador()			{ return codigosJugador[0];}
@@ -31,6 +35,8 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	public String	getTipoJugador()			{ return tipoJugador;}
 	
 	public String	getTipoBomba()				{ return tipoBomba; }
+	
+	public int		getVidas()					{ return vidas; }
 	
 	public void		sumarVida()					{ vidas = (vidas<= 0) ? 1 : vidas + 1; }
 	
@@ -55,6 +61,11 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	public int		getPosX()					{ return super.getPosX(); }
 	
 	public int		getPosY()					{ return super.getPosY(); }
+	
+	public boolean	tick()						{ticks--; return ticks <= 0; }
+	
+	public void		resetTick()					{ticks=ticksInicial;}
+
 	
 	
 }

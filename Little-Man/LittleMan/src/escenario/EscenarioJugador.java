@@ -1,6 +1,7 @@
 package escenario;
 import java.util.ArrayList;
 
+import entidad.EntidadMovibleEnemigo;
 import entidad.EntidadMovibleJugador;
 import entidad.EntidadMovibleJugadorFactory;
 import sonido.SonidoCodigos;
@@ -13,7 +14,7 @@ public class EscenarioJugador {
 	private EscenarioFacade miEscenarioFacade;
     private EntidadMovibleJugador jug;
     private int lastDir = 0;
-    private boolean sfx=true, win=false;
+    private boolean sfx=true, win=false, golpeable=true;
     private ArrayList<String> listaSonidos = new ArrayList<String>();
     
     private EscenarioJugador() {}
@@ -86,6 +87,10 @@ public class EscenarioJugador {
 			}
 		}
 	}
+	public void actualizarTicksJugador() {
+
+		if (golpeable==false&&jug.tick()) {golpeable=true;jug.resetTick();}
+	}
 	
 	public void gestionarFuego(int posFX, int posFY) {
 		if (getPosX() == posFX && getPosY() == posFY) { gestionarVida(); }
@@ -107,8 +112,6 @@ public class EscenarioJugador {
 		else if (sobreBomba) codigoJugador = jug.getCodigoJugadorConBomba();
 		else codigoJugador = jug.getCodigoJugador()*10 + lastDir;
 		
-		//System.out.println("AAAAAAAA" + codigoJugador);
-		
 		matrizGenerada[getPosX()][getPosY()] = codigoJugador;
 		return matrizGenerada;
 	}
@@ -120,10 +123,6 @@ public class EscenarioJugador {
 	public void listaSonidosClear() {
 		listaSonidos.clear();
 	}
-
-	
-	
-	
 	
 
 	public void setWin() {
@@ -140,10 +139,15 @@ public class EscenarioJugador {
 	public int getPosX() { return jug.getPosX(); }
 	public int getPosY() { return jug.getPosY(); }
 	public int getCodigoMov() { return jug.getCodigoMov(); }
+	public int getVidas() { return jug.getVidas(); }
 	public boolean getPuedePonerBomba() { return jug.puedePonerBombas(); }
 	public boolean getEstaMuerto() { return jug.getEstaMuerto(); }
 	public void gestionarVida() {
-		jug.gestionarVida();
+		if (golpeable) {
+			jug.gestionarVida();
+			golpeable=false;
+		}
+			
 		if (jug.getEstaMuerto())  {
 			if (sfx) {
 				sfx=false;
@@ -153,6 +157,7 @@ public class EscenarioJugador {
 			}
 		}
 	}
+
 	public void gestionarExplosion() { jug.bombaExplotada(); }
 	public void gestionarPonerBomba() { jug.ponerBomba(); }
 	public String getTipoBomba() { return jug.getTipoBomba(); }

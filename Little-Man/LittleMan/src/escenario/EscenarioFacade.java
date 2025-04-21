@@ -55,7 +55,7 @@ public class EscenarioFacade {
 			
 			jugador.actualizarPosicionJugador(direccion, COLUMNAS, FILAS);
 		}
-		
+		jugador.actualizarTicksJugador();
 		bombas.actualizarTicksBombas();
 		tablero.actualizarTicksFuego();
 
@@ -121,8 +121,8 @@ public class EscenarioFacade {
     	EscenarioJugador.getJugador().gestionarExplosion();
     	EscenarioTablero.getTablero().gestionarExplosion(posX, posY, radioBomba);
     }
-    public void gestionarMuerte() {
-    	EscenarioJugador.getJugador().gestionarVida();
+    public void gestionarGolpe() {
+    		EscenarioJugador.getJugador().gestionarVida();
     }
     
     public boolean hayBombaEn (int posX, int posY) {
@@ -138,6 +138,10 @@ public class EscenarioFacade {
     }
     public boolean getWin() {
     	return jugador.getWin();
+    }
+    public String getVidas() {
+    	String vidas= String.valueOf(jugador.getVidas());
+    	return vidas;
     }
     
     public void gestionarEnter () {

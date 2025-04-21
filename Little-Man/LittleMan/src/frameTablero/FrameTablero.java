@@ -17,7 +17,10 @@ public class FrameTablero extends JFrame implements Observer {
     private Frm__Pane pane;
     private Frm__CONFIG config;
     private JLabel tiempoLabel;
+    private JPanel HUDPanel; 
+    private JPanel vidaPanel;
     private final int PIXELS_POR_LADO_CELDA = 45;
+    private boolean iniciarVidas=true;
 
     
     
@@ -68,7 +71,9 @@ public class FrameTablero extends JFrame implements Observer {
     	setResizable(false); 
     	setLocationRelativeTo(null);
     	setVisible(true);
+    	hudConfig();
     	tiempoEnPantalla();
+    	vidaEnPantalla();
     }
     
     private void aniadirObserverMouseKeyListener() {
@@ -80,10 +85,14 @@ public class FrameTablero extends JFrame implements Observer {
     	SoundManager.getSoundManager().close();
     	SoundManager.getSoundManager().soundsToLoadEscenario(volumen);
     }
-    public void tiempoEnPantalla() {
-    	JPanel tiempoPanel = new JPanel(new BorderLayout());
-        tiempoPanel.setBackground(Color.BLACK);
-        tiempoPanel.setPreferredSize(new Dimension(config.getANCHO(), PIXELS_POR_LADO_CELDA));
+    private void hudConfig() {
+    	HUDPanel = new JPanel(new BorderLayout());
+    	HUDPanel.setBackground(Color.BLACK);
+    	HUDPanel.setPreferredSize(new Dimension(config.getANCHO(), PIXELS_POR_LADO_CELDA));
+        getContentPane().add(HUDPanel, BorderLayout.NORTH);
+    }
+    private void tiempoEnPantalla() {
+
 
     	tiempoLabel = new JLabel();
         tiempoLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
@@ -92,27 +101,16 @@ public class FrameTablero extends JFrame implements Observer {
         tiempoLabel.setOpaque(true);
         tiempoLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         tiempoLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10)); // algo de padding
-        tiempoPanel.add(tiempoLabel, BorderLayout.CENTER);
-        /*
-        // Usamos layout absoluto
-        pane.setLayout(null);
+        HUDPanel.add(tiempoLabel, BorderLayout.EAST);
 
-        // Posicionamos en la esquina superior derecha con márgenes
-        int labelWidth = 180;
-        int labelHeight = 30;
-        int offsetX = 20;
-        int offsetY = 10;
 
-        int panelWidth = 17 * 45; // 765
-        int x = panelWidth - labelWidth - offsetX;
-        int y = offsetY;
-
-        tiempoLabel.setBounds(x, y, labelWidth, labelHeight);
-        pane.add(tiempoLabel, JLayeredPane.PALETTE_LAYER);
-        */
-
-        getContentPane().add(tiempoPanel, BorderLayout.NORTH);
         pane.repaint();
+    }
+    private void vidaEnPantalla() {
+        vidaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0)); // sin espacio entre corazones
+        vidaPanel.setBackground(Color.BLACK);
+        vidaPanel.setPreferredSize(new Dimension(config.getANCHO(), PIXELS_POR_LADO_CELDA));
+        HUDPanel.add(vidaPanel, BorderLayout.WEST);
     }
     
 
@@ -127,6 +125,9 @@ public class FrameTablero extends JFrame implements Observer {
         } else 
     	if (o instanceof Escenario && obj instanceof Integer) {
             gestionarTemporizador((Integer) obj);
+        }
+        if (o instanceof Escenario && obj instanceof String) {
+            gestionarVida((String) obj);
         }
     	
         
@@ -165,6 +166,50 @@ public class FrameTablero extends JFrame implements Observer {
             tiempoLabel.setText("TIME: " + tiempo);
         }
     }
+    
+    private void gestionarVida(String vidaStr) {
+        int vidas = Integer.parseInt(vidaStr);
+
+        if (iniciarVidas) {
+            vidaPanel.removeAll();
+            for (int i = 0; i < vidas; i++) {
+                JLabel vidaLabel = crearCorazonLabel(true, i);
+                vidaPanel.add(vidaLabel);
+            }
+            iniciarVidas = false;
+            vidaPanel.revalidate();
+            vidaPanel.repaint();
+        } else {
+            int total = vidaPanel.getComponentCount();
+            for (int i = 0; i < total; i++) {
+                Component comp = vidaPanel.getComponent(i);
+                if (comp instanceof JLabel) {
+                    JLabel label = (JLabel) comp;
+                    boolean lleno = i < vidas;
+                    cambiarIconoCorazon(label, lleno);
+                }
+            }
+        }
+    }
+
+    private JLabel crearCorazonLabel(boolean lleno, int index) {
+        Image img = new ImageIcon("Pixels/" + (lleno ? "heart_full.png" : "heart_empty.png"))
+                .getImage()
+                .getScaledInstance(PIXELS_POR_LADO_CELDA, PIXELS_POR_LADO_CELDA, Image.SCALE_SMOOTH);
+        JLabel label = new JLabel(new ImageIcon(img));
+        label.setName("vida" + index);
+        return label;
+    }
+
+    private void cambiarIconoCorazon(JLabel label, boolean lleno) {
+        Image img = new ImageIcon("Pixels/" + (lleno ? "heart_full.png" : "heart_empty.png"))
+                .getImage()
+                .getScaledInstance(PIXELS_POR_LADO_CELDA, PIXELS_POR_LADO_CELDA, Image.SCALE_SMOOTH);
+        label.setIcon(new ImageIcon(img));
+    }
+	
+    	
+    
     @Override public boolean isOpaque() { 
         return false; 
     }
