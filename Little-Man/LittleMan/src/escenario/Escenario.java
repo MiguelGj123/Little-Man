@@ -18,6 +18,8 @@ public class Escenario extends Observable{
 	private int cont=1;
 	private Timer timer=null;
 	private String pantalla;
+	private int tiempo,temporizador;
+	private String dificultad;
 		
 
 	private Escenario() {
@@ -37,11 +39,17 @@ public class Escenario extends Observable{
         return miEscenario;
     }
 	
-	public void inicializarTablero(String playerTipo,String pantalla,String dificultad,String volumen)
+	public void inicializarTablero(String playerTipo,String pantalla,String pDificultad,String volumen)
 	{
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-		miEscenarioFacade.inicializarTablero(playerTipo, COLUMNAS, FILAS, pantalla, dificultad);
-		String[] params= {playerTipo, pantalla, dificultad, volumen};
+		miEscenarioFacade.inicializarTablero(playerTipo, COLUMNAS, FILAS, pantalla, pDificultad);
+		String[] params= {playerTipo, pantalla, pDificultad, volumen};
+		dificultad=pDificultad;
+		if (dificultad=="pacifico") {tiempo=4000;}
+		if (dificultad=="facil") {tiempo=4000;}
+		if (dificultad=="normal") {tiempo=3000;}
+		if (dificultad=="dificil") {tiempo=2000;}
+		temporizador=tiempo/20;
 		iniciarJuegoFrame(params);
 		timerStep();
 	}
@@ -58,6 +66,9 @@ public class Escenario extends Observable{
 			public void run() {
 				cont++;
 				if (cont==121) cont=1;
+				if (!miEscenarioFacade.getMuerto() && !miEscenarioFacade.getWin()) {
+					tiempo--;
+				}
 				actualizarEscenario();
 			}
 		};
@@ -66,14 +77,20 @@ public class Escenario extends Observable{
 	
 	private void actualizarEscenario() {		
 		miEscenarioFacade.actualizarEscenario(cont, bomb, left, right, up, down);
-		
+		if (tiempo%20==0 && tiempo>=0) {
+			temporizador=tiempo/20;
+		}
 		int[][][] matrizImagenes = miEscenarioFacade.generarMatrizImagenes();
 		String[] vectorSonidos = miEscenarioFacade.generarVectorSonidos();
-		
+		if (temporizador<=0) {
+			miEscenarioFacade.gestionarMuerte();
+		}
 		setChanged();
 		notifyObservers(matrizImagenes);
 		setChanged();
 		notifyObservers(vectorSonidos);
+		setChanged();
+		notifyObservers(temporizador);
 	}
 	
 	
@@ -96,7 +113,13 @@ public class Escenario extends Observable{
     public void pressBomba() 	{ bomb 	= true; left 	= right = up 	= down = false; }
     
     public void pressEnter() {
-
+    	if (miEscenarioFacade.getMuerto() || miEscenarioFacade.getWin()) {
+    		if (dificultad=="pacifico") {tiempo=4000;}
+    		if (dificultad=="facil") {tiempo=4000;}
+    		if (dificultad=="normal") {tiempo=3000;}
+    		if (dificultad=="dificil") {tiempo=2000;}
+    		temporizador=tiempo/20;
+    	}
     	miEscenarioFacade.gestionarEnter();
     	
     }

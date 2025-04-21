@@ -29,6 +29,7 @@ public class EscenarioJugador {
 	
 	public void inicializarJugador(String playerTipo){
 		win=false;
+		sfx=true;
 		jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate(playerTipo, 0, 0);
 		listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.MUSIC));
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();

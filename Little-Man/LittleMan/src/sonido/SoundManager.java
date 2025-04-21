@@ -159,6 +159,7 @@ public class SoundManager {
         for (Clip clip : soundClips.values()) {
             clip.close();
         }
+        music = null;
         soundClips.clear();
     }
 }

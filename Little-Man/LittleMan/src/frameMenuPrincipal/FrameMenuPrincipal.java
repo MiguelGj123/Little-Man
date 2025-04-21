@@ -53,6 +53,8 @@ public class FrameMenuPrincipal extends JFrame {
     private int valorFinalFila2= 1;
 	private JLabel imagenCombinada;
 	
+	
+	
 	private Timer explosionTimer;
 	private Controller controller = null;
 	private Random random = new Random();

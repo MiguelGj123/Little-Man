@@ -16,6 +16,7 @@ public class FrameTablero extends JFrame implements Observer {
 	
     private Frm__Pane pane;
     private Frm__CONFIG config;
+    private JLabel tiempoLabel;
     private final int PIXELS_POR_LADO_CELDA = 45;
 
     
@@ -24,6 +25,7 @@ public class FrameTablero extends JFrame implements Observer {
     //SE INICIA AQUI!!!
 
     public FrameTablero(String[] params, int[] dims) {  // params son playerTipo, pantalla, dificultad, sonido
+
     	
     	// Inicializar Config con valores para todas las clases que lo necesiten
     	
@@ -61,10 +63,12 @@ public class FrameTablero extends JFrame implements Observer {
     
     private void configurarVentana() {
     	//pack();
-    	setContentPane(pane);
+        getContentPane().setLayout(new BorderLayout());
+        getContentPane().add(pane, BorderLayout.CENTER);
     	setResizable(false); 
     	setLocationRelativeTo(null);
     	setVisible(true);
+    	tiempoEnPantalla();
     }
     
     private void aniadirObserverMouseKeyListener() {
@@ -76,6 +80,40 @@ public class FrameTablero extends JFrame implements Observer {
     	SoundManager.getSoundManager().close();
     	SoundManager.getSoundManager().soundsToLoadEscenario(volumen);
     }
+    public void tiempoEnPantalla() {
+    	JPanel tiempoPanel = new JPanel(new BorderLayout());
+        tiempoPanel.setBackground(Color.BLACK);
+        tiempoPanel.setPreferredSize(new Dimension(config.getANCHO(), PIXELS_POR_LADO_CELDA));
+
+    	tiempoLabel = new JLabel();
+        tiempoLabel.setFont(new Font("Monospaced", Font.BOLD, 24));
+        tiempoLabel.setForeground(Color.WHITE);
+        tiempoLabel.setBackground(Color.BLACK);
+        tiempoLabel.setOpaque(true);
+        tiempoLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+        tiempoLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10)); // algo de padding
+        tiempoPanel.add(tiempoLabel, BorderLayout.CENTER);
+        /*
+        // Usamos layout absoluto
+        pane.setLayout(null);
+
+        // Posicionamos en la esquina superior derecha con márgenes
+        int labelWidth = 180;
+        int labelHeight = 30;
+        int offsetX = 20;
+        int offsetY = 10;
+
+        int panelWidth = 17 * 45; // 765
+        int x = panelWidth - labelWidth - offsetX;
+        int y = offsetY;
+
+        tiempoLabel.setBounds(x, y, labelWidth, labelHeight);
+        pane.add(tiempoLabel, JLayeredPane.PALETTE_LAYER);
+        */
+
+        getContentPane().add(tiempoPanel, BorderLayout.NORTH);
+        pane.repaint();
+    }
     
 
     @Override
@@ -86,8 +124,14 @@ public class FrameTablero extends JFrame implements Observer {
         
         if (o instanceof Escenario && obj instanceof String[]) {
             gestionarMatrizCodigosSonidos((String[]) obj);
+        } else 
+    	if (o instanceof Escenario && obj instanceof Integer) {
+            gestionarTemporizador((Integer) obj);
         }
+    	
+        
     }
+    
     
     
     private void gestionarMatrizCodigosImagenes(int[][][] res) {
@@ -114,7 +158,18 @@ public class FrameTablero extends JFrame implements Observer {
                 }
             }
     	}
+    	
     }
+    private void gestionarTemporizador(int tiempo) {
+    	if (tiempoLabel != null) {
+            tiempoLabel.setText("TIME: " + tiempo);
+        }
+    }
+    @Override public boolean isOpaque() { 
+        return false; 
+    }
+    
+   
     
     	
 	class Controller implements KeyListener {

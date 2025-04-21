@@ -121,6 +121,9 @@ public class EscenarioFacade {
     	EscenarioJugador.getJugador().gestionarExplosion();
     	EscenarioTablero.getTablero().gestionarExplosion(posX, posY, radioBomba);
     }
+    public void gestionarMuerte() {
+    	EscenarioJugador.getJugador().gestionarVida();
+    }
     
     public boolean hayBombaEn (int posX, int posY) {
     	return EscenarioBombas.getBombas().hayBombaEnPosicionXY(posX, posY);
@@ -132,6 +135,9 @@ public class EscenarioFacade {
 
     public boolean getMuerto () {
     	return jugador.getEstaMuerto();
+    }
+    public boolean getWin() {
+    	return jugador.getWin();
     }
     
     public void gestionarEnter () {
