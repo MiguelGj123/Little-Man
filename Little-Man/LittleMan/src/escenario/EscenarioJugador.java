@@ -142,6 +142,19 @@ public class EscenarioJugador {
 	public int getVidas() { return jug.getVidas(); }
 	public boolean getPuedePonerBomba() { return jug.puedePonerBombas(); }
 	public boolean getEstaMuerto() { return jug.getEstaMuerto(); }
+	public void gestionarTiempo() {
+		for(int i=0;i<=jug.getVidas();i++) {
+			jug.gestionarVida();
+		}
+		if (jug.getEstaMuerto())  {
+			if (sfx) {
+				sfx=false;
+				
+				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.MUSIC));
+				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.DEATH));
+			}
+		}
+	}
 	public void gestionarVida() {
 		if (golpeable) {
 			jug.gestionarVida();

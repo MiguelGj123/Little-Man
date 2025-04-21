@@ -124,6 +124,9 @@ public class EscenarioFacade {
     public void gestionarGolpe() {
     		EscenarioJugador.getJugador().gestionarVida();
     }
+    public void gestionarTiempo() {
+		EscenarioJugador.getJugador().gestionarTiempo();
+}
     
     public boolean hayBombaEn (int posX, int posY) {
     	return EscenarioBombas.getBombas().hayBombaEnPosicionXY(posX, posY);
