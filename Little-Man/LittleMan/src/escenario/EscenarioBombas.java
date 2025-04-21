@@ -1,7 +1,6 @@
 package escenario;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import entidad.EntidadInamovibleBomba;
 import entidad.EntidadInamovibleBombaFactory;

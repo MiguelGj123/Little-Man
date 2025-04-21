@@ -1,11 +1,10 @@
 package frameMenuPrincipal;
-import java.awt.Color;
+
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -14,17 +13,18 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.awt.Font;
 import java.util.Random;
 
-import javax.swing.BorderFactory;
+
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 
-import frameTablero.FrameTablero;
+
 import sonido.SoundManager;
 
 import javax.swing.JLabel;
@@ -45,6 +45,8 @@ public class FrameMenuPrincipal extends JFrame {
 	private static final ImageIcon ICONO_EXPLOSION = new ImageIcon("Pixels/explotion-explode.gif");
 	private static final ImageIcon ICONO_EXP_PERSONAJE = new ImageIcon("Pixels/blast.gif");
 	private static final ImageIcon ICONO_OPCIONES = new ImageIcon("Pixels/Icono_opciones.png");
+	private static final ImageIcon ICONO_MENU_OPCIONES = new ImageIcon("Pixels/Menu_opciones_vacio.png");
+	private static final ImageIcon ICONO_MENU_OPCIONES_X = new ImageIcon("Pixels/Menu_opciones_vacio_x.png");
 	private boolean opcionesAbiertas = false;
 	
 	private int seleccionFila0 = 1;
@@ -149,7 +151,7 @@ public class FrameMenuPrincipal extends JFrame {
         iconoOpciones = crearIconoOpciones();
         panelOpciones = crearPanelOpciones();
         imagenCombinada = new JLabel();
-    	imagenCombinada.setBounds(600, 400, 154, 154);
+    	imagenCombinada.setBounds(600-50, 400-20, 154, 154);
     } 
     
     private void aniadirJLabels() {										// Se añaden al JFrame inicial los JLABEL y JPANEL que hemos inicializado
@@ -192,16 +194,18 @@ public class FrameMenuPrincipal extends JFrame {
         int anchoFila = 400;
         int altoFila = 56;
 
-        JPanel panelGeneral = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g.create();
-                g2.setColor(new Color(0, 0, 0, 128));
-                g2.fillRoundRect(0, 0, getWidth(), getHeight(), 20, 20);
-                g2.dispose();
-            }
-        };
+        Image imagenFondo = ICONO_MENU_OPCIONES.getImage().getScaledInstance(anchoPanel, altoPanel, Image.SCALE_SMOOTH);
+        JLabel fondoLabel = new JLabel(new ImageIcon(imagenFondo));
+        fondoLabel.setBounds(0, 0, anchoPanel, altoPanel);
+        fondoLabel.setName("menuOpciones");
+        fondoLabel.addMouseListener(getController());
+        fondoLabel.addMouseMotionListener(getController());
+
+        // Panel contenedor
+        JPanel panelGeneral = new JPanel(null); // layout absoluto
+        panelGeneral.setBounds((ANCHO - anchoPanel) / 2, 15, anchoPanel, altoPanel);
+        panelGeneral.setOpaque(false); // para que el fondo del panel no tape la imagen
+
 
 
         panelGeneral.setLayout(null);
@@ -216,10 +220,11 @@ public class FrameMenuPrincipal extends JFrame {
         JLabel label2 = crearLabelOpciones(1);
         JLabel label3 = crearLabelOpciones(2);
 
-        fila1.setBounds((anchoPanel - anchoFila) / 2, 160, anchoFila, altoFila);
-        fila2.setBounds((anchoPanel - anchoFila) / 2, 208, anchoFila, altoFila);
-        fila3.setBounds((anchoPanel - anchoFila) / 2, 256, anchoFila, altoFila);
-
+        fila1.setBounds((anchoPanel - anchoFila-100) / 2, 160, anchoFila, altoFila);
+        fila2.setBounds((anchoPanel - anchoFila-100) / 2, 208, anchoFila, altoFila);
+        fila3.setBounds((anchoPanel - anchoFila-100) / 2, 256, anchoFila, altoFila);
+        
+        panelGeneral.add(fondoLabel);
         panelGeneral.add(fila1);
         panelGeneral.add(fila2);
         panelGeneral.add(fila3);
@@ -227,6 +232,8 @@ public class FrameMenuPrincipal extends JFrame {
         panelGeneral.add(label2);
         panelGeneral.add(label3);
         
+
+        panelGeneral.setComponentZOrder(fondoLabel, panelGeneral.getComponentCount() - 1); 
         panelGeneral.setVisible(false);
         return panelGeneral;
     }
@@ -240,7 +247,7 @@ public class FrameMenuPrincipal extends JFrame {
         ImageIcon iconoEscalado = new ImageIcon(image);                                                        // iconoEscalado es un ImageIcon de la Image img que creamos anteriormente
 
         JLabel returnLabel = new JLabel(iconoEscalado);  
-        returnLabel.setBounds(150, 160, 414, 150);
+        returnLabel.setBounds(150-50, 160, 414, 150);
     	    	
     	return returnLabel;
     }
@@ -274,6 +281,9 @@ public class FrameMenuPrincipal extends JFrame {
 	            image= BOTONES_OPCIONES[i*2+2].getImage().getScaledInstance(63, 51, Image.SCALE_SMOOTH); 
             	iconoEscalado = new ImageIcon(image); 
 	            boton.setSelectedIcon(iconoEscalado);
+	            if (i==1) {
+	            	boton.doClick();
+	            }
             } else if (filaIndex==2) {
             	image= BOTONES_OPCIONES[i*2+1].getImage().getScaledInstance(63, 51, Image.SCALE_SMOOTH); 
             	iconoEscalado = new ImageIcon(image); 
@@ -292,7 +302,7 @@ public class FrameMenuPrincipal extends JFrame {
             grupo.add(boton);
             fila.add(boton);
             final int botonIndex = i;
-
+			boton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
             boton.addActionListener(e -> {
             	
                 if (filaIndex == 0) {
@@ -532,7 +542,7 @@ public class FrameMenuPrincipal extends JFrame {
     	return controller;
     }
     
-    class Controller implements  MouseListener,KeyListener
+    class Controller implements  MouseListener,KeyListener,MouseMotionListener
     {
     	private Timer  startGameTimer;
 
@@ -561,10 +571,11 @@ public class FrameMenuPrincipal extends JFrame {
 		@Override
 		public void mouseClicked(MouseEvent e) 
 		{
-			/*int x = e.getX();
+
+			int x = e.getX();
 			int y = e.getY();
-			System.out.println(x + " " + y);
-			*/
+			//System.out.println(x + " " + y);
+
 			
 			 if (e.getComponent() instanceof JLabel labelClickado) 
 			 {
@@ -575,7 +586,7 @@ public class FrameMenuPrincipal extends JFrame {
 					  {
 						  opcionesAbiertas = true;
 						  panelOpciones.setVisible(true);
-						  imagenCombinada.setVisible(true);
+						  actualizarImagenCombinada();
 						  
 					  }
 					  else if (!menu.isReady()){
@@ -591,6 +602,17 @@ public class FrameMenuPrincipal extends JFrame {
 			        		opcionesAbiertas = false;
 							panelOpciones.setVisible(false);
 							imagenCombinada.setVisible(false);
+			        	}
+			        	else if (labelClickado.getName() == "menuOpciones") {
+				    			if (x >= 536 && x <= 800 && y >= 5 && y <= 60) {
+				    				labelClickado.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+				    				Image imagenFondo = ICONO_MENU_OPCIONES.getImage().getScaledInstance(600, 576, Image.SCALE_SMOOTH);
+				    		        ImageIcon icono = new ImageIcon(imagenFondo);   
+				    				labelClickado.setIcon(icono);
+				    				opcionesAbiertas = false;
+									panelOpciones.setVisible(false);
+									imagenCombinada.setVisible(false);
+				    			}
 			        	}
 			        }
 			 }
@@ -610,12 +632,57 @@ public class FrameMenuPrincipal extends JFrame {
 		{
 			  if (e.getComponent() instanceof JLabel labelClickado) {
 			        String labelNombre = descripcionToNombrePersonaje(labelClickado.getName());
-			        if (!opcionesAbiertas) actualizarJugadorColor(menu.seleccionPersonaje(labelNombre));
+			        if (!opcionesAbiertas) {
+			        	actualizarJugadorColor(menu.seleccionPersonaje(labelNombre));
+			        } 
 			    }
 		}
 
 		@Override
 		public void mouseExited(MouseEvent e) {
+			if (e.getComponent() instanceof JLabel labelClickado) {
+				if (opcionesAbiertas) {
+		        	if (labelClickado.getName() == "menuOpciones") {
+		        		labelClickado.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	    				Image imagenFondo = ICONO_MENU_OPCIONES.getImage().getScaledInstance(600, 576, Image.SCALE_SMOOTH);
+	    		        ImageIcon icono = new ImageIcon(imagenFondo);   
+	    				labelClickado.setIcon(icono);
+		        	}
+				}
+	        	
+	        }
+			
+		}
+
+		@Override
+		public void mouseDragged(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		@Override
+		public void mouseMoved(MouseEvent e) {
+			if (e.getComponent() instanceof JLabel labelClickado) {
+				if (opcionesAbiertas) {
+		        	if (labelClickado.getName() == "menuOpciones") {
+		        	int x = e.getX();
+	    			int y = e.getY();
+		    			if (x >= 536 && x <= 800 && y >= 5 && y <= 60) {
+		    				labelClickado.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		    		        Image imagenFondo = ICONO_MENU_OPCIONES_X.getImage().getScaledInstance(600, 576, Image.SCALE_SMOOTH);
+		    		        ImageIcon icono = new ImageIcon(imagenFondo);   
+		    				labelClickado.setIcon(icono);
+		    			}
+		    			else {
+		    				labelClickado.setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		    				Image imagenFondo = ICONO_MENU_OPCIONES.getImage().getScaledInstance(600, 576, Image.SCALE_SMOOTH);
+		    		        ImageIcon icono = new ImageIcon(imagenFondo);   
+		    				labelClickado.setIcon(icono);
+		    			}
+		        	}
+		        	
+		        }
+			}
+			
 		}
 		
 		@Override
@@ -645,14 +712,24 @@ public class FrameMenuPrincipal extends JFrame {
 	            			iniciarJuego(menu.iniciarJuego());
 	            		}
             			break;
-            			
 	            	case KeyEvent.VK_O:
-	            		panelOpciones.setVisible(true);
+	            		
+		            		opcionesAbiertas = true;
+							panelOpciones.setVisible(true);
+							actualizarImagenCombinada();
+				         
             			break;
             			
 			        default: ;
 			       		break;
 	        	}
+	        } else {
+	        	if(opcionesAbiertas && keyCode == KeyEvent.VK_O)
+	        	{
+		        	opcionesAbiertas = false;
+					panelOpciones.setVisible(false);
+					imagenCombinada.setVisible(false);
+		        }
 	        }
 	    }
 			
@@ -662,8 +739,9 @@ public class FrameMenuPrincipal extends JFrame {
 		public void keyReleased(KeyEvent e) {
 			
 			
+		
+    
 		}
     
     }
-    
 }

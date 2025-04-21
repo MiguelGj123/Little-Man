@@ -1,7 +1,6 @@
 package escenario;
 import java.util.*;
 
-import javax.swing.ImageIcon;
 
 import frameTablero.FrameTablero;
 
@@ -17,7 +16,6 @@ public class Escenario extends Observable{
 	private boolean left=false, right=false, up=false, down=false, bomb=false;
 	private int cont=1;
 	private Timer timer=null;
-	private String pantalla;
 	private int tiempo,temporizador;
 	private String dificultad;
 		

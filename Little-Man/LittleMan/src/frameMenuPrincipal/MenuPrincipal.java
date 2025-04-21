@@ -3,7 +3,6 @@ package frameMenuPrincipal;
 
 public class MenuPrincipal {
 	private static MenuPrincipal miMenuPrincipal;
-	private int nivelSeleccionado;
 	private boolean listo;
 	private MenuPrincipalPersonaje personaje;
 	private String escenario;
