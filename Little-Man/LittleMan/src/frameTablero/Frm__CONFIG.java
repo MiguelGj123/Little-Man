@@ -12,8 +12,8 @@ public class Frm__CONFIG {
 		FILAS = pFILAS;
 		COLUMNAS = pCOLUMNAS;
 		PXL_LADO = pPXL_LADO;
-		System.out.println(FILAS);
-		System.out.println(COLUMNAS);
+		//System.out.println(FILAS);
+		//System.out.println(COLUMNAS);
 
 
 	}

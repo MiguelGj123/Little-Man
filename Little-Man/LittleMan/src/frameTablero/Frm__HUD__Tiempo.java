@@ -1,13 +1,11 @@
 package frameTablero;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class Frm__HUD__Tiempo extends JLayeredPane{
@@ -28,7 +26,7 @@ public class Frm__HUD__Tiempo extends JLayeredPane{
 		return tiempo;
 	}
 		
-	public JPanel tiempoEnPantalla(JPanel HUD) {
+	public JLabel tiempoEnPantalla() {
 
 
     	tiempoLabel = new JLabel();
@@ -38,9 +36,8 @@ public class Frm__HUD__Tiempo extends JLayeredPane{
         tiempoLabel.setOpaque(true);
         tiempoLabel.setHorizontalAlignment(SwingConstants.RIGHT);
         tiempoLabel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10)); // algo de padding
-        HUD.add(tiempoLabel, BorderLayout.EAST);
 
-        return HUD;
+        return tiempoLabel;
     }
 	
 	

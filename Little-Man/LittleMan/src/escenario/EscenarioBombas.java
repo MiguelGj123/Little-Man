@@ -48,16 +48,19 @@ public class EscenarioBombas {
 		return false;
 	}
 	
-	public void actualizarTicksBombas() {
+	public Double actualizarTicksBombas() {
+		Double puntos = 0.;
+
 		for ( int i=0; i<listaBombas.size(); i++) {
 			EntidadInamovibleBomba pBomba = listaBombas.get(i);													// Obtenemos el bloque que queremos actualizar
 			
 			if (pBomba.tick()) {																					// Comprobamos si al actualizar termina su cuenta atras para explotar
-				miEscenarioFacade.gestionarExplosion(listaBombas.get(i).getPosX(), listaBombas.get(i).getPosY(), listaBombas.get(i).getRadioBomba());																				// Indica al jugador que la bomba ha explotado
+				puntos=miEscenarioFacade.gestionarExplosion(listaBombas.get(i).getPosX(), listaBombas.get(i).getPosY(), listaBombas.get(i).getRadioBomba())+puntos;																				// Indica al jugador que la bomba ha explotado
 				listaBombas.remove(i);																			// Eliminamos la bomba de la lista de actualizaciones
 				i--;																							// El elemento i+1 de la lista pasa a ser el elemento i, por lo que para actualizarlo es necesario retroceder un elemento en la lista
 			}
 		}
+		return puntos;
 	}
 	
 	public boolean ponerBomba(String tipoBomba, int posJX, int posJY){

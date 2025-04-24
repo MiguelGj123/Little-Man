@@ -17,7 +17,9 @@ public class Escenario extends Observable{
 	private int cont=1;
 	private Timer timer=null;
 	private int tiempo,temporizador;
-	private String dificultad;
+	private String dificultad, pantalla, playerTipo;
+	private Double puntos=0.;
+	private Double puntosTotales=0.;
 		
 
 	private Escenario() {
@@ -32,22 +34,26 @@ public class Escenario extends Observable{
         return miEscenario;
     }
     
-    public static Escenario getEscenario(String playerTipo, String pantalla, String dificultad, String volumen) {
-        if (miEscenario == null) miEscenario = new Escenario(playerTipo, pantalla, dificultad, volumen);
+    public static Escenario getEscenario(String pPlayerTipo, String pantalla, String dificultad, String volumen) {
+        if (miEscenario == null) miEscenario = new Escenario(pPlayerTipo, pantalla, dificultad, volumen);
         return miEscenario;
     }
 	
-	public void inicializarTablero(String playerTipo,String pantalla,String pDificultad,String volumen)
-	{
+	public void inicializarTablero(String pPlayerTipo,String pPantalla,String pDificultad,String volumen)
+	{	
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-		miEscenarioFacade.inicializarTablero(playerTipo, COLUMNAS, FILAS, pantalla, pDificultad);
-		String[] params= {playerTipo, pantalla, pDificultad, volumen};
+		miEscenarioFacade.inicializarTablero(pPlayerTipo, COLUMNAS, FILAS, pPantalla, pDificultad);
+		String[] params= {pPlayerTipo, pPantalla, pDificultad, volumen};
+		playerTipo=pPlayerTipo;
 		dificultad=pDificultad;
-		if (dificultad=="pacifico") {tiempo=4000;}
-		if (dificultad=="facil") {tiempo=4000;}
-		if (dificultad=="normal") {tiempo=3000;}
-		if (dificultad=="dificil") {tiempo=2000;}
+		pantalla=pPantalla;
+		if ("pacifico".equals(dificultad)) {tiempo=4000;}
+		if ("facil".equals(dificultad)) {tiempo=4000;}
+		if ("normal".equals(dificultad)) {tiempo=3000;}
+		if ("dificil".equals(dificultad)) {tiempo=2000;}
 		temporizador=tiempo/20;
+		puntos=0.;
+		puntosTotales=0.;
 		iniciarJuegoFrame(params);
 		timerStep();
 	}
@@ -74,7 +80,9 @@ public class Escenario extends Observable{
 	}
 	
 	private void actualizarEscenario() {		
-		miEscenarioFacade.actualizarEscenario(cont, bomb, left, right, up, down);
+		if (puntos!=-1) {
+		puntos = miEscenarioFacade.actualizarEscenario(cont, bomb, left, right, up, down);
+		}
 		if (tiempo%20==0 && tiempo>=0) {
 			temporizador=tiempo/20;
 		}
@@ -89,8 +97,18 @@ public class Escenario extends Observable{
 		notifyObservers(vectorSonidos);
 		setChanged();
 		notifyObservers(temporizador);
+		if(!miEscenarioFacade.getMuerto() &&!miEscenarioFacade.getWin()) {
 		setChanged();
 		notifyObservers(miEscenarioFacade.getVidas());
+		if ("normal".equals(dificultad) && puntos != -1.) puntos *= 2;
+		if ("dificil".equals(dificultad) && puntos != -1.) puntos *= 4;
+		setChanged();
+		notifyObservers(puntos);
+		if (puntos!=-1) {
+		puntosTotales=puntos+puntosTotales;
+		}
+		puntos=0.;
+		}
 		
 	}
 	
@@ -114,12 +132,15 @@ public class Escenario extends Observable{
     public void pressBomba() 	{ bomb 	= true; left 	= right = up 	= down = false; }
     
     public void pressEnter() {
+    	puntos=-1.;
     	if (miEscenarioFacade.getMuerto() || miEscenarioFacade.getWin()) {
-    		if (dificultad=="pacifico") {tiempo=4000;}
-    		if (dificultad=="facil") {tiempo=4000;}
-    		if (dificultad=="normal") {tiempo=3000;}
-    		if (dificultad=="dificil") {tiempo=2000;}
+    		EscenarioFichero.guardarEstadisticas("Preueba", miEscenarioFacade.getWin(), (int) (double) puntosTotales, dificultad, pantalla, playerTipo, temporizador, miEscenarioFacade.getVidas());
+    		if ("pacifico".equals(dificultad)) {tiempo=4000;}
+    		if ("facil".equals(dificultad)) {tiempo=4000;}
+    		if ("normal".equals(dificultad)) {tiempo=3000;}
+    		if ("dificil".equals(dificultad)) {tiempo=2000;}
     		temporizador=tiempo/20;
+    		System.out.println(EscenarioFichero.recuperarEstadisticas());
     	}
     	miEscenarioFacade.gestionarEnter();
     	

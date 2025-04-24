@@ -1,6 +1,5 @@
 package frameTablero;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -36,13 +35,12 @@ public class Frm__HUD__Vida extends JLayeredPane{
 	}
 		
 
-	public JPanel vidaEnPantalla(JPanel HUD) {
+	public JPanel vidaEnPantalla() {
         vidaPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0)); // sin espacio entre corazones
         vidaPanel.setBackground(Color.BLACK);
         vidaPanel.setPreferredSize(new Dimension(config.getANCHO(), 45));
-        HUD.add(vidaPanel, BorderLayout.WEST);
         
-        return HUD;
+        return vidaPanel;
     }
 	
 	

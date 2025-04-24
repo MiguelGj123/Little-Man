@@ -1,9 +1,9 @@
 package frameTablero;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -13,6 +13,7 @@ public class Frm__HUD extends JLayeredPane{
 	private static final long serialVersionUID = 1L;
     private Frm__HUD__Tiempo tiempoLabel;
     private Frm__HUD__Vida vidaPanel;
+    private Frm__HUD__Puntuacion puntuacionLabel;
     private JPanel HUD;
 
 	private static Frm__HUD hud;
@@ -22,6 +23,7 @@ public class Frm__HUD extends JLayeredPane{
 		config = Frm__CONFIG.getConfig();
 		tiempoLabel=Frm__HUD__Tiempo.getHUDTiempo();
 		vidaPanel=Frm__HUD__Vida.getHUDVida();
+		puntuacionLabel=Frm__HUD__Puntuacion.getHUDPuntuacion();
 		setLayout(null);
 	}
 	
@@ -31,11 +33,13 @@ public class Frm__HUD extends JLayeredPane{
 	}
 		
 	public JPanel iniciarHUD() {
-		HUD = new JPanel(new BorderLayout());
+		HUD = new JPanel(new GridLayout(1, 3));
     	HUD.setBackground(Color.BLACK);
     	HUD.setPreferredSize(new Dimension(config.getANCHO(), 45));
-    	tiempoLabel.tiempoEnPantalla(HUD);
-    	vidaPanel.vidaEnPantalla(HUD);
+    	HUD.add(vidaPanel.vidaEnPantalla());
+    	HUD.add(puntuacionLabel.puntuacionEnPantalla());
+    	HUD.add(tiempoLabel.tiempoEnPantalla());
+
 		return HUD;
 	}
 	
@@ -46,6 +50,9 @@ public class Frm__HUD extends JLayeredPane{
     
     public void gestionarVida(String vidaStr) {
         vidaPanel.gestionarVida(vidaStr);
+    }
+    public void gestionarPuntuacion(Double puntuacion) {
+        puntuacionLabel.gestionarPuntuacion(puntuacion);
     }
     
 	

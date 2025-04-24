@@ -125,8 +125,9 @@ public class EscenarioTablero {
 	public boolean getChocaContraCelda(int posX, int posY) { return matrizTablero[posX][posY].getChocaContraCelda(); }
 	
 	
-	public void actualizarTicksFuego() {
-		
+	public Double actualizarTicksFuego() {
+		Double puntos = 0.;
+		Double mult = 1.;
 		for ( int i=0; i<listaPosFuegos.size(); i++) {
 			int[] pBloque = listaPosFuegos.get(i);														// Obtenemos el bloque que queremos actualizar
 			
@@ -135,12 +136,14 @@ public class EscenarioTablero {
 				i--;																					// El elemento i+1 de la lista pasa a ser el elemento i, por lo que para actualizarlo es necesario retroceder un elemento en la lista
 			}
 			
-			miEscenarioFacade.gestionarFuego(pBloque[0],pBloque[1]);								// El escenario se encarga de notificar a los jugadores y enemigos que en esa posicion mueren
+			puntos=(miEscenarioFacade.gestionarFuego(pBloque[0],pBloque[1])*mult)+puntos;								// El escenario se encarga de notificar a los jugadores y enemigos que en esa posicion mueren
+			mult++;
 		}
+		return puntos;
 	}
 	
-	public void gestionarExplosion(int centroExplosionX, int centroExplosionY, int radioBomba) {
-
+	public Double gestionarExplosion(int centroExplosionX, int centroExplosionY, int radioBomba) {
+    	Double puntos=0.;
 		int posBloqueExplotarX, posBloqueExplotarY;
 		boolean[] finLineaBomba = new boolean[] {false, false, false, false};
 		listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.BOMB_EXPLODE));
@@ -185,7 +188,11 @@ public class EscenarioTablero {
 					{
 						finLineaBomba[j] = true;
 					} else {
+						if (matrizTablero[posBloqueExplotarX][posBloqueExplotarY].getCodigoBloque()==11) {
+							puntos=10.+puntos;
+						}
 						matrizTablero[posBloqueExplotarX][posBloqueExplotarY].romperbloque();
+						
 						if (!hayFuegoEnPosicionXY(posBloqueExplotarX, posBloqueExplotarY)) {
 							listaPosFuegos.add (new int[] {posBloqueExplotarX, posBloqueExplotarY});
 						}
@@ -193,6 +200,7 @@ public class EscenarioTablero {
 				}
 			}
 		}
+    	return puntos;
 	}
 	
 	public int[][] generarMatrizAniadirBloques()

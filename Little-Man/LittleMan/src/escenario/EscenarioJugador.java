@@ -1,7 +1,7 @@
 package escenario;
+
 import java.util.ArrayList;
 
-import entidad.EntidadMovibleEnemigo;
 import entidad.EntidadMovibleJugador;
 import entidad.EntidadMovibleJugadorFactory;
 import sonido.SonidoCodigos;
@@ -14,6 +14,8 @@ public class EscenarioJugador {
 	private EscenarioFacade miEscenarioFacade;
     private EntidadMovibleJugador jug;
     private int lastDir = 0;
+    private int contadorDaño;
+    private boolean visible;
     private boolean sfx=true, win=false, golpeable=true;
     private ArrayList<String> listaSonidos = new ArrayList<String>();
     
@@ -31,6 +33,8 @@ public class EscenarioJugador {
 	public void inicializarJugador(String playerTipo){
 		win=false;
 		sfx=true;
+		visible = true;
+		contadorDaño = 0;
 		jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate(playerTipo, 0, 0);
 		listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.MUSIC));
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
@@ -90,29 +94,43 @@ public class EscenarioJugador {
 	public void actualizarTicksJugador() {
 
 		if (golpeable==false&&jug.tick()) {golpeable=true;jug.resetTick();}
+		if (contadorDaño==0&&golpeable==false) {
+			contadorDaño=40;
+		}
+		if (contadorDaño > 0 && !getWin() && !getEstaMuerto()) {
+			contadorDaño--;
+			if (contadorDaño%5 == 0) visible = !visible;
+			if (contadorDaño == 0) visible = true;
+		} 
+
 	}
 	
-	public void gestionarFuego(int posFX, int posFY) {
-		if (getPosX() == posFX && getPosY() == posFY) { gestionarVida(); }
+	public Double gestionarFuego(int posFX, int posFY) {
+		Double puntos=0.;
+		if (getPosX() == posFX && getPosY() == posFY) { puntos=gestionarVida(); }
+		return puntos;
 	}
 	
-	public void gestionarEnemigo(int posFX, int posFY) {
-		if (getPosX() == posFX && getPosY() == posFY) { gestionarVida(); }
+	public Double gestionarEnemigo(int posEX, int posEY) {
+    	Double puntos=0.;
+		if (getPosX() == posEX && getPosY() == posEY) { puntos=gestionarVida();}
+		return puntos;
 	}
 	
 	
 	
 	public int[][] generarMatrizAniadirjugador(int COLUMNAS, int FILAS, boolean sobreBomba){
 		int[][] matrizGenerada = new int[COLUMNAS][FILAS];
-		
-		int codigoJugador;
-		
-		if (win) codigoJugador = jug.getCodigoJugadorVictoria();
-		else if (jug.getEstaMuerto()) codigoJugador = jug.getCodigoJugadorMuerto();
-		else if (sobreBomba) codigoJugador = jug.getCodigoJugadorConBomba();
-		else codigoJugador = jug.getCodigoJugador()*10 + lastDir;
-		
-		matrizGenerada[getPosX()][getPosY()] = codigoJugador;
+		if (visible) {
+			int codigoJugador;
+			
+			if (win) codigoJugador = jug.getCodigoJugadorVictoria();
+			else if (jug.getEstaMuerto()) codigoJugador = jug.getCodigoJugadorMuerto();
+			else if (sobreBomba) codigoJugador = jug.getCodigoJugadorConBomba();
+			else codigoJugador = jug.getCodigoJugador()*10 + lastDir;
+			
+			matrizGenerada[getPosX()][getPosY()] = codigoJugador;
+		}
 		return matrizGenerada;
 	}
 	
@@ -155,8 +173,10 @@ public class EscenarioJugador {
 			}
 		}
 	}
-	public void gestionarVida() {
+	public Double gestionarVida() {
+		Double puntos=0.;
 		if (golpeable) {
+			puntos=-250.;
 			jug.gestionarVida();
 			golpeable=false;
 		}
@@ -169,6 +189,7 @@ public class EscenarioJugador {
 				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.DEATH));
 			}
 		}
+		return puntos;
 	}
 
 	public void gestionarExplosion() { jug.bombaExplotada(); }

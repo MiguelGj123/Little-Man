@@ -36,14 +36,14 @@ public class EscenarioFacade {
 		this.tipoPantalla = pantalla;                   //Guardar el tipoPantalla para el reinicio
 		this.dificultad=pDificultad;
 	    tablero.inicializarTablero(pantalla);
-	    tablero.inicializarTablero(pantalla);
 		enemigos.inicializarEnemigos(tablero.getPosicionesVacias(), COLUMNAS, FILAS, dificultad);
 		bombas.inicializarBombas();
 
 	}
 	
-	public void actualizarEscenario(int cont, boolean bomb, boolean left, boolean right, boolean up, boolean down) {
-		enemigos.actualizarTicksEnemigos();
+	public Double actualizarEscenario(int cont, boolean bomb, boolean left, boolean right, boolean up, boolean down) {
+		Double puntos=0.;
+		puntos=enemigos.actualizarTicksEnemigos()+puntos;
 		if (cont%2 == 0 && !jugador.getEstaMuerto() && !jugador.getWin()) {
 			if (bomb && jugador.getPuedePonerBomba()) {
 				if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY())) {
@@ -56,9 +56,9 @@ public class EscenarioFacade {
 			jugador.actualizarPosicionJugador(direccion, COLUMNAS, FILAS);
 		}
 		jugador.actualizarTicksJugador();
-		bombas.actualizarTicksBombas();
-		tablero.actualizarTicksFuego();
-
+		puntos=bombas.actualizarTicksBombas()+puntos;
+		puntos=tablero.actualizarTicksFuego()+puntos;
+		return puntos;
 	}
 	
 	public int[][][] generarMatrizImagenes(){
@@ -104,22 +104,30 @@ public class EscenarioFacade {
 	    return codigosSonido.toArray(new String[0]);
 	}
 
-    public void gestionarFuego(int posX, int posY) {
-    	EscenarioJugador.getJugador().gestionarFuego(posX, posY);
-    	EscenarioEnemigos.getEnemigos().gestionarFuego(posX, posY);
+    public Double gestionarFuego(int posX, int posY) {
+    	Double puntos=0.;
+    	puntos=EscenarioJugador.getJugador().gestionarFuego(posX, posY)+puntos;
+    	puntos=EscenarioEnemigos.getEnemigos().gestionarFuego(posX, posY)+puntos;
+    	return puntos;
     }
     
     public boolean chocaConPos(int posX, int posY) {
     	return hayBombaEn(posX, posY) || hayBloqueChocableEn(posX, posY);
     }
     
-    public void gestionarEnemigo(int posX, int posY) {
-    	EscenarioJugador.getJugador().gestionarEnemigo(posX, posY);
+    public Double gestionarEnemigo(int posX, int posY) {
+    	Double puntos=0.;
+
+    	puntos=EscenarioJugador.getJugador().gestionarEnemigo(posX, posY);
+
+		return puntos;
     }
     
-    public void gestionarExplosion(int posX, int posY, int radioBomba) {
+    public Double gestionarExplosion(int posX, int posY, int radioBomba) {
+    	Double puntos=0.;
     	EscenarioJugador.getJugador().gestionarExplosion();
-    	EscenarioTablero.getTablero().gestionarExplosion(posX, posY, radioBomba);
+    	puntos=EscenarioTablero.getTablero().gestionarExplosion(posX, posY, radioBomba);
+    	return puntos;
     }
     public void gestionarGolpe() {
     		EscenarioJugador.getJugador().gestionarVida();

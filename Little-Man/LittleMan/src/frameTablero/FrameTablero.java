@@ -105,6 +105,9 @@ public class FrameTablero extends JFrame implements Observer {
         if (o instanceof Escenario && obj instanceof String) {
         	HUDPanel.gestionarVida((String) obj);
         }
+        if (o instanceof Escenario && obj instanceof Double) {
+        	HUDPanel.gestionarPuntuacion((Double) obj);
+        }
     	
         
     }

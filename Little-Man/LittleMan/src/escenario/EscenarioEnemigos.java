@@ -88,7 +88,8 @@ public class EscenarioEnemigos {
 		}
 	}
 	
-	public void actualizarTicksEnemigos() {
+	public Double actualizarTicksEnemigos() {
+		Double puntos=0.;
 		if (contadorSpawnear > 0) {
 			contadorSpawnear--;
 			if (contadorSpawnear%5 == 0) visible = !visible;
@@ -104,9 +105,10 @@ public class EscenarioEnemigos {
 				}
 			}
 			for ( int i = 0; i < listaEnemigos.size(); i++) {
-				miEscenarioFacade.gestionarEnemigo(listaEnemigos.get(i).getPosX(),listaEnemigos.get(i).getPosY());						// El enemigo se encarga de notificar a los jugadores que en esa posicion hay un enemigo
+				puntos=miEscenarioFacade.gestionarEnemigo(listaEnemigos.get(i).getPosX(),listaEnemigos.get(i).getPosY())+puntos;						// El enemigo se encarga de notificar a los jugadores que en esa posicion hay un enemigo
 			}
 		}
+		return puntos;
 	}
 	
 	
@@ -182,11 +184,14 @@ public class EscenarioEnemigos {
 	}
 	
 	
-	public void gestionarFuego(int posFX, int posFY) {
+	public Double gestionarFuego(int posFX, int posFY) {
+		Double puntos=0.;
 		for (int i = 0; i < listaEnemigos.size(); i++) {
 			if (listaEnemigos.get(i).getPosX() == posFX && listaEnemigos.get(i).getPosY() == posFY) {
 				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.ENEMY_DEATH));
 				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.ENEMY_DEATH));
+				if (listaEnemigos.get(i).getCodigoEnemigo()==40) {puntos=100.+puntos;}
+				if (listaEnemigos.get(i).getCodigoEnemigo()==41) {puntos=120.+puntos;}
 				listaEnemigos.remove(i);
 				i--;
 			}
@@ -195,6 +200,7 @@ public class EscenarioEnemigos {
 				miEscenarioFacade.gestionarPlayerWin();
 			}
 		}
+		return puntos;
 	}
 	
 	
