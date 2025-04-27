@@ -83,6 +83,7 @@ public class EscenarioFacade {
 			}
 		}
 		puntos=tablero.actualizarTicksFuego()+puntos;
+		puntos=getPuntos()+puntos;
 		return puntos;
 	}
 	
@@ -120,9 +121,9 @@ public class EscenarioFacade {
 		for (String sonido : bombas.getListaSonidos())		{	codigosSonido.add(sonido);	}
 		bombas.listaSonidosClear();
 		for (String sonido : jugador.getListaSonidos())		{	codigosSonido.add(sonido);	}
-		
 		jugador.listaSonidosClear();
-		
+		for (String sonido : powerups.getListaSonidos())	{	codigosSonido.add(sonido);	}
+		powerups.listaSonidosClear();
 		
 		
 		
@@ -171,19 +172,19 @@ public class EscenarioFacade {
     	}
     	
     }
-    public void	sumarPuntos(Double puntos) { puntosExtra=puntos;}
+    public void	sumarPuntos(Double puntos) 	{ puntosExtra=puntos;}
     public Double getPuntos()				{ Double puntos=puntosExtra; puntosExtra=0.; return puntos;}
-    public boolean sumarTiempo()		{ return sumarTiempo;}
-    public void quitarTiempo()			{ sumarTiempo=false;}
-    public void setTiempo()				{ sumarTiempo=true;}
-	public void sumarBomba()			{ jugador.sumarBomba();}
-	public void restarBomba()			{ jugador.restarBomba();}
-	public void sumarVida()				{ jugador.sumarVida();}
-	public void curarVida()				{ jugador.curarVida();}
-	public void sumarRadio() 			{ bombas.sumarRadio();}
-	public void restarRadio() 			{ bombas.restarRadio();}
-	public void sumarTicks() 			{ bombas.sumarTicks();}
-	public void restarTicks()		 	{ bombas.restarTicks();}
+    public boolean sumarTiempo()			{ return sumarTiempo;}
+    public void quitarTiempo()				{ sumarTiempo=false;}
+    public void setTiempo()					{ sumarTiempo=true;}
+	public void sumarBomba()				{ jugador.sumarBomba();}
+	public void restarBomba()				{ jugador.restarBomba();}
+	public void sumarVida()					{ jugador.sumarVida();}
+	public void curarVida()					{ jugador.curarVida();}
+	public void sumarRadio() 				{ bombas.sumarRadio();}
+	public void restarRadio() 				{ bombas.restarRadio();}
+	public void sumarTicks() 				{ bombas.sumarTicks();}
+	public void restarTicks()		 		{ bombas.restarTicks();}
 	
 	public int getRadioBomba()			{return bombas.getRadio();}
 	public int getTicksBomba()			{return bombas.getTicks();}

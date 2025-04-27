@@ -20,6 +20,7 @@ public class Frm__HUD__Vida extends JLayeredPane{
 
     
     private boolean iniciarVidas=true;
+    private final int VIDA_MAXIMA = 5;
 
 	private static Frm__HUD__Vida vida;
     private Frm__CONFIG config;
@@ -45,30 +46,42 @@ public class Frm__HUD__Vida extends JLayeredPane{
 	
 	
     
-    public void gestionarVida(String vidaStr) {
-        int vidas = Integer.parseInt(vidaStr);
+	public void gestionarVida(String vidaStr) {
+	    int vidas = Integer.parseInt(vidaStr);
 
-        if (iniciarVidas) {
-            vidaPanel.removeAll();
-            for (int i = 0; i < vidas; i++) {
-                JLabel vidaLabel = crearCorazonLabel(true, i);
-                vidaPanel.add(vidaLabel);
-            }
-            iniciarVidas = false;
-            vidaPanel.revalidate();
-            vidaPanel.repaint();
-        } else {
-            int total = vidaPanel.getComponentCount();
-            for (int i = 0; i < total; i++) {
-                Component comp = vidaPanel.getComponent(i);
-                if (comp instanceof JLabel) {
-                    JLabel label = (JLabel) comp;
-                    boolean lleno = i < vidas;
-                    cambiarIconoCorazon(label, lleno);
-                }
-            }
-        }
-    }
+	    // Limitar las vidas al máximo permitido
+	    if (vidas > VIDA_MAXIMA) {
+	        vidas = VIDA_MAXIMA;
+	    }
+
+	    if (iniciarVidas) {
+	        vidaPanel.removeAll();
+	        for (int i = 0; i < vidas; i++) {
+	            JLabel vidaLabel = crearCorazonLabel(true, i);
+	            vidaPanel.add(vidaLabel);
+	        }
+	        iniciarVidas = false;
+	    } else {
+	        int total = vidaPanel.getComponentCount();
+	        // Si hay menos corazones de los que debería haber, crea los faltantes
+	        for (int i = total; i < vidas; i++) {
+	            JLabel vidaLabel = crearCorazonLabel(true, i);
+	            vidaPanel.add(vidaLabel);
+	        }
+	        // Actualiza todos los corazones
+	        for (int i = 0; i < vidaPanel.getComponentCount(); i++) {
+	            Component comp = vidaPanel.getComponent(i);
+	            if (comp instanceof JLabel) {
+	                JLabel label = (JLabel) comp;
+	                boolean lleno = i < vidas;
+	                cambiarIconoCorazon(label, lleno);
+	            }
+	        }
+	    }
+	    vidaPanel.revalidate();
+	    vidaPanel.repaint();
+	}
+    
     private JLabel crearCorazonLabel(boolean lleno, int index) {
         Image img = new ImageIcon("Pixels/" + (lleno ? "heart_full.png" : "heart_empty.png"))
                 .getImage()

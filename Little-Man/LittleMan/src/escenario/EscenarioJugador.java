@@ -172,7 +172,7 @@ public class EscenarioJugador {
 	public boolean getPuedePonerBomba() { return jug.puedePonerBombas(); }
 	public boolean getEstaMuerto() { return jug.getEstaMuerto(); }
 	public void gestionarTiempo() {
-		for(int i=0;i<=jug.getVidas();i++) {
+		for(int i=0;i<=jug.getVidas()+1;i++) {
 			jug.gestionarVida();
 		}
 		if (jug.getEstaMuerto())  {

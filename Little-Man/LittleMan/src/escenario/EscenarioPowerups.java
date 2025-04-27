@@ -2,27 +2,8 @@ package escenario;
 
 import java.util.ArrayList;
 import java.util.Random;
-
-import javax.swing.ImageIcon;
-
-import entidad.EntidadInamovibleBomba;
-import entidad.EntidadInamovibleBombaFactory;
 import entidad.EntidadInamoviblePowerup;
-import entidad.EntidadInamoviblePowerupAleatorio;
-import entidad.EntidadInamoviblePowerupBombaMas;
-import entidad.EntidadInamoviblePowerupBombaMenos;
-import entidad.EntidadInamoviblePowerupBombaPatada;
-import entidad.EntidadInamoviblePowerupBombaPincho;
 import entidad.EntidadInamoviblePowerupFactory;
-import entidad.EntidadInamoviblePowerupFuegoMas;
-import entidad.EntidadInamoviblePowerupFuegoMenos;
-import entidad.EntidadInamoviblePowerupInvencible;
-import entidad.EntidadInamoviblePowerupPuntos;
-import entidad.EntidadInamoviblePowerupTickBombaMas;
-import entidad.EntidadInamoviblePowerupTickBombaMenos;
-import entidad.EntidadInamoviblePowerupTiempoMas;
-import entidad.EntidadInamoviblePowerupVidaMas;
-import entidad.EntidadInamoviblePowerupVidaRec;
 import sonido.SonidoCodigos;
 import sonido.SonidoCodigosEnum;
 
@@ -46,7 +27,10 @@ public class EscenarioPowerups {
     public void inicializarPowerups() {
     	listaPowerups.clear();
     	miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-    	//listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Aleatorio", 0, 1));
+    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 1));
+    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 2));
+    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 3));
+    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 4));
     }
     
     public EntidadInamoviblePowerup getPowerupEnPosicionXY (int pPosX, int pPosY)										// devuelve la bomba que hay en una posicion XY
@@ -125,6 +109,7 @@ public class EscenarioPowerups {
     		EntidadInamoviblePowerup pPowerup = listaPowerups.get(i);													// Obtenemos el bloque que queremos actualizar
 			
 			if (pPowerup.getPosX()==posJX && pPowerup.getPosY()==posJY) {
+				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.ITEM_GET));
 				powerupEffect(pPowerup.getCodigoPowerup());
 				listaPowerups.remove(i);		
 			}
@@ -158,8 +143,9 @@ public class EscenarioPowerups {
 			miEscenarioFacade.invencibilidad();
 			break;
 		case 608: 
-			int puntos = random.nextInt(4);
-			miEscenarioFacade.sumarPuntos(1000.*(2^puntos));
+			int puntos = random.nextInt(5);
+			System.out.println(500.*(1<<puntos)+"  " + puntos);
+			miEscenarioFacade.sumarPuntos(500.*(1<<puntos));
 			break;
 		case 609: //Reduce en 5 ticks el tiempo para explotar una bomba
 			if(miEscenarioFacade.getTicksBomba()>5) {miEscenarioFacade.restarTicks();}
@@ -198,6 +184,4 @@ public class EscenarioPowerups {
 		listaSonidos.clear();
 	}
 
-	
-	
 }

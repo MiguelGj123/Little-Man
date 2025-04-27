@@ -41,3 +41,5 @@
  -  Preueba         ha perdido | Puntuación: 143200	| Bomberman: AZUL	| Tiempo: 0	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  23:09:20
  -  Preueba         ha perdido | Puntuación: 30920	| Bomberman: AZUL	| Tiempo: 24	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  23:14:29
  -  Preueba         ha perdido | Puntuación: -2000	| Bomberman: AZUL	| Tiempo: 83	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 28/04/2025  00:56:30
+ -  Preueba         ha perdido | Puntuación: 17680	| Bomberman: AZUL	| Tiempo: 39	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 28/04/2025  01:21:35
+ -  Preueba         ha ganado  | Puntuación: 46480	| Bomberman: AZUL	| Tiempo: 6	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 28/04/2025  01:46:28
