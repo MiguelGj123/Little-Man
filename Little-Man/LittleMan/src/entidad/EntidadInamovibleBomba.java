@@ -3,7 +3,7 @@ package entidad;
 public abstract class EntidadInamovibleBomba extends EntidadInamovible {
 	
 	private int ticks;
-	private final int radioBomba;
+	private int radioBomba;
 	private final int codigoBomba;
 	
 	public EntidadInamovibleBomba (int radio, int ticksHastaExplotar, int codigoBomba, int posX, int posY)
@@ -21,7 +21,14 @@ public abstract class EntidadInamovibleBomba extends EntidadInamovible {
 		return ticks<0;
 		
 	}
+	public void cambioRadio(int cambioRadio) {
+		radioBomba = radioBomba+cambioRadio;
+	}
 	
+	public void cambioTick(int cambioTicks) {
+		ticks = ticks+cambioTicks;
+	}
+	public int getTickBomba() { return ticks; }
 	
 	public int getRadioBomba() { return radioBomba; }
 	

@@ -10,10 +10,13 @@ public class EscenarioFacade {
 	private EscenarioEnemigos enemigos = EscenarioEnemigos.getEnemigos();
 	private EscenarioBombas bombas = EscenarioBombas.getBombas();
 	private EscenarioJugador jugador = EscenarioJugador.getJugador();
+	private EscenarioPowerups powerups = EscenarioPowerups.getPowerups();
 	private EscenarioTeclado teclado = EscenarioTeclado.getEscenarioTeclado();
 	private String tipoPantalla;
 	private String dificultad;
 	private boolean bombasExplotadas=true;
+	private boolean sumarTiempo=false;
+	private Double puntosExtra=0.;
 	
 	
 	
@@ -39,6 +42,7 @@ public class EscenarioFacade {
 	    tablero.inicializarTablero(pantalla);
 		enemigos.inicializarEnemigos(tablero.getPosicionesVacias(), COLUMNAS, FILAS, dificultad);
 		bombas.inicializarBombas();
+		powerups.inicializarPowerups();
 
 	}
 	
@@ -67,6 +71,7 @@ public class EscenarioFacade {
 			jugador.actualizarPosicionJugador(direccion, COLUMNAS, FILAS);
 		}
 		jugador.actualizarTicksJugador();
+		powerups.actualizarPowerups(jugador.getPosX(),jugador.getPosY());
 		if (!jugador.getTipoJugador().equals("ROJO")){
 			puntos=bombas.actualizarTicksBombas()+puntos;
 		}
@@ -78,19 +83,18 @@ public class EscenarioFacade {
 			}
 		}
 		puntos=tablero.actualizarTicksFuego()+puntos;
-		System.out.println(bombasExplotadas + "  " + tablero.hayFuego());
 		return puntos;
 	}
 	
 	public int[][][] generarMatrizImagenes(){
 		
-		int[][][] matrizDevolver = new int[4][COLUMNAS][FILAS];
+		int[][][] matrizDevolver = new int[5][COLUMNAS][FILAS];
 		
 		matrizDevolver[0] = tablero.generarMatrizAniadirBloques();
 		matrizDevolver[1] = bombas.generarMatrizAniadirBombas(COLUMNAS, FILAS);
 		matrizDevolver[2] = enemigos.generarMatrizAniadirEnemigos(COLUMNAS, FILAS);
 		matrizDevolver[3] = jugador.generarMatrizAniadirjugador(COLUMNAS, FILAS, bombas.hayBombaEnPosicionXY(jugador.getPosX(), jugador.getPosY()));
-		
+		matrizDevolver[4] = powerups.generarMatrizAniadirPowerup(COLUMNAS, FILAS);
 		/*
 		for (int capa = 0; capa < matrizDevolver.length; capa++) {
 			System.out.println("\n Capa" + capa + ":");
@@ -124,57 +128,42 @@ public class EscenarioFacade {
 		
 	    return codigosSonido.toArray(new String[0]);
 	}
+	public void generarPowerup(int posX, int posY) { powerups.generarPowerup(posX, posY);}
 
     public Double gestionarFuego(int posX, int posY) {
     	Double puntos=0.;
-    	puntos=EscenarioJugador.getJugador().gestionarFuego(posX, posY)+puntos;
-    	puntos=EscenarioEnemigos.getEnemigos().gestionarFuego(posX, posY)+puntos;
+    	puntos=jugador.gestionarFuego(posX, posY)+puntos;
+    	puntos=enemigos.gestionarFuego(posX, posY)+puntos;
     	return puntos;
     }
     
-    public boolean chocaConPos(int posX, int posY) {
-    	return hayBombaEn(posX, posY) || hayBloqueChocableEn(posX, posY);
-    }
+    public boolean chocaConPos(int posX, int posY) { return hayBombaEn(posX, posY) || hayBloqueChocableEn(posX, posY);}
     
     public Double gestionarEnemigo(int posX, int posY) {
     	Double puntos=0.;
 
-    	puntos=EscenarioJugador.getJugador().gestionarEnemigo(posX, posY);
+    	puntos=jugador.gestionarEnemigo(posX, posY);
 
 		return puntos;
     }
     
     public Double gestionarExplosion(int posX, int posY, int radioBomba) {
     	Double puntos=0.;
-    	EscenarioJugador.getJugador().gestionarExplosion();
-    	puntos=EscenarioTablero.getTablero().gestionarExplosion(posX, posY, radioBomba);
+    	jugador.gestionarExplosion();
+    	puntos=tablero.gestionarExplosion(posX, posY, radioBomba);
     	return puntos;
     }
-    public void gestionarGolpe() {
-    		EscenarioJugador.getJugador().gestionarVida();
-    }
-    public void gestionarTiempo() {
-		EscenarioJugador.getJugador().gestionarTiempo();
-}
+    public void invencibilidad()		{ jugador.gestionarInvencibilidad();}
+    public void gestionarGolpe() 		{ jugador.gestionarVida();}
+    public void gestionarTiempo() 		{ jugador.gestionarTiempo();}
     
-    public boolean hayBombaEn (int posX, int posY) {
-    	return EscenarioBombas.getBombas().hayBombaEnPosicionXY(posX, posY);
-    }
+    public boolean hayBombaEn (int posX, int posY) 				{return bombas.hayBombaEnPosicionXY(posX, posY);}
     
-    private boolean hayBloqueChocableEn (int posX, int posY) {
-    	return EscenarioTablero.getTablero().getChocaContraCelda(posX, posY);
-    }
+    private boolean hayBloqueChocableEn (int posX, int posY) 	{return tablero.getChocaContraCelda(posX, posY);}
 
-    public boolean getMuerto () {
-    	return jugador.getEstaMuerto();
-    }
-    public boolean getWin() {
-    	return jugador.getWin();
-    }
-    public String getVidas() {
-    	String vidas= String.valueOf(jugador.getVidas());
-    	return vidas;
-    }
+    public boolean getMuerto () 		{return jugador.getEstaMuerto();}
+    public boolean getWin() 			{return jugador.getWin();}
+    public String getVidas() 			{String vidas= String.valueOf(jugador.getVidas()); return vidas;}
     
     public void gestionarEnter () {
     	if (jugador.getEstaMuerto() || jugador.getWin()) {
@@ -182,25 +171,38 @@ public class EscenarioFacade {
     	}
     	
     }
-    public int getPosXJ() {
-    	int posXJ=this.jugador.getPosX();
-    	return posXJ;
-    }
-    public int getPosYJ() {
-    	int posYJ=this.jugador.getPosY();
-    	return posYJ;
-    }
+    public void	sumarPuntos(Double puntos) { puntosExtra=puntos;}
+    public Double getPuntos()				{ Double puntos=puntosExtra; puntosExtra=0.; return puntos;}
+    public boolean sumarTiempo()		{ return sumarTiempo;}
+    public void quitarTiempo()			{ sumarTiempo=false;}
+    public void setTiempo()				{ sumarTiempo=true;}
+	public void sumarBomba()			{ jugador.sumarBomba();}
+	public void restarBomba()			{ jugador.restarBomba();}
+	public void sumarVida()				{ jugador.sumarVida();}
+	public void curarVida()				{ jugador.curarVida();}
+	public void sumarRadio() 			{ bombas.sumarRadio();}
+	public void restarRadio() 			{ bombas.restarRadio();}
+	public void sumarTicks() 			{ bombas.sumarTicks();}
+	public void restarTicks()		 	{ bombas.restarTicks();}
+	
+	public int getRadioBomba()			{return bombas.getRadio();}
+	public int getTicksBomba()			{return bombas.getTicks();}
+	public int getMaxBombas()			{return jugador.getMaxBombas();}
+    public int getPosXJ() 				{ int posXJ=this.jugador.getPosX(); return posXJ;}
+    public int getPosYJ() 				{ int posYJ=this.jugador.getPosY(); return posYJ;}
     
-    public void gestionarPlayerWin() { jugador.setWin(); }
+    public void gestionarPlayerWin() 	{ jugador.setWin(); }
     
-    public void pressLeft()  { teclado.pressedLeft(); }
-    public void pressRight() { teclado.pressedRight(); }
-    public void pressUp()    { teclado.pressedUp(); }
-    public void pressDown()  { teclado.pressedDown(); }
-    public void releaseLeft()  { teclado.releasedLeft(); }
-    public void releaseRight() { teclado.releasedRight(); }
-    public void releaseUp()    { teclado.releasedUp(); }
-    public void releaseDown()  { teclado.releasedDown(); }
+    public void pressLeft()  	{ teclado.pressedLeft(); }
+    public void pressRight() 	{ teclado.pressedRight(); }
+    public void pressUp()    	{ teclado.pressedUp(); }
+    public void pressDown()  	{ teclado.pressedDown(); }
+    public void releaseLeft()  	{ teclado.releasedLeft(); }
+    public void releaseRight() 	{ teclado.releasedRight(); }
+    public void releaseUp()    	{ teclado.releasedUp(); }
+    public void releaseDown()  	{ teclado.releasedDown(); }
+
+
 	
 
 	

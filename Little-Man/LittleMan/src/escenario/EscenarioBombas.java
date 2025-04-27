@@ -12,10 +12,12 @@ import sonido.SonidoCodigosEnum;
 public class EscenarioBombas {
 
 	private static EscenarioBombas misBombas;
+	private int cambioRadio=0;
+	private int cambioTick=0;
+	private String tipoDeBomba="";
 	private EscenarioFacade miEscenarioFacade;
     private ArrayList<EntidadInamovibleBomba> listaBombas = new ArrayList<EntidadInamovibleBomba>();
     private ArrayList<String> listaSonidos = new ArrayList<String>();
-    private boolean mega=false;
 
     
     private EscenarioBombas() {}
@@ -31,6 +33,8 @@ public class EscenarioBombas {
     public void inicializarBombas() {
     	listaBombas.clear();
     	miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
+    	cambioRadio=0;
+    	cambioTick=0;
     }
     
 	public EntidadInamovibleBomba getBombaEnPosicionXY (int pPosX, int pPosY)										// devuelve la bomba que hay en una posicion XY
@@ -48,7 +52,6 @@ public class EscenarioBombas {
 		}
 		return false;
 	}
-	
 	public Double actualizarTicksBombas() {
 		Double puntos = 0.;
 
@@ -66,15 +69,20 @@ public class EscenarioBombas {
 	
 	public boolean ponerBomba(String tipoBomba, int posJX, int posJY, int radio){
 		boolean bombaPuesta = false;
+		tipoDeBomba=tipoBomba;
 		
 		if (listaBombas.size()==0) {
 			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.PLACE_BOMB));
 			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY, radio));
+			listaBombas.getLast().cambioRadio(cambioRadio);
+			listaBombas.getLast().cambioTick(cambioTick);
 			bombaPuesta = true;
 			
 		} else if ( !(listaBombas.get(listaBombas.size()-1).getPosX() == posJX && listaBombas.get(listaBombas.size()-1).getPosY() == posJY )) {		// si no es la misma posicion que la ultima bomba puesta
 			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.PLACE_BOMB));
 			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY, radio));
+			listaBombas.getLast().cambioRadio(cambioRadio);
+			listaBombas.getLast().cambioTick(cambioTick);
 			bombaPuesta = true;
 			
 		}
@@ -97,6 +105,12 @@ public class EscenarioBombas {
 	public void listaSonidosClear() {
 		listaSonidos.clear();
 	}
+	public int getTicks()		{return EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoDeBomba, 0, 0, 1).getTickBomba();}
+	public int getRadio()		{return EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoDeBomba, 0, 0, 1).getRadioBomba();}
+	public void sumarRadio() 	{cambioRadio++;}
+	public void restarRadio() 	{cambioRadio--;}
+	public void sumarTicks() 	{cambioTick=cambioTick+5;}
+	public void restarTicks() 	{cambioTick=cambioTick-5;}
 
 
     

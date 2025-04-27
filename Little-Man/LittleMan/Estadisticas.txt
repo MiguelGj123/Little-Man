@@ -31,3 +31,13 @@
  -  Preueba         ha perdido | Puntuación: 120	| Bomberman: ROJO	| Tiempo: 84	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:21:03
  -  Preueba         ha perdido | Puntuación: -920	| Bomberman: ROJO	| Tiempo: 94	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:26:15
  -  Preueba         ha perdido | Puntuación: -3360	| Bomberman: ROJO	| Tiempo: 90	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:33:36
+ -  Preueba         ha perdido | Puntuación: 24800	| Bomberman: AZUL	| Tiempo: 0	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  21:44:54
+ -  Preueba         ha perdido | Puntuación: 47440	| Bomberman: AZUL	| Tiempo: 0	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  21:48:28
+ -  Preueba         ha perdido | Puntuación: 4200	| Bomberman: AZUL	| Tiempo: 52	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  21:52:29
+ -  Preueba         ha perdido | Puntuación: 61160	| Bomberman: AZUL	| Tiempo: 8	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  22:29:11
+ -  Preueba         ha perdido | Puntuación: 35680	| Bomberman: AZUL	| Tiempo: 0	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  23:04:48
+ -  Preueba         ha perdido | Puntuación: 92920	| Bomberman: AZUL	| Tiempo: 0	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  23:06:31
+ -  Preueba         ha perdido | Puntuación: 108920	| Bomberman: AZUL	| Tiempo: 40	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  23:07:38
+ -  Preueba         ha perdido | Puntuación: 143200	| Bomberman: AZUL	| Tiempo: 0	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  23:09:20
+ -  Preueba         ha perdido | Puntuación: 30920	| Bomberman: AZUL	| Tiempo: 24	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  23:14:29
+ -  Preueba         ha perdido | Puntuación: -2000	| Bomberman: AZUL	| Tiempo: 83	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 28/04/2025  00:56:30

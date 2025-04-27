@@ -6,7 +6,8 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	private int contadorBombas = 0;
 	private int vidas;
 	private int codigoMov=1;
-	private final int maxBombas;
+	private int maxBombas;
+	private int maxVidas;
 	private final String tipoBomba;
 	private final int[] codigosJugador;
 	private final String tipoJugador;
@@ -16,6 +17,7 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	public EntidadMovibleJugador(int maxBombas, int vidas, String tipoBomba, int[] codigosJugador, String tipoJugador, int posX, int posY, int pInvencibilidad) {
 		super (posX, posY);
 		this.maxBombas = maxBombas;
+		this.maxVidas = vidas;
 		this.vidas = vidas;
 		this.tipoBomba = tipoBomba;
 		this.codigosJugador = codigosJugador;
@@ -40,13 +42,21 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	
 	public int		getNumBombas()				{ return maxBombas-contadorBombas; }
 	
-	public void		sumarVida()					{ vidas = (vidas<= 0) ? 1 : vidas + 1; }
+	public int		getMaxBombas()				{ return maxBombas; }
+	
+	public void		aumentarVida()				{ maxVidas++; }
+	
+	public void		sumarVida()					{ if(vidas<maxVidas) vidas++; }
 	
 	public void		gestionarVida()				{ if (vidas > 0) { vidas--; } }
 	
 	public boolean	getEstaMuerto()				{ return vidas == 0; }
 	
 	public void		ponerBomba()				{ contadorBombas++; }
+	
+	public void		sumarBomba()				{ maxBombas++; }
+	
+	public void		restarBomba()				{ maxBombas=maxBombas-1; }
 	
 	public void		bombaExplotada()			{ contadorBombas--; }
 	

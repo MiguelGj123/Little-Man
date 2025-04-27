@@ -191,12 +191,16 @@ public class EscenarioTablero {
 					} else {
 						if (matrizTablero[posBloqueExplotarX][posBloqueExplotarY].getCodigoBloque()==11) {
 							puntos=10.+puntos;
+							if (random.nextDouble()<= 0.10) {
+								miEscenarioFacade.generarPowerup(posBloqueExplotarX, posBloqueExplotarY);
+							}
 						}
 						matrizTablero[posBloqueExplotarX][posBloqueExplotarY].romperbloque();
 						
 						if (!hayFuegoEnPosicionXY(posBloqueExplotarX, posBloqueExplotarY)) {
 							listaPosFuegos.add (new int[] {posBloqueExplotarX, posBloqueExplotarY});
 						}
+						
 					}
 				}
 			}

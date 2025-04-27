@@ -79,7 +79,11 @@ public class Escenario extends Observable{
 		timer.scheduleAtFixedRate(task, 0, 50);
 	}
 	
-	private void actualizarEscenario() {		
+	private void actualizarEscenario() {
+		if (miEscenarioFacade.sumarTiempo()) {
+			temporizador=temporizador+10;
+			miEscenarioFacade.quitarTiempo();
+		}
 		if (puntos!=-1) {
 		puntos = miEscenarioFacade.actualizarEscenario(cont, bomb, left, right, up, down);
 		}

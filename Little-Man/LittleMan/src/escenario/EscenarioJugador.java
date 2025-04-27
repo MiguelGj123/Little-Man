@@ -16,6 +16,7 @@ public class EscenarioJugador {
     private int lastDir = 0;
     private int contadorDaño;
     private boolean visible;
+    private boolean invencible;
     private boolean sfx=true, win=false, golpeable=true;
     private ArrayList<String> listaSonidos = new ArrayList<String>();
     
@@ -93,9 +94,12 @@ public class EscenarioJugador {
 	}
 	public void actualizarTicksJugador() {
 
-		if (golpeable==false&&jug.tick()) {golpeable=true;jug.resetTick();}
+		if (golpeable==false&&jug.tick()&&!invencible) {golpeable=true;jug.resetTick();}
 		if (contadorDaño==0&&golpeable==false) {
-			contadorDaño=40;
+			if (!invencible) {
+				contadorDaño=40;
+			}
+			invencible=false;
 		}
 		if (contadorDaño > 0 && !getWin() && !getEstaMuerto()) {
 			contadorDaño--;
@@ -103,6 +107,12 @@ public class EscenarioJugador {
 			if (contadorDaño == 0) visible = true;
 		} 
 
+	}
+	
+	public void gestionarInvencibilidad() {
+		golpeable=false;
+		invencible=true;
+		contadorDaño=200;
 	}
 	
 	public Double gestionarFuego(int posFX, int posFY) {
@@ -192,11 +202,15 @@ public class EscenarioJugador {
 		}
 		return puntos;
 	}
-
-	public void gestionarExplosion() { jug.bombaExplotada(); }
-	public void gestionarPonerBomba() { jug.ponerBomba(); }
-	public String getTipoBomba() { return jug.getTipoBomba(); }
-	public String getTipoJugador() { return jug.getTipoJugador(); }
+	public void sumarBomba()			{ jug.sumarBomba();}
+	public void restarBomba()			{ jug.restarBomba();}
+	public void sumarVida()				{ jug.aumentarVida();}
+	public void curarVida()				{ jug.sumarVida();}
+	public void gestionarExplosion() 	{ jug.bombaExplotada(); }
+	public void gestionarPonerBomba() 	{ jug.ponerBomba(); }
+	public int	getMaxBombas()			{ return jug.getMaxBombas();}
+	public String getTipoBomba() 		{ return jug.getTipoBomba(); }
+	public String getTipoJugador() 		{ return jug.getTipoJugador(); }
 	
 	
 }
