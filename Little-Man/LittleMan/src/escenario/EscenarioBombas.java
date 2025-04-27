@@ -15,6 +15,7 @@ public class EscenarioBombas {
 	private EscenarioFacade miEscenarioFacade;
     private ArrayList<EntidadInamovibleBomba> listaBombas = new ArrayList<EntidadInamovibleBomba>();
     private ArrayList<String> listaSonidos = new ArrayList<String>();
+    private boolean mega=false;
 
     
     private EscenarioBombas() {}
@@ -63,17 +64,17 @@ public class EscenarioBombas {
 		return puntos;
 	}
 	
-	public boolean ponerBomba(String tipoBomba, int posJX, int posJY){
+	public boolean ponerBomba(String tipoBomba, int posJX, int posJY, int radio){
 		boolean bombaPuesta = false;
 		
 		if (listaBombas.size()==0) {
 			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.PLACE_BOMB));
-			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY));
+			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY, radio));
 			bombaPuesta = true;
 			
 		} else if ( !(listaBombas.get(listaBombas.size()-1).getPosX() == posJX && listaBombas.get(listaBombas.size()-1).getPosY() == posJY )) {		// si no es la misma posicion que la ultima bomba puesta
 			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.PLACE_BOMB));
-			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY));
+			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY, radio));
 			bombaPuesta = true;
 			
 		}

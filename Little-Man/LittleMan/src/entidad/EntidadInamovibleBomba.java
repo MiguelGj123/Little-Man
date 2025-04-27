@@ -16,7 +16,7 @@ public abstract class EntidadInamovibleBomba extends EntidadInamovible {
 	
 	public boolean tick() 
 	{
-		ticks--;
+			ticks--;
 
 		return ticks<0;
 		

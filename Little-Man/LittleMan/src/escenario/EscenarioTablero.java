@@ -124,6 +124,7 @@ public class EscenarioTablero {
 	
 	public boolean getChocaContraCelda(int posX, int posY) { return matrizTablero[posX][posY].getChocaContraCelda(); }
 	
+	public boolean hayFuego() { return !listaPosFuegos.isEmpty(); }
 	
 	public Double actualizarTicksFuego() {
 		Double puntos = 0.;

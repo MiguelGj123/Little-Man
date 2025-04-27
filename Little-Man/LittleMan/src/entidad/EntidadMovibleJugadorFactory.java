@@ -27,6 +27,12 @@ public class EntidadMovibleJugadorFactory {
 			case "NEGRO":
 				jugador = new EntidadMovibleJugadorBomberman_negro(posX, posY);
 				break;
+			case "AZUL":
+				jugador = new EntidadMovibleJugadorBomberman_azul(posX, posY);
+				break;
+			case "ROJO":
+				jugador = new EntidadMovibleJugadorBomberman_rojo(posX, posY);
+				break;
 			default:
 				jugador = new EntidadMovibleJugadorBomberman_blanco(posX, posY);
 				break;

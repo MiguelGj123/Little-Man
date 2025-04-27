@@ -21,3 +21,13 @@
  -  Preueba         ha perdido | Puntuación: -3470	| Bomberman: BLANCO	| Tiempo: 185	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 24/04/2025  21:05:13
  -  Preueba         ha ganado  | Puntuación: -2930	| Bomberman: BLANCO	| Tiempo: 162	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 24/04/2025  21:05:55
  -  Preueba         ha perdido | Puntuación: -1240	| Bomberman: BLANCO	| Tiempo: 192	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 24/04/2025  21:07:00
+ -  Preueba         ha ganado  | Puntuación: 5220	| Bomberman: AZUL	| Tiempo: 117	| Vidas: 3	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 27/04/2025  14:32:45
+ -  Preueba         ha ganado  | Puntuación: 1030	| Bomberman: AZUL	| Tiempo: 147	| Vidas: 3	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 27/04/2025  14:37:27
+ -  Preueba         ha ganado  | Puntuación: 35600	| Bomberman: AZUL	| Tiempo: 23	| Vidas: 1	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  14:39:08
+ -  Preueba         ha perdido | Puntuación: 34120	| Bomberman: ROJO	| Tiempo: 61	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:06:08
+ -  Preueba         ha perdido | Puntuación: -1000	| Bomberman: ROJO	| Tiempo: 94	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:15:37
+ -  Preueba         ha perdido | Puntuación: 2120	| Bomberman: ROJO	| Tiempo: 93	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:15:45
+ -  Preueba         ha perdido | Puntuación: -720	| Bomberman: ROJO	| Tiempo: 94	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:16:49
+ -  Preueba         ha perdido | Puntuación: 120	| Bomberman: ROJO	| Tiempo: 84	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:21:03
+ -  Preueba         ha perdido | Puntuación: -920	| Bomberman: ROJO	| Tiempo: 94	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:26:15
+ -  Preueba         ha perdido | Puntuación: -3360	| Bomberman: ROJO	| Tiempo: 90	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 27/04/2025  15:33:36

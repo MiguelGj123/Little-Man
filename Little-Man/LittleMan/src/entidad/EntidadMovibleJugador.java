@@ -38,6 +38,8 @@ public abstract class EntidadMovibleJugador extends EntidadMovible
 	
 	public int		getVidas()					{ return vidas; }
 	
+	public int		getNumBombas()				{ return maxBombas-contadorBombas; }
+	
 	public void		sumarVida()					{ vidas = (vidas<= 0) ? 1 : vidas + 1; }
 	
 	public void		gestionarVida()				{ if (vidas > 0) { vidas--; } }

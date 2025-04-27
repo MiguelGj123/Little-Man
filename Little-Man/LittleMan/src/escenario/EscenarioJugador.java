@@ -158,6 +158,7 @@ public class EscenarioJugador {
 	public int getPosY() { return jug.getPosY(); }
 	public int getCodigoMov() { return jug.getCodigoMov(); }
 	public int getVidas() { return jug.getVidas(); }
+	public int getNumBombas() { return jug.getNumBombas(); }
 	public boolean getPuedePonerBomba() { return jug.puedePonerBombas(); }
 	public boolean getEstaMuerto() { return jug.getEstaMuerto(); }
 	public void gestionarTiempo() {

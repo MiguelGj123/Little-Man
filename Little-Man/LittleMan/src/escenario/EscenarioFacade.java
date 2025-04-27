@@ -13,6 +13,7 @@ public class EscenarioFacade {
 	private EscenarioTeclado teclado = EscenarioTeclado.getEscenarioTeclado();
 	private String tipoPantalla;
 	private String dificultad;
+	private boolean bombasExplotadas=true;
 	
 	
 	
@@ -45,9 +46,19 @@ public class EscenarioFacade {
 		Double puntos=0.;
 		puntos=enemigos.actualizarTicksEnemigos()+puntos;
 		if (cont%2 == 0 && !jugador.getEstaMuerto() && !jugador.getWin()) {
-			if (bomb && jugador.getPuedePonerBomba()) {
-				if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY())) {
-					jugador.gestionarPonerBomba();
+			if (bomb) {
+				if (jugador.getPuedePonerBomba()) {
+					if (jugador.getTipoJugador().equals("ROJO") && bombasExplotadas) {
+							if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY(), jugador.getNumBombas())) {
+								jugador.gestionarPonerBomba();
+							} 
+					}	else if (!jugador.getTipoJugador().equals("ROJO")){
+							if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY(), jugador.getNumBombas())) {
+								jugador.gestionarPonerBomba();
+							} 
+					}
+				} else if (jugador.getTipoJugador().equals("ROJO") && !jugador.getPuedePonerBomba()) {
+					puntos=bombas.actualizarTicksBombas()+puntos;
 				}
 			}
 			
@@ -56,8 +67,18 @@ public class EscenarioFacade {
 			jugador.actualizarPosicionJugador(direccion, COLUMNAS, FILAS);
 		}
 		jugador.actualizarTicksJugador();
-		puntos=bombas.actualizarTicksBombas()+puntos;
+		if (!jugador.getTipoJugador().equals("ROJO")){
+			puntos=bombas.actualizarTicksBombas()+puntos;
+		}
+		if (jugador.getTipoJugador().equals("ROJO")){
+			if (tablero.hayFuego()) {
+				bombasExplotadas=false;
+			} else {
+				bombasExplotadas=true;
+			}
+		}
 		puntos=tablero.actualizarTicksFuego()+puntos;
+		System.out.println(bombasExplotadas + "  " + tablero.hayFuego());
 		return puntos;
 	}
 	

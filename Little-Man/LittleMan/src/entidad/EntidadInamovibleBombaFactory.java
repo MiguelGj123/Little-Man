@@ -15,7 +15,7 @@ public class EntidadInamovibleBombaFactory {
 		return myBombaFactory;
 	}
 	
-	public EntidadInamovibleBomba generate (String pTipoBomba, int posX, int posY)
+	public EntidadInamovibleBomba generate (String pTipoBomba, int posX, int posY, int radio)
 	{
 		EntidadInamovibleBomba tipoBomba;
 		
@@ -26,6 +26,12 @@ public class EntidadInamovibleBombaFactory {
 				break;
 			case "NEGRO":
 				tipoBomba = new EntidadInamovibleBombaUltra(posX, posY);
+				break;
+			case "AZUL":
+				tipoBomba = new EntidadInamovibleBombaHyper(posX, posY, radio);
+				break;
+			case "ROJO":
+				tipoBomba = new EntidadInamovibleBombaMega(posX, posY);
 				break;
 			default:
 				tipoBomba = null;

@@ -39,6 +39,30 @@ public class Frm__Jugador__Icon__Generator {
 			case 23: 
 				icono = new ImageIcon("Pixels/whitehappy1.png");
 				break;
+			case 2010: 
+				icono = new ImageIcon("Pixels/bluefront1.png");
+				break;
+			case 2011: 
+				icono = new ImageIcon("Pixels/blueleft2.png");
+				break;
+			case 2012: 
+				icono = new ImageIcon("Pixels/blueright2.png");
+				break;
+			case 2013: 
+				icono = new ImageIcon("Pixels/blueup2.png");
+				break;
+			case 2014: 
+				icono = new ImageIcon("Pixels/bluedown1.png");
+				break;
+			case 211: 
+				icono = new ImageIcon("Pixels/bluewithbomb3.png");
+				break;
+			case 221: 
+				icono = new ImageIcon("Pixels/onFire2.png");
+				break;
+			case 231: 
+				icono = new ImageIcon("Pixels/bluehappy1.png");
+				break;
 			case 250: 
 				icono = new ImageIcon("Pixels/blackfront1.png");
 				break;
@@ -62,6 +86,30 @@ public class Frm__Jugador__Icon__Generator {
 				break;
 			case 28: 
 				icono = new ImageIcon("Pixels/blackhappy1.png");
+				break;
+			case 2510: 
+				icono = new ImageIcon("Pixels/redfront1.png");
+				break;
+			case 2511: 
+				icono = new ImageIcon("Pixels/redleft2.png");
+				break;
+			case 2512: 
+				icono = new ImageIcon("Pixels/redright2.png");
+				break;
+			case 2513: 
+				icono = new ImageIcon("Pixels/redup2.png");
+				break;
+			case 2514: 
+				icono = new ImageIcon("Pixels/reddown1.png");
+				break;
+			case 261: 
+				icono = new ImageIcon("Pixels/redwithbomb4.png");
+				break;
+			case 271: 
+				icono = new ImageIcon("Pixels/onFire4.png");
+				break;
+			case 281: 
+				icono = new ImageIcon("Pixels/redhappy1.png");
 				break;
 			default:
 				icono = null;
