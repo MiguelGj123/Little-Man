@@ -97,5 +97,11 @@ public class Frm__HUD__Vida extends JLayeredPane{
                 .getScaledInstance(45, 45, Image.SCALE_SMOOTH);
         label.setIcon(new ImageIcon(img));
     }
+
+	public void resetVida() {
+		vidaPanel=null;
+	    iniciarVidas=true;
+
+	}
 	
 }

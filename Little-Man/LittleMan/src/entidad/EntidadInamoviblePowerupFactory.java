@@ -39,12 +39,12 @@ public class EntidadInamoviblePowerupFactory {
 			case "Invencible":
 				tipoPowerup = new EntidadInamoviblePowerupInvencible(posX, posY);
 				break;
-			case "BombaPatada":
+			/*case "BombaPatada":
 				tipoPowerup = new EntidadInamoviblePowerupBombaPatada(posX, posY);
 				break;
 			case "BombaPincho":
 				tipoPowerup = new EntidadInamoviblePowerupBombaPincho(posX, posY);
-				break;
+				break;*/
 			case "Puntos":
 				tipoPowerup = new EntidadInamoviblePowerupPuntos(posX, posY);
 				break;

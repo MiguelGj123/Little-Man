@@ -94,8 +94,8 @@ public class SoundManager {
         	loadAsync("SELECT_MENU2", "sfx/selectMenu2.wav");
         	loadAsync("SELECT_MENU3", "sfx/selectMenu3.wav");
         	loadSound("MUSIC_MENU1", "sfx/musicMenu1.wav");
-        	loadSound("MUSIC_MENU2", "sfx/musicMenu2.wav");
-        	loadSound("MUSIC_MENU3", "sfx/musicMenu3.wav");
+        	loadAsync("MUSIC_MENU2", "sfx/musicMenu2.wav");
+        	loadAsync("MUSIC_MENU3", "sfx/musicMenu3.wav");
     }
     public void soundsToLoadEscenario(String vol) {
     	switch(vol) {

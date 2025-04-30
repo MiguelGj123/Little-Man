@@ -52,5 +52,10 @@ public class Frm__HUD__Puntuacion extends JLayeredPane{
             puntuacionLabel.setText("Points: " + (int) (double) puntos);
         }
     }
+
+	public void resetPuntuacion() {
+		puntuacionLabel=null;
+	    puntos=0.;
+	}
     
 }

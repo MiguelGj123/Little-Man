@@ -20,10 +20,6 @@ public class Frm__HUD extends JLayeredPane{
     private Frm__CONFIG config;
 	
 	private Frm__HUD() {
-		config = Frm__CONFIG.getConfig();
-		tiempoLabel=Frm__HUD__Tiempo.getHUDTiempo();
-		vidaPanel=Frm__HUD__Vida.getHUDVida();
-		puntuacionLabel=Frm__HUD__Puntuacion.getHUDPuntuacion();
 		setLayout(null);
 	}
 	
@@ -33,13 +29,18 @@ public class Frm__HUD extends JLayeredPane{
 	}
 		
 	public JPanel iniciarHUD() {
+		config = Frm__CONFIG.getConfig();
+		tiempoLabel=Frm__HUD__Tiempo.getHUDTiempo();
+		vidaPanel=Frm__HUD__Vida.getHUDVida();
+		puntuacionLabel=Frm__HUD__Puntuacion.getHUDPuntuacion();
 		HUD = new JPanel(new GridLayout(1, 3));
     	HUD.setBackground(Color.BLACK);
     	HUD.setPreferredSize(new Dimension(config.getANCHO(), 45));
     	HUD.add(vidaPanel.vidaEnPantalla());
     	HUD.add(puntuacionLabel.puntuacionEnPantalla());
     	HUD.add(tiempoLabel.tiempoEnPantalla());
-
+    	hud.setEnabled(true);
+		hud.setVisible(true);
 		return HUD;
 	}
 	
@@ -54,6 +55,16 @@ public class Frm__HUD extends JLayeredPane{
     public void gestionarPuntuacion(Double puntuacion) {
         puntuacionLabel.gestionarPuntuacion(puntuacion);
     }
+
+	public void resetHUD() {
+	    tiempoLabel.resetTiempo();
+	    vidaPanel.resetVida();
+	    puntuacionLabel.resetPuntuacion();
+	    HUD=null;
+	    hud.removeAll();
+	    hud.setEnabled(false);
+		hud.setVisible(false);
+	}
     
 	
 }

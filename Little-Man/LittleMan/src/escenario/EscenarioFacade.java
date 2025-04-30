@@ -6,12 +6,12 @@ public class EscenarioFacade {
 	private static EscenarioFacade miEscenarioFacade;
 
 	private int COLUMNAS, FILAS;
-	private EscenarioTablero tablero = EscenarioTablero.getTablero();
-	private EscenarioEnemigos enemigos = EscenarioEnemigos.getEnemigos();
-	private EscenarioBombas bombas = EscenarioBombas.getBombas();
-	private EscenarioJugador jugador = EscenarioJugador.getJugador();
-	private EscenarioPowerups powerups = EscenarioPowerups.getPowerups();
-	private EscenarioTeclado teclado = EscenarioTeclado.getEscenarioTeclado();
+	private EscenarioTablero tablero;
+	private EscenarioEnemigos enemigos;
+	private EscenarioBombas bombas;
+	private EscenarioJugador jugador;
+	private EscenarioPowerups powerups;
+	private EscenarioTeclado teclado;
 	private String tipoPantalla;
 	private String dificultad;
 	private boolean bombasExplotadas=true;
@@ -34,6 +34,12 @@ public class EscenarioFacade {
     
 	public void inicializarTablero(String playerTipo, int COLUMNAS, int FILAS, String pantalla, String pDificultad)
 	{
+		tablero = EscenarioTablero.getTablero();
+		enemigos = EscenarioEnemigos.getEnemigos();
+		bombas = EscenarioBombas.getBombas();
+		jugador = EscenarioJugador.getJugador();
+		powerups = EscenarioPowerups.getPowerups();
+		teclado = EscenarioTeclado.getEscenarioTeclado();
 		jugador.inicializarJugador(playerTipo);
 		this.COLUMNAS = COLUMNAS;
 		this.FILAS = FILAS;
@@ -71,7 +77,7 @@ public class EscenarioFacade {
 			jugador.actualizarPosicionJugador(direccion, COLUMNAS, FILAS);
 		}
 		jugador.actualizarTicksJugador();
-		powerups.actualizarPowerups(jugador.getPosX(),jugador.getPosY());
+		puntos = powerups.actualizarPowerups(jugador.getPosX(),jugador.getPosY())+ puntos;
 		if (!jugador.getTipoJugador().equals("ROJO")){
 			puntos=bombas.actualizarTicksBombas()+puntos;
 		}
@@ -202,6 +208,27 @@ public class EscenarioFacade {
     public void releaseRight() 	{ teclado.releasedRight(); }
     public void releaseUp()    	{ teclado.releasedUp(); }
     public void releaseDown()  	{ teclado.releasedDown(); }
+
+	public void resetEscenarioFacade() {
+		jugador.resetJugador();
+		this.COLUMNAS = 0;
+		this.FILAS = 0;
+		this.tipoPantalla = "";                   //Guardar el tipoPantalla para el reinicio
+		this.dificultad= "";
+	    tablero.resetTablero();
+		enemigos.resetEnemigos();
+		bombas.resetBombas();
+		powerups.resetPowerups();
+		jugador=null;
+		tablero=null;
+		enemigos=null;
+		bombas=null;
+		powerups=null;
+		bombasExplotadas=true;
+		sumarTiempo=false;
+		puntosExtra=0.;
+		
+	}
 
 
 	

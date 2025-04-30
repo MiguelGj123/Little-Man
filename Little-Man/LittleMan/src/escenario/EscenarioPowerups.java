@@ -27,10 +27,10 @@ public class EscenarioPowerups {
     public void inicializarPowerups() {
     	listaPowerups.clear();
     	miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 1));
-    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 2));
+    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("TiempoMas", 0, 1));
+    	/*listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 2));
     	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 3));
-    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 4));
+    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 4));*/
     }
     
     public EntidadInamoviblePowerup getPowerupEnPosicionXY (int pPosX, int pPosY)										// devuelve la bomba que hay en una posicion XY
@@ -103,8 +103,8 @@ public class EscenarioPowerups {
 		return powerupPuesto;
 	}
     
-    public void actualizarPowerups(int posJX, int posJY) {
-    	
+    public Double actualizarPowerups(int posJX, int posJY) {
+    	Double puntos=0.;
     	for ( int i=0; i<listaPowerups.size(); i++) {
     		EntidadInamoviblePowerup pPowerup = listaPowerups.get(i);													// Obtenemos el bloque que queremos actualizar
 			
@@ -112,9 +112,10 @@ public class EscenarioPowerups {
 				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.ITEM_GET));
 				powerupEffect(pPowerup.getCodigoPowerup());
 				listaPowerups.remove(i);		
+				puntos=100.;
 			}
 		}
-		
+		return puntos;
 	}
     
     private void powerupEffect(int pPowerup) {
@@ -182,6 +183,13 @@ public class EscenarioPowerups {
 	
 	public void listaSonidosClear() {
 		listaSonidos.clear();
+	}
+
+	public void resetPowerups() {
+		listaPowerups.clear();
+    	miEscenarioFacade = null;
+    	listaSonidos.clear();
+		
 	}
 
 }

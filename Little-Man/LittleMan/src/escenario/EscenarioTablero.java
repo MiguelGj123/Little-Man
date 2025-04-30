@@ -229,6 +229,17 @@ public class EscenarioTablero {
 		listaSonidos.clear();
 	}
 
+
+
+
+	public void resetTablero() {
+		matrizTablero = null;
+		listaPosFuegos.clear();
+		miEscenarioFacade = null;
+		listaSonidos.clear();
+		
+	}
+
 	
 	
 }

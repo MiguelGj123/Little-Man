@@ -46,5 +46,9 @@ public class Frm__HUD__Tiempo extends JLayeredPane{
             tiempoLabel.setText("TIME: " + tiempo);
         }
     }
+
+	public void resetTiempo() {
+		tiempoLabel=null;
+	}
     
 }

@@ -43,3 +43,27 @@
  -  Preueba         ha perdido | Puntuación: -2000	| Bomberman: AZUL	| Tiempo: 83	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 28/04/2025  00:56:30
  -  Preueba         ha perdido | Puntuación: 17680	| Bomberman: AZUL	| Tiempo: 39	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 28/04/2025  01:21:35
  -  Preueba         ha ganado  | Puntuación: 46480	| Bomberman: AZUL	| Tiempo: 6	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 28/04/2025  01:46:28
+ -  Preueba         ha perdido | Puntuación: -2000	| Bomberman: AZUL	| Tiempo: 92	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 29/04/2025  14:57:51
+ -  Preueba         ha perdido | Puntuación: -8800	| Bomberman: AZUL	| Tiempo: 86	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 29/04/2025  15:01:48
+ -  Preueba         ha perdido | Puntuación: -2640	| Bomberman: AZUL	| Tiempo: 88	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 29/04/2025  15:03:07
+ -  Preueba         ha perdido | Puntuación: -2000	| Bomberman: AZUL	| Tiempo: 85	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 29/04/2025  15:36:57
+ -  Preueba         ha perdido | Puntuación: -2000	| Bomberman: AZUL	| Tiempo: 93	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 29/04/2025  15:37:41
+ -  Preueba         ha ganado  | Puntuación: 75000	| Bomberman: AZUL	| Tiempo: 20	| Vidas: 4	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 29/04/2025  15:39:09
+ -  Preueba         ha perdido | Puntuación: -8800	| Bomberman: AZUL	| Tiempo: 62	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: dificil	| Fecha: 29/04/2025  15:41:56
+ -  Preueba         ha perdido | Puntuación: -1230	| Bomberman: BLANCO	| Tiempo: 182	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 29/04/2025  17:47:13
+ -  Preueba         ha perdido | Puntuación: -950	| Bomberman: BLANCO	| Tiempo: 192	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  19:59:12
+ -  Preueba         ha perdido | Puntuación: -740	| Bomberman: BLANCO	| Tiempo: 181	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  20:07:12
+ -  Preueba         ha perdido | Puntuación: -1480	| Bomberman: BLANCO	| Tiempo: 184	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  20:07:32
+ -  Preueba         ha perdido | Puntuación: -1000	| Bomberman: BLANCO	| Tiempo: 182	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  20:11:12
+ -  Preueba         ha perdido | Puntuación: -20	| Bomberman: BLANCO	| Tiempo: 193	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  20:12:58
+ -  Preueba         ha perdido | Puntuación: -750	| Bomberman: BLANCO	| Tiempo: 173	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  20:15:46
+ -  Preueba         ha perdido | Puntuación: -750	| Bomberman: BLANCO	| Tiempo: 200	| Vidas: 3	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  20:15:46
+ -  Preueba         ha perdido | Puntuación: -990	| Bomberman: BLANCO	| Tiempo: 188	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  20:25:04
+ -  Preueba         ha perdido | Puntuación: -1740	| Bomberman: BLANCO	| Tiempo: 48	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  20:54:34
+ -  Preueba         ha perdido | Puntuación: -990	| Bomberman: BLANCO	| Tiempo: 177	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  22:15:28
+ -  Preueba         ha ganado  | Puntuación: -2420	| Bomberman: BLANCO	| Tiempo: 92	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  22:26:25
+ -  Preueba         ha perdido | Puntuación: -750	| Bomberman: BLANCO	| Tiempo: 192	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  22:31:16
+ -  Preueba         ha perdido | Puntuación: -1240	| Bomberman: BLANCO	| Tiempo: 191	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  22:31:37
+ -  Preueba         ha perdido | Puntuación: -1970	| Bomberman: BLANCO	| Tiempo: 188	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  22:31:53
+ -  Preueba         ha perdido | Puntuación: -1220	| Bomberman: BLANCO	| Tiempo: 189	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  22:40:28
+ -  Preueba         ha ganado  | Puntuación: 1760	| Bomberman: BLANCO	| Tiempo: 56	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 30/04/2025  22:43:01

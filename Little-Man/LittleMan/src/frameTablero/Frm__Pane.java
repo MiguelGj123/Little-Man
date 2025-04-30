@@ -15,7 +15,7 @@ public class Frm__Pane extends JLayeredPane{
 	private Frm__Jugador__Panel jugador;
 	private Frm__Powerup__Panel powerup;
 	
-	private Frm__CONFIG config = Frm__CONFIG.getConfig();
+	private Frm__CONFIG config;
 	
 	private Frm__Pane() {
 		setLayout(null);
@@ -27,6 +27,7 @@ public class Frm__Pane extends JLayeredPane{
 	}
 		
 	public Frm__Pane iniciarPane(String param) {
+		config = Frm__CONFIG.getConfig();
 		stage=param;
 		fondo = new Frm__Fondo__Panel(param);
 		fondo.setBounds(0, 0, config.getANCHO(), config.getALTO());
@@ -52,6 +53,8 @@ public class Frm__Pane extends JLayeredPane{
 		add(enemigos, Integer.valueOf(3));
 		add(powerup, Integer.valueOf(4));
 		add(jugador, Integer.valueOf(5));
+		frame.setEnabled(true);
+		frame.setVisible(true);
 		return frame;
 	}
 	
@@ -62,5 +65,19 @@ public class Frm__Pane extends JLayeredPane{
 		enemigos.actualizarEnemigos(res[2]);
 		jugador.actualizarJugador(res[3]);
 		powerup.actualizarPowerup(res[4]);
+	}
+
+	public void resetPane() {
+		stage="";
+		fondo=null;
+		bloques=null;
+		bombas=null;
+		enemigos=null;
+		powerup=null;
+		jugador=null;
+		config=null;
+		frame.removeAll();
+		frame.setEnabled(false);
+		frame.setVisible(false);
 	}
 }

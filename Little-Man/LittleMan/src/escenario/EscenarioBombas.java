@@ -112,6 +112,16 @@ public class EscenarioBombas {
 	public void sumarTicks() 	{cambioTick=cambioTick+5;}
 	public void restarTicks() 	{cambioTick=cambioTick-5;}
 
+	public void resetBombas() {
+		listaBombas.clear();
+    	miEscenarioFacade = null;
+    	cambioRadio=0;
+    	cambioTick=0;
+    	tipoDeBomba="";
+    	listaSonidos.clear();
+		
+	}
+
 
     
 }

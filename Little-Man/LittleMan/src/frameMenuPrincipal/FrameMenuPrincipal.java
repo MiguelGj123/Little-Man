@@ -15,6 +15,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.Font;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 
 
@@ -32,9 +34,12 @@ import javax.swing.JLayeredPane;
 import javax.swing.Timer;
 
 import escenario.Escenario;
+import frameTablero.FrameTablero;
 
-public class FrameMenuPrincipal extends JFrame {
+public class FrameMenuPrincipal extends JFrame implements Observer{
 	
+	
+	private static FrameMenuPrincipal frame;
 	private MenuPrincipal menu = MenuPrincipal.getMenuPrincipal();
 
 	private final int ANCHO = 1000;
@@ -110,8 +115,10 @@ public class FrameMenuPrincipal extends JFrame {
 	        
 	    };
     
-    public FrameMenuPrincipal() 
+    private FrameMenuPrincipal() 
     {
+    	Escenario.getEscenario().addObserver(this);
+    	menu.resetMenuPrincipal();
     	inicializarSonidos();
     	crearVentana();
     	crearJPanel();
@@ -123,6 +130,18 @@ public class FrameMenuPrincipal extends JFrame {
         
 		actualizarJugadorColor("BLANCO");
     }
+    
+    public static FrameMenuPrincipal getFrameMenuPrincipal() {
+    	if (frame==null) {
+    		frame= new FrameMenuPrincipal();
+    	}
+    	return frame;
+    }
+    public void resetFrameMenuPrincipal(){
+    	frame=null;
+    	FrameMenuPrincipal.getFrameMenuPrincipal();
+    }
+    
     private void inicializarSonidos() {
     	SoundManager.getSoundManager().close();
     	SoundManager.getSoundManager().soundsToLoadMenu();
@@ -496,6 +515,7 @@ public class FrameMenuPrincipal extends JFrame {
                         obtenerLabelPorNombre(explosiones_personaje, String.valueOf(i)).setVisible(false);
                     }
                     explosionTimer.stop(); // Detener el timer después de ejecutarse
+                    explosionTimer = null;
                 }
             });
             
@@ -541,6 +561,14 @@ public class FrameMenuPrincipal extends JFrame {
     	
     	return controller;
     }
+    @Override
+    public void update(Observable o, Object obj) {
+    	if (o instanceof Escenario && obj instanceof String[]) {
+	    	FrameTablero nuevoframe=FrameTablero.getFrameTablero().inicializarFrameTablero((String[])obj, new int[] {17, 11});
+			nuevoframe.setVisible(true);
+			frame.setVisible(false);
+    	}
+    }
     
     class Controller implements  MouseListener,KeyListener,MouseMotionListener
     {
@@ -553,13 +581,14 @@ public class FrameMenuPrincipal extends JFrame {
     	}
     	private void iniciarJuego(String[] params) {
     		explosionVisible();
-    		
+    	    SoundManager.getSoundManager().stopSound("MUSIC_MENU");
             startGameTimer = new Timer(1000, new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
                 	Escenario.getEscenario().inicializarTablero(params[0], params[1], params[2], params [3]);
-                	dispose();
+                	
                     startGameTimer.stop(); // Detener el timer después de ejecutarse
+                    startGameTimer = null;
                 }
             });
 

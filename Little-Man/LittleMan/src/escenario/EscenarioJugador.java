@@ -211,6 +211,19 @@ public class EscenarioJugador {
 	public int	getMaxBombas()			{ return jug.getMaxBombas();}
 	public String getTipoBomba() 		{ return jug.getTipoBomba(); }
 	public String getTipoJugador() 		{ return jug.getTipoJugador(); }
+
+	public void resetJugador() {
+		win=false;
+		sfx=true;
+		visible = true;
+		invencible=false;
+		golpeable=true;
+		contadorDaño = 0;
+		jug = null;
+		listaSonidos.clear();
+		miEscenarioFacade = null;
+		
+	}
 	
 	
 }

@@ -46,4 +46,8 @@ public class Frm__CONFIG {
 	public int getALTO() {
 		return FILAS * PXL_LADO;
 	}
+
+	public void resetConfig() {
+		
+	}
 }

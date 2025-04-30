@@ -156,7 +156,7 @@ public class EscenarioEnemigos {
 				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)<0 && posEX != 0			) ? posEX - 1 : posEXnew;
 				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)>0 && posEX != COLUMNAS - 1) ? posEX + 1 : posEXnew;
 				movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew);
-			} 
+			}
 		}
 		
 		if (!movimientoEnemigoChocaConParedOBomba) {
@@ -228,5 +228,17 @@ public class EscenarioEnemigos {
 	
 	
 	public void resetWin() {win=false;}
+
+	public void resetEnemigos() {
+		win=false;
+		this.COLUMNAS = 0;
+		this.FILAS = 0;
+		miEscenarioFacade = null;
+		contadorSpawnear = 0;
+		visible = false;
+		dificultad= 0;
+		listaEnemigos.clear();
+		listaSonidos.clear();
+	}
     
 }

@@ -23,6 +23,12 @@ public class MenuPrincipal {
 		if (!listo) personaje.changeState(MenuPrincipalPersonajeFactory.getPersonajeFactory().generate(pPersonaje));
 		return personaje.getTipo(); //Notifica que el personaje ha cambiado
 	}
+	public void resetMenuPrincipal() {
+		listo=false;
+		escenario="NORMAL";
+		dificultad="facil";
+		volumen="BAJO";
+	}
 	public void seleccionarOpciones(int pDificultad, int pVolumen, int pEscenario) {
 		switch (pDificultad) {
 		case 0:

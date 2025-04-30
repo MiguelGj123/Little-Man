@@ -1,7 +1,7 @@
 package escenario;
 import java.util.*;
 
-
+import frameMenuPrincipal.FrameMenuPrincipal;
 import frameTablero.FrameTablero;
 
 
@@ -14,6 +14,8 @@ public class Escenario extends Observable{
 	private static final int FILAS = 11,COLUMNAS = 17;
 	
 	private boolean left=false, right=false, up=false, down=false, bomb=false;
+	private boolean unaVez=false;
+	private Boolean[] pausa= {false, false, false}; //[0]=Escape, [1]=Victoria, [2]=Derrota
 	private int cont=1;
 	private Timer timer=null;
 	private int tiempo,temporizador;
@@ -25,18 +27,41 @@ public class Escenario extends Observable{
 	private Escenario() {
     }
 	
-    private Escenario(String playerTipo, String pantalla, String dificultad, String volumen) {
-    	inicializarTablero(playerTipo, pantalla, dificultad, volumen);
-    }
+
 
     public static Escenario getEscenario() {
     	if (miEscenario == null) miEscenario = new Escenario();
         return miEscenario;
     }
     
-    public static Escenario getEscenario(String pPlayerTipo, String pantalla, String dificultad, String volumen) {
-        if (miEscenario == null) miEscenario = new Escenario(pPlayerTipo, pantalla, dificultad, volumen);
-        return miEscenario;
+
+    public void resetEscenario() {
+
+    	left=false;
+    	right=false; 
+    	up=false;
+    	down=false; 
+    	bomb=false;
+    	
+    	unaVez=false;
+    	pausa[0]= false;
+    	pausa[1]= false;
+    	pausa[2]= false;
+    	
+    	cont=1;
+    	timer.cancel();
+    	timer=null;
+    	tiempo=0;
+    	temporizador=0;
+    	
+    	playerTipo="";
+		dificultad="";
+		pantalla="";
+		
+    	puntos=0.;
+    	puntosTotales=0.;
+    	miEscenarioFacade.resetEscenarioFacade();
+    	miEscenarioFacade=null;
     }
 	
 	public void inicializarTablero(String pPlayerTipo,String pPantalla,String pDificultad,String volumen)
@@ -54,12 +79,17 @@ public class Escenario extends Observable{
 		temporizador=tiempo/20;
 		puntos=0.;
 		puntosTotales=0.;
+		if(!unaVez) {
 		iniciarJuegoFrame(params);
+		
+		}
 		timerStep();
 	}
 	private void iniciarJuegoFrame(String[] params) {
-	    FrameTablero nuevoframe = new FrameTablero(params, new int[] {17, 11});
-		nuevoframe.setVisible(true);
+		setChanged();
+		notifyObservers(params);
+		unaVez=true;
+		this.deleteObserver(FrameMenuPrincipal.getFrameMenuPrincipal());
     }
 
 	private void timerStep()
@@ -69,9 +99,12 @@ public class Escenario extends Observable{
 			@Override
 			public void run() {
 				cont++;
+				System.out.println(cont);
 				if (cont==121) cont=1;
 				if (!miEscenarioFacade.getMuerto() && !miEscenarioFacade.getWin()) {
+					if (!pausa[0] || !pausa[1] || !pausa[2]) {
 					tiempo--;
+					}
 				}
 				actualizarEscenario();
 			}
@@ -80,8 +113,15 @@ public class Escenario extends Observable{
 	}
 	
 	private void actualizarEscenario() {
+		if (miEscenarioFacade.getMuerto()) {
+			pausa[2]= true;
+		}
+		if(miEscenarioFacade.getWin()) {
+			pausa[1]= true;
+		}
+		if (!pausa[0] && !pausa[1] && !pausa[2]) {
 		if (miEscenarioFacade.sumarTiempo()) {
-			temporizador=temporizador+10;
+			tiempo=tiempo+200;
 			miEscenarioFacade.quitarTiempo();
 		}
 		if (puntos!=-1) {
@@ -113,7 +153,13 @@ public class Escenario extends Observable{
 		}
 		puntos=0.;
 		}
-		
+
+		} 
+		setChanged();
+		notifyObservers(pausa);
+		System.out.println(pausa[0]+"  "+pausa[1]+"  "+pausa[2]);
+
+
 	}
 	
 	
@@ -126,7 +172,9 @@ public class Escenario extends Observable{
 
 	
 	
-
+	public void escribirEnFichero() {
+		EscenarioFichero.guardarEstadisticas("Preueba", miEscenarioFacade.getWin(), (int) (double) puntosTotales, dificultad, pantalla, playerTipo, temporizador, miEscenarioFacade.getVidas());
+	}
 	
 	
 	public void pressLeft() 	{ miEscenarioFacade.pressLeft(); }
@@ -138,16 +186,25 @@ public class Escenario extends Observable{
     public void pressEnter() {
     	puntos=-1.;
     	if (miEscenarioFacade.getMuerto() || miEscenarioFacade.getWin()) {
-    		EscenarioFichero.guardarEstadisticas("Preueba", miEscenarioFacade.getWin(), (int) (double) puntosTotales, dificultad, pantalla, playerTipo, temporizador, miEscenarioFacade.getVidas());
+    		escribirEnFichero();
     		if ("pacifico".equals(dificultad)) {tiempo=4000;}
     		if ("facil".equals(dificultad)) {tiempo=4000;}
     		if ("normal".equals(dificultad)) {tiempo=3000;}
     		if ("dificil".equals(dificultad)) {tiempo=2000;}
     		temporizador=tiempo/20;
-    		System.out.println(EscenarioFichero.recuperarEstadisticas());
+    		pausa[1]=false;
+    		pausa[2]=false;
     	}
     	miEscenarioFacade.gestionarEnter();
     	
+    }
+    public void pressEscape() {
+    	System.out.println(pausa[0]);
+    	if (pausa[0]==true) {
+    		pausa[0]=false;
+    	} else if (pausa[0]==false){
+    		pausa[0]=true;
+    	}
     }
     
     
@@ -157,9 +214,19 @@ public class Escenario extends Observable{
     public void releaseUp()		{ miEscenarioFacade.releaseUp(); }
     public void releaseDown()	{ miEscenarioFacade.releaseDown(); }
     public void releaseEnter()	{ }
+    public void releaseEscape() { }
 	
     public int getCOLUMNAS () { return COLUMNAS; }
     public int getFILAS () { return FILAS; }
+
+	public void vueltaAMenuPrincipal() {
+		unaVez=false;
+		
+	}
+
+	
+
+	
     
     
     

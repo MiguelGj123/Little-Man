@@ -7,10 +7,10 @@ public class Main {
     public static void main(String[] args)
     {
 
-        //FrameMenuPrincipal frameInicio = new FrameMenuPrincipal();
-        //frameInicio.setVisible(true);
+        FrameMenuPrincipal frameInicio = FrameMenuPrincipal.getFrameMenuPrincipal();
+        frameInicio.setVisible(true);
     	
-    	Escenario.getEscenario().inicializarTablero("AZUL", "NORMAL", "dificil", "BAJO");
+    	//Escenario.getEscenario().inicializarTablero("ROJO", "NORMAL", "dificil", "BAJO");
 
         
 
