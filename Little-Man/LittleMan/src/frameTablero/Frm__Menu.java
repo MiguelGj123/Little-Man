@@ -29,6 +29,8 @@ public class Frm__Menu extends JLayeredPane{
 	private JPanel panelBotones;
 	private boolean enMenu=false;
 	
+	private Frm__MenuState estadoActual;
+	
 	private Frm__Menu() {
 		setLayout(null);
 	}
@@ -65,7 +67,7 @@ public class Frm__Menu extends JLayeredPane{
 	}
 	
 	
-	private void mostrarMenu(String titulo, String[] textos, String[] comandos) {
+	public void mostrarMenu(String titulo, String[] textos, String[] comandos) {
 	    this.removeAll();
 
 	    int anchoPanel = 500;
@@ -150,16 +152,26 @@ public class Frm__Menu extends JLayeredPane{
 	    }
 
 	}
-
 	private void cerrarYVolverAMenuPrincipal(boolean guardar) {
+	    ocultarMenu();
+	    volverAlMenuPrincipal(guardar);
+	    limpiarRecursos();
+	}
+	private void ocultarMenu() {
 	    this.setVisible(false);
-	    Escenario.getEscenario().vueltaAMenuPrincipal();
 	    SwingUtilities.getWindowAncestor(this).requestFocusInWindow();
+	}
+
+	private void volverAlMenuPrincipal(boolean guardar) {
+	    Escenario.getEscenario().vueltaAMenuPrincipal();
 	    if (guardar) {
 	        Escenario.getEscenario().escribirEnFichero();
 	    }
 	    SwingUtilities.getWindowAncestor(this).setVisible(false);
 	    FrameMenuPrincipal.getFrameMenuPrincipal().resetFrameMenuPrincipal();
+	}
+
+	private void limpiarRecursos() {
 	    Escenario.getEscenario().deleteObserver(FrameTablero.getFrameTablero());
 	    FrameTablero.getFrameTablero().resetFrameTablero();
 	    FrameTablero.getFrameTablero().discard();
@@ -167,29 +179,30 @@ public class Frm__Menu extends JLayeredPane{
 	    SoundManager.getSoundManager().close();
 	}
 
+
 	public void actualizarMenu(Boolean[] res) {
-	    if (res == null || res.length < 3) return;
-			System.out.println(res[0]+"  "+res[1]+"  "+res[2]+"   "+enMenu);
-		    if (res[0] && !enMenu) {
-		        mostrarMenu("PAUSA",
-		            new String[]{"<html><div style='text-align: center;'>REANUDAR<br>PARTIDA</div></html>", "<html><div style='text-align: center;'>VOLVER<br>AL MENÚ</div></html>"},
-		            new String[]{"REANUDAR", "VOLVER_MENU"});
-		        enMenu = true;
-		    } else if (res[1] && !enMenu) {
-		        mostrarMenu("FELICIDADES, HAS GANADO!",
-		            new String[]{"<html><div style='text-align: center;'>VOLVER<br>AL JUGAR</div></html>", "<html><div style='text-align: center;'>GUARDAR Y VOLVER<br>AL MENÚ</div></html>"},
-		            new String[]{"VOLVER_JUGAR", "GUARDAR_Y_MENU"});
-		        enMenu = true;
-		    } else if (res[2] && !enMenu) {
-		        mostrarMenu("HAS MUERTO",
-		            new String[]{"<html><div style='text-align: center;'>REINTENTAR</div></html>", "<html><div style='text-align: center;'>GUARDAR Y VOLVER<br>AL MENÚ</div></html>"},
-		            new String[]{"REINTENTAR", "GUARDAR_Y_MENU"});
-		        enMenu = true;
-		    } else if (!res[0] && !res[1] && !res[2]) {
-		        this.setVisible(false);
-		        enMenu = false;
-		    }
+		if (res == null || res.length < 3) return;
+		
+		if (res[0] && !enMenu) {
+		    setEstado(new Frm__MenuPausa());
+		} else if (res[1] && !enMenu) {
+		    setEstado(new Frm__MenuVictoria());
+		} else if (res[2] && !enMenu) {
+		    setEstado(new Frm__MenuDerrota());
+		} else if (!res[0] && !res[1] && !res[2]) {
+		    setEstado(null);
+		}
+	}
 	    
+	public void setEstado(Frm__MenuState estado) {
+	    this.estadoActual = estado;
+	    if (estado != null) {
+	        estado.mostrar(this);
+	        enMenu = true;
+	    } else {
+	        this.setVisible(false);
+	        enMenu = false;
+	    }
 	}
 
 	public void resetPausa() {

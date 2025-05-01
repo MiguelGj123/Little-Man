@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import entidad.EntidadInamovibleBloque;
+import sonido.SonidoCodigo;
 import sonido.SonidoCodigos;
 import sonido.SonidoCodigosEnum;
 
@@ -147,8 +148,8 @@ public class EscenarioTablero {
     	Double puntos=0.;
 		int posBloqueExplotarX, posBloqueExplotarY;
 		boolean[] finLineaBomba = new boolean[] {false, false, false, false};
-		listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.BOMB_EXPLODE));
-		listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.BOMB_EXPLODE));
+		listaSonidos.add(SonidoCodigo.BOMB_EXPLODE.parar());
+		listaSonidos.add(SonidoCodigo.BOMB_EXPLODE.sonar());
 		
 		
 		

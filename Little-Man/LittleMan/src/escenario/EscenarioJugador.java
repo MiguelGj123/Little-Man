@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import entidad.EntidadMovibleJugador;
 import entidad.EntidadMovibleJugadorFactory;
+import sonido.SonidoCodigo;
 import sonido.SonidoCodigos;
 import sonido.SonidoCodigosEnum;
 
@@ -37,7 +38,7 @@ public class EscenarioJugador {
 		visible = true;
 		contadorDaño = 0;
 		jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate(playerTipo, 0, 0);
-		listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.MUSIC));
+		listaSonidos.add(SonidoCodigo.MUSIC.sonar());
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
 	}
 	
@@ -71,7 +72,7 @@ public class EscenarioJugador {
 						
 					
 					if (!movimientoJugadorChocaConParedOBomba && (posJX != posJXnew || posJY != posJYnew)) {
-						listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.WALK));
+						listaSonidos.add(SonidoCodigo.WALK.sonar());
 						if (posJXnew==posJX-1) {
 							jug.setCodigoMov(2);
 						}
@@ -158,8 +159,8 @@ public class EscenarioJugador {
 		if (sfx) {
 			sfx=false;
 			
-			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.MUSIC));
-			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.WIN));
+			listaSonidos.add(SonidoCodigo.MUSIC.parar());
+			listaSonidos.add(SonidoCodigo.WIN.sonar());
 		}
 	}
 	public void resetWin() {win=false;}
@@ -179,8 +180,8 @@ public class EscenarioJugador {
 			if (sfx) {
 				sfx=false;
 				
-				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.MUSIC));
-				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.DEATH));
+				listaSonidos.add(SonidoCodigo.MUSIC.parar());
+				listaSonidos.add(SonidoCodigo.DEATH.sonar());
 			}
 		}
 	}
@@ -196,8 +197,8 @@ public class EscenarioJugador {
 			if (sfx) {
 				sfx=false;
 				
-				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.MUSIC));
-				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.DEATH));
+				listaSonidos.add(SonidoCodigo.MUSIC.parar());
+				listaSonidos.add(SonidoCodigo.DEATH.sonar());
 			}
 		}
 		return puntos;

@@ -7,6 +7,7 @@ import java.util.Random;
 
 import entidad.EntidadMovibleEnemigo;
 import entidad.EntidadMovibleEnemigoFactory;
+import sonido.SonidoCodigo;
 import sonido.SonidoCodigos;
 import sonido.SonidoCodigosEnum;
 
@@ -188,8 +189,8 @@ public class EscenarioEnemigos {
 		Double puntos=0.;
 		for (int i = 0; i < listaEnemigos.size(); i++) {
 			if (listaEnemigos.get(i).getPosX() == posFX && listaEnemigos.get(i).getPosY() == posFY) {
-				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoPararSonido(SonidoCodigosEnum.ENEMY_DEATH));
-				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.ENEMY_DEATH));
+				listaSonidos.add(SonidoCodigo.ENEMY_DEATH.parar());
+				listaSonidos.add(SonidoCodigo.ENEMY_DEATH.sonar());
 				if (listaEnemigos.get(i).getCodigoEnemigo()==40) {puntos=100.+puntos;}
 				if (listaEnemigos.get(i).getCodigoEnemigo()==41) {puntos=120.+puntos;}
 				listaEnemigos.remove(i);

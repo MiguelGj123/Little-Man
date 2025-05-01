@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import entidad.EntidadInamovibleBomba;
 import entidad.EntidadInamovibleBombaFactory;
+import sonido.SonidoCodigo;
 import sonido.SonidoCodigos;
 import sonido.SonidoCodigosEnum;
 
@@ -72,14 +73,14 @@ public class EscenarioBombas {
 		tipoDeBomba=tipoBomba;
 		
 		if (listaBombas.size()==0) {
-			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.PLACE_BOMB));
+			listaSonidos.add(SonidoCodigo.PLACE_BOMB.sonar());
 			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY, radio));
 			listaBombas.getLast().cambioRadio(cambioRadio);
 			listaBombas.getLast().cambioTick(cambioTick);
 			bombaPuesta = true;
 			
 		} else if ( !(listaBombas.get(listaBombas.size()-1).getPosX() == posJX && listaBombas.get(listaBombas.size()-1).getPosY() == posJY )) {		// si no es la misma posicion que la ultima bomba puesta
-			listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.PLACE_BOMB));
+			listaSonidos.add(SonidoCodigo.PLACE_BOMB.sonar());
 			listaBombas.add(EntidadInamovibleBombaFactory.getBombaFactory().generate(tipoBomba, posJX, posJY, radio));
 			listaBombas.getLast().cambioRadio(cambioRadio);
 			listaBombas.getLast().cambioTick(cambioTick);

@@ -1,4 +1,5 @@
 package sonido;
+
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
@@ -6,20 +7,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class SoundManager {
-    private static SoundManager miSoundManager;
+    private static SoundManager instance;
     private final Map<String, Clip> soundClips = new HashMap<>();
-    private String music=null;
+    private String currentMusic = null;
 
-    // Constructor privado para evitar instancias adicionales
     private SoundManager() {}
 
-    // Método para obtener la única instancia del Singleton
     public static SoundManager getSoundManager() {
-    	if (miSoundManager==null) miSoundManager= new SoundManager();
-        return miSoundManager;
+        if (instance == null) {
+            instance = new SoundManager();
+        }
+        return instance;
     }
 
-    // Precargar sonidos en memoria
     private void loadSound(String name, String path) {
         try {
             File soundFile = new File(path);
@@ -32,134 +32,91 @@ public class SoundManager {
         }
     }
 
-    // Reproducir un sonido precargado
-    public void playSoundMusic(String name) {
-        Clip clip = soundClips.get(name);
-        if (clip != null) {
-            if (clip.isRunning()) {
-                clip.stop(); // Detiene el sonido si ya está reproduciéndose
-            }
-            if (music==null) {
-            clip.setFramePosition(0); // Reinicia desde el inicio
-            } else {
-                clip.setFramePosition(getFrameMusic(music));
-            }
-            clip.loop(Clip.LOOP_CONTINUOUSLY);
-            clip.setLoopPoints(0, 7938047);
-            clip.start();
-            music=name;
-            
-        }
+    private void loadAsync(String name, String path) {
+        new Thread(() -> loadSound(name, path)).start();
     }
-    private int getFrameMusic(String name) {
-    	int frame=0;
-    	Clip clip = soundClips.get(name);
-    	if (clip != null) {
-    		frame = clip.getFramePosition();
-    	}
-    	return frame;
-    }
+
     public void playSound(String name) {
         Clip clip = soundClips.get(name);
         if (clip != null) {
             if (clip.isRunning()) {
-                clip.stop(); // Detiene el sonido si ya está reproduciéndose
+                clip.stop();
             }
-            clip.setFramePosition(0); // Reinicia desde el inicio
+            clip.setFramePosition(0);
             clip.start();
         }
     }
+
+    public void playSoundMusic(String name) {
+        Clip clip = soundClips.get(name);
+        if (clip != null) {
+            if (clip.isRunning()) {
+                clip.stop();
+            }
+            clip.setFramePosition(currentMusic == null ? 0 : getFramePosition(currentMusic));
+            clip.loop(Clip.LOOP_CONTINUOUSLY);
+            clip.setLoopPoints(0, 7938047); // configurable
+            clip.start();
+            currentMusic = name;
+        }
+    }
+
     public void stopSound(String name) {
         Clip clip = soundClips.get(name);
         if (clip != null) {
-        	if (name=="MENU"||name=="MUSIC") {
-        		music = null;
-        	}
+            if (name.equals("MUSIC")) {
+                currentMusic = null;
+            }
             if (clip.isRunning()) {
-                clip.stop(); // Detiene el sonido si ya está reproduciéndose
+                clip.stop();
             }
         }
     }
-    private void loadAsync(String name, String path) {
-    	new Thread(() -> loadSound(name,path)).start();
-    }
-    public void soundsToLoadMenu() {
-    		loadAsync("BOMB_EXPLODE1", "sfx/bombExplode1.wav");
-        	loadAsync("BOMB_EXPLODE2", "sfx/bombExplode2.wav");
-        	loadAsync("BOMB_EXPLODE3", "sfx/bombExplode3.wav");
-        	loadAsync("MINI_EXPLODE1", "sfx/miniExplode1.wav");
-        	loadAsync("MINI_EXPLODE2", "sfx/miniExplode2.wav");
-        	loadAsync("MINI_EXPLODE3", "sfx/miniExplode3.wav");
-        	loadAsync("SELECT_MENU1", "sfx/selectMenu1.wav");
-        	loadAsync("SELECT_MENU2", "sfx/selectMenu2.wav");
-        	loadAsync("SELECT_MENU3", "sfx/selectMenu3.wav");
-        	loadSound("MUSIC_MENU1", "sfx/musicMenu1.wav");
-        	loadAsync("MUSIC_MENU2", "sfx/musicMenu2.wav");
-        	loadAsync("MUSIC_MENU3", "sfx/musicMenu3.wav");
-    }
-    public void soundsToLoadEscenario(String vol) {
-    	switch(vol) {
-    	case "APAGADO":
-    		loadAsync("BOMB_EXPLODE", "sfx/void.wav");
-        	loadAsync("DEATH", "sfx/void.wav");
-        	loadAsync("ENEMY_DEATH", "sfx/void.wav");
-        	loadAsync("ITEM_GET", "sfx/void.wav");
-        	loadAsync("PLACE_BOMB", "sfx/void.wav");
-        	loadAsync("WALK", "sfx/void.wav");
-        	loadAsync("WIN", "sfx/void.wav");
-        	loadSound("MUSIC", "sfx/void.wav");
-    		break;
-    	case "BAJO":
-        	loadAsync("BOMB_EXPLODE", "sfx/bombExplode1.wav");
-        	loadAsync("DEATH", "sfx/die1.wav");
-        	loadAsync("ENEMY_DEATH", "sfx/enemyDies1.wav");
-        	loadAsync("ITEM_GET", "sfx/itemGet1.wav");
-        	loadAsync("PLACE_BOMB", "sfx/placeBomb1.wav");
-        	loadAsync("WALK", "sfx/walk1.wav");
-        	loadAsync("WIN", "sfx/win1.wav");
-        	loadSound("MUSIC", "sfx/musicScene1.wav");
-    		break;
-    	case "MEDIO":
-        	loadAsync("BOMB_EXPLODE", "sfx/bombExplode2.wav");
-        	loadAsync("DEATH", "sfx/die2.wav");
-        	loadAsync("ENEMY_DEATH", "sfx/enemyDies2.wav");
-        	loadAsync("ITEM_GET", "sfx/itemGet2.wav");
-        	loadAsync("PLACE_BOMB", "sfx/placeBomb2.wav");
-        	loadAsync("WALK", "sfx/walk2.wav");
-        	loadAsync("WIN", "sfx/win2.wav");
-        	loadSound("MUSIC", "sfx/musicScene2.wav");
-    		break;
-    	case "ALTO":
-        	loadAsync("BOMB_EXPLODE", "sfx/bombExplode3.wav");
-        	loadAsync("DEATH", "sfx/die3.wav");
-        	loadAsync("ENEMY_DEATH", "sfx/enemyDies3.wav");
-        	loadAsync("ITEM_GET", "sfx/itemGet3.wav");
-        	loadAsync("PLACE_BOMB", "sfx/placeBomb3.wav");
-        	loadAsync("WALK", "sfx/walk3.wav");
-        	loadAsync("WIN", "sfx/win3.wav");
-        	loadSound("MUSIC", "sfx/musicScene3.wav");
-    		break;
-		default:
-        	loadAsync("BOMB_EXPLODE", "sfx/bombExplode2.wav");
-        	loadAsync("DEATH", "sfx/die2.wav");
-        	loadAsync("ENEMY_DEATH", "sfx/enemyDies2.wav");
-        	loadAsync("ITEM_GET", "sfx/itemGet2.wav");
-        	loadAsync("PLACE_BOMB", "sfx/placeBomb2.wav");
-        	loadAsync("WALK", "sfx/walk2.wav");
-        	loadAsync("WIN", "sfx/win2.wav");
-        	loadSound("MUSIC", "sfx/musicScene2.wav");
-			break;
 
-    	}
+    private int getFramePosition(String name) {
+        Clip clip = soundClips.get(name);
+        return (clip != null) ? clip.getFramePosition() : 0;
     }
-    
 
-    // Liberar memoria cuando el juego termine
     public void close() {
         for (Clip clip : soundClips.values()) {
             clip.close();
         }
-        music = null;
         soundClips.clear();
+        currentMusic = null;
+    }
+
+    public void soundsToLoadMenu() {
+    	loadAsync("BOMB_EXPLODE1", "sfx/bombExplode1.wav");
+    	loadAsync("BOMB_EXPLODE2", "sfx/bombExplode2.wav");
+    	loadAsync("BOMB_EXPLODE3", "sfx/bombExplode3.wav");
+    	loadAsync("MINI_EXPLODE1", "sfx/miniExplode1.wav");
+    	loadAsync("MINI_EXPLODE2", "sfx/miniExplode2.wav");
+    	loadAsync("MINI_EXPLODE3", "sfx/miniExplode3.wav");
+    	loadAsync("SELECT_MENU1", "sfx/selectMenu1.wav");
+    	loadAsync("SELECT_MENU2", "sfx/selectMenu2.wav");
+    	loadAsync("SELECT_MENU3", "sfx/selectMenu3.wav");
+    	loadSound("MUSIC_MENU1", "sfx/musicMenu1.wav");
+    	loadAsync("MUSIC_MENU2", "sfx/musicMenu2.wav");
+    	loadAsync("MUSIC_MENU3", "sfx/musicMenu3.wav");
+    }
+
+    public void soundsToLoadEscenario(String volumen) {
+        String sufijo = switch (volumen.toUpperCase()) {
+            case "BAJO" -> "1";
+            case "MEDIO" -> "2";
+            case "ALTO" -> "3";
+            case "APAGADO" -> "void";
+            default -> "2";
+        };
+
+        loadAsync("BOMB_EXPLODE", "sfx/bombExplode" + sufijo + ".wav");
+        loadAsync("DEATH", "sfx/die" + sufijo + ".wav");
+        loadAsync("ENEMY_DEATH", "sfx/enemyDies" + sufijo + ".wav");
+        loadAsync("ITEM_GET", "sfx/itemGet" + sufijo + ".wav");
+        loadAsync("PLACE_BOMB", "sfx/placeBomb" + sufijo + ".wav");
+        loadAsync("WALK", "sfx/walk" + sufijo + ".wav");
+        loadAsync("WIN", "sfx/win" + sufijo + ".wav");
+        loadSound("MUSIC", "sfx/musicScene" + sufijo + ".wav");
     }
 }

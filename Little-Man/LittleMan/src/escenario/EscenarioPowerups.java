@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 import entidad.EntidadInamoviblePowerup;
 import entidad.EntidadInamoviblePowerupFactory;
+import sonido.SonidoCodigo;
 import sonido.SonidoCodigos;
 import sonido.SonidoCodigosEnum;
 
@@ -27,7 +28,7 @@ public class EscenarioPowerups {
     public void inicializarPowerups() {
     	listaPowerups.clear();
     	miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("TiempoMas", 0, 1));
+    	//listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("TiempoMas", 0, 1));
     	/*listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 2));
     	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 3));
     	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 4));*/
@@ -109,7 +110,7 @@ public class EscenarioPowerups {
     		EntidadInamoviblePowerup pPowerup = listaPowerups.get(i);													// Obtenemos el bloque que queremos actualizar
 			
 			if (pPowerup.getPosX()==posJX && pPowerup.getPosY()==posJY) {
-				listaSonidos.add(SonidoCodigos.getSonidoCodigos().getCodigoSonarSonido(SonidoCodigosEnum.ITEM_GET));
+				listaSonidos.add(SonidoCodigo.ITEM_GET.sonar());
 				powerupEffect(pPowerup.getCodigoPowerup());
 				listaPowerups.remove(i);		
 				puntos=100.;
