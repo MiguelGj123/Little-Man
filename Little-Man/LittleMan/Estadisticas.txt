@@ -70,3 +70,17 @@
  -  Preueba         ha perdido | Puntuación: -730	| Bomberman: BLANCO	| Tiempo: 187	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  12:09:56
  -  Preueba         ha ganado  | Puntuación: -440	| Bomberman: BLANCO	| Tiempo: 80	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  12:12:09
  -  Preueba         ha ganado  | Puntuación: 4390	| Bomberman: BLANCO	| Tiempo: 147	| Vidas: 3	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  13:14:44
+ -  Preueba         ha ganado  | Puntuación: 2210	| Bomberman: BLANCO	| Tiempo: 139	| Vidas: 3	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  13:20:15
+ -  Preueba         ha perdido | Puntuación: 22280	| Bomberman: BLANCO	| Tiempo: 54	| Vidas: 0	| Pantalla: NO_DURO	| Dificultad: dificil	| Fecha: 01/05/2025  13:32:22
+ -  Preueba         ha ganado  | Puntuación: 1790	| Bomberman: ROJO	| Tiempo: 130	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  13:49:57
+ -  Preueba         ha ganado  | Puntuación: 880	| Bomberman: ROJO	| Tiempo: 105	| Vidas: 1	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  13:51:46
+ -  Preueba         ha ganado  | Puntuación: 2470	| Bomberman: ROJO	| Tiempo: 169	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  13:57:13
+ -  Preueba         ha perdido | Puntuación: -490	| Bomberman: ROJO	| Tiempo: 184	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  13:58:34
+ -  Preueba         ha perdido | Puntuación: -620	| Bomberman: ROJO	| Tiempo: 188	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  14:06:20
+ -  Preueba         ha perdido | Puntuación: 40	| Bomberman: ROJO	| Tiempo: 193	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  14:06:30
+ -  Preueba         ha perdido | Puntuación: -310	| Bomberman: ROJO	| Tiempo: 189	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  14:06:43
+ -  Preueba         ha perdido | Puntuación: -2200	| Bomberman: AZUL	| Tiempo: 161	| Vidas: 0	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  17:39:18
+ -  Preueba         ha ganado  | Puntuación: 91280	| Bomberman: NEGRO	| Tiempo: 51	| Vidas: 2	| Pantalla: NO_DURO	| Dificultad: dificil	| Fecha: 01/05/2025  18:58:55
+ -  Preueba         ha ganado  | Puntuación: 2760	| Bomberman: BLANCO	| Tiempo: 112	| Vidas: 4	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  19:17:41
+ -  Preueba         ha ganado  | Puntuación: 3290	| Bomberman: BLANCO	| Tiempo: 111	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  19:21:14
+ -  Preueba         ha ganado  | Puntuación: 360	| Bomberman: BLANCO	| Tiempo: 137	| Vidas: 4	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  19:22:28

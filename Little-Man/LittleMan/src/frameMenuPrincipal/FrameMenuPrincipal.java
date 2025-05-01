@@ -25,7 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
-
+import javax.swing.SwingUtilities;
 
 import sonido.SoundManager;
 
@@ -40,7 +40,7 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
 	
 	
 	private static FrameMenuPrincipal frame;
-	private MenuPrincipal menu = MenuPrincipal.getMenuPrincipal();
+	private MenuPrincipal menu;
 
 	private final int ANCHO = 1000;
 	private final int LARGO = 606;
@@ -53,6 +53,7 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
 	private static final ImageIcon ICONO_MENU_OPCIONES = new ImageIcon("Pixels/Menu_opciones_vacio.png");
 	private static final ImageIcon ICONO_MENU_OPCIONES_X = new ImageIcon("Pixels/Menu_opciones_vacio_x.png");
 	private boolean opcionesAbiertas = false;
+	private boolean controlado=false;
 	
 	private int seleccionFila0 = 1;
 	private int seleccionFila1 = 1;
@@ -117,18 +118,7 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     
     private FrameMenuPrincipal() 
     {
-    	Escenario.getEscenario().addObserver(this);
-    	menu.resetMenuPrincipal();
-    	inicializarSonidos();
-    	crearVentana();
-    	crearJPanel();
-        generarJLabelsFrame();
-        aniadirJLabels();
-        aniadirJPanel();
-        configurarVentana();
-        aniadirObserverMouseKeyListener();
-        
-		actualizarJugadorColor("BLANCO");
+    	
     }
     
     public static FrameMenuPrincipal getFrameMenuPrincipal() {
@@ -138,8 +128,74 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     	return frame;
     }
     public void resetFrameMenuPrincipal(){
-    	frame=null;
-    	FrameMenuPrincipal.getFrameMenuPrincipal();
+    	menu.resetMenuPrincipal();
+    	menu = null;
+
+    	opcionesAbiertas = false;
+    	
+    	seleccionFila0 = 1;
+    	seleccionFila1 = 1;
+    	seleccionFila2 = 1;
+        valorFinalFila2= 1;
+    	imagenCombinada=null;
+    	removeKeyListener(getController());
+    	removeMouseListener(getController());
+    	
+    	explosionTimer=null;
+    	System.out.println(getContentPane().getComponentCount());
+    	System.out.println(layeredPane.getComponentCount()+" LayeredPane");
+
+    	personajes=null;
+    	explosiones_personaje=null;
+    	explosion=null;
+    	fondo=null;
+    	titulo=null;
+    	fondoBoss=null;
+    	iconoOpciones=null;
+    	panelOpciones=null;
+    	layeredPane=null;
+    	System.out.println(getContentPane().getComponentCount());
+    	frame.getContentPane().removeAll();
+    	System.out.println(getContentPane().getComponentCount());
+    	frame.setEnabled(false);
+    	frame.setVisible(false);
+    	System.out.println("Reset Menu principal");
+
+    }
+    public FrameMenuPrincipal inicializarFrameMenuPrincipal() {
+    	frame.setEnabled(true);
+	   
+    	menu = MenuPrincipal.getMenuPrincipal().iniciarMenuPrincipal();
+    	System.out.println("menu iniciado");
+    	Escenario.getEscenario().addObserver(this);
+    	System.out.println("Escenario observado");
+    	inicializarSonidos();
+    	System.out.println("Sonido iniciado");
+    	crearVentana();
+    	System.out.println("Ventana creada");
+    	crearJPanel();
+    	System.out.println("Jpanel creado");
+        generarJLabelsFrame();
+    	System.out.println("Labels frame creados");
+    	System.out.println(getContentPane().getComponentCount());
+    	System.out.println(layeredPane.getComponentCount()+" LayeredPane");
+        aniadirJLabels();
+    	System.out.println("labels añadidos");
+    	System.out.println(layeredPane.getComponentCount()+" LayeredPane");
+    	System.out.println(getContentPane().getComponentCount());
+        aniadirJPanel();
+    	System.out.println("pane añadidos");
+    	System.out.println(layeredPane.getComponentCount()+" LayeredPane");
+    	System.out.println(getContentPane().getComponentCount());
+        configurarVentana();
+    	System.out.println("ventana configurada");
+        aniadirObserverMouseKeyListener();
+    	System.out.println("KeyListener añadido");
+		actualizarJugadorColor("BLANCO");
+    	System.out.println(getContentPane().getComponentCount());
+    	System.out.println("Actualizado color jugador a blanco");
+    	System.out.println("________________________________________");
+		return frame;
     }
     
     private void inicializarSonidos() {
@@ -194,11 +250,15 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     	setResizable(false); 
     	setLocationRelativeTo(null);
     	setVisible(true);
+    	frame.setFocusable(true);
+ 	    frame.requestFocusInWindow();
     }
     
     private void aniadirObserverMouseKeyListener() {
-    	addMouseListener(new Controller());								// añadimos mouse listener
-    	addKeyListener(new Controller());								// añadimos key   listener
+    	addMouseListener(getController());								// añadimos mouse listener
+    	addKeyListener(getController());								// añadimos key   listener
+    	getController().iniciarController();
+
     }
     
     private JLabel crearIconoOpciones() {
@@ -402,17 +462,17 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
 			case "Pixels/bomber2.png":
 				return "NEGRO";
 			case "Pixels/bomber3.png":
-				return "";
+				return "AZUL";
 			case "Pixels/bomber4.png":
-				return "";
+				return "ROJO";
 			case "Pixels/bomber1_gray.png":
 				return "BLANCO";
 			case "Pixels/bomber2_gray.png":
 				return "NEGRO";
 			case "Pixels/bomber3_gray.png":
-				return "";
+				return "AZUL";
 			case "Pixels/bomber4_gray.png":
-				return "";
+				return "ROJO";
 			case "icono":
 				return "icono";
 			default:
@@ -434,13 +494,13 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
         
         panelCentral.add(crearJLabel(ICONOS_PERSONAJES[0], 110, 290, 90, 132, false, false, false , null	, true ));		// añadir a panelCentral:	Bomberman	(color) BLANCO	posx, posy, dimX, dimY, visible, multTamaño
         panelCentral.add(crearJLabel(ICONOS_PERSONAJES[1], 240, 380, 75, 139, false, false, false , null	, true ));		// añadir a panelCentral:	Bomberman	(color) NEGRO	posx, posy, dimX, dimY, visible, multTamaño
-        panelCentral.add(crearJLabel(ICONOS_PERSONAJES[2], 695, 380, 65, 128, false, false, false , null	, false));		// añadir a panelCentral:	Bomberman	(color) AZUL	posx, posy, dimX, dimY, visible, multTamaño
-        panelCentral.add(crearJLabel(ICONOS_PERSONAJES[3], 750, 290, 171, 150, false, false, false , null	, false));		// añadir a panelCentral:	Bomberman	(color) ROSA	posx, posy, dimX, dimY, visible, multTamaño
+        panelCentral.add(crearJLabel(ICONOS_PERSONAJES[2], 695, 380, 65, 128, false, false, false , null	, true));		// añadir a panelCentral:	Bomberman	(color) AZUL	posx, posy, dimX, dimY, visible, multTamaño
+        panelCentral.add(crearJLabel(ICONOS_PERSONAJES[3], 750, 290, 171, 150, false, false, false , null	, true));		// añadir a panelCentral:	Bomberman	(color) ROSA	posx, posy, dimX, dimY, visible, multTamaño
         
         panelCentral.add(crearJLabel(ICONOS_PERSONAJES[4], 110, 290, 90, 132, true , false, false , null	, true ));		// añadir a panelCentral:	Bomberman	(gris)  BLANCO	posx, posy, dimX, dimY, visible, multTamaño
         panelCentral.add(crearJLabel(ICONOS_PERSONAJES[5], 240, 380, 75, 139, true , false, false , null	, true ));		// añadir a panelCentral:	Bomberman	(gris)  NEGRO	posx, posy, dimX, dimY, visible, multTamaño
-        panelCentral.add(crearJLabel(ICONOS_PERSONAJES[6], 695, 380, 65, 128, true , false, false , null	, false));		// añadir a panelCentral:	Bomberman	(gris)  AZUL	posx, posy, dimX, dimY, visible, multTamaño
-        panelCentral.add(crearJLabel(ICONOS_PERSONAJES[7], 750, 290, 171, 150, true , false, false , null	, false));		// añadir a panelCentral:	Bomberman	(gris)  ROSA	posx, posy, dimX, dimY, visible, multTamaño
+        panelCentral.add(crearJLabel(ICONOS_PERSONAJES[6], 695, 380, 65, 128, true , false, false , null	, true));		// añadir a panelCentral:	Bomberman	(gris)  AZUL	posx, posy, dimX, dimY, visible, multTamaño
+        panelCentral.add(crearJLabel(ICONOS_PERSONAJES[7], 750, 290, 171, 150, true , false, false , null	, true));		// añadir a panelCentral:	Bomberman	(gris)  ROSA	posx, posy, dimX, dimY, visible, multTamaño
         
         panelCentral.add(crearJLabel(ICONOS_ENEMIGOS[1]  , 910, 180, 177, 357, true , false, false , null	, false));		// añadir a panelCentral:	Enemigo		DERECHA		posx, posy, dimX, dimY, visible, multTamaño
         panelCentral.add(crearJLabel(ICONOS_ENEMIGOS[2]  , -17, 470, 100, 216, true , false, false , null	, false));		// añadir a panelCentral:	Enemigo		IZQUIERDA	posx, posy, dimX, dimY, visible, multTamaño
@@ -483,11 +543,14 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     		case "NEGRO":
     			personaje = 1;
     			break;
-    		case "OTRO_1":
+    		case "AZUL":
     			personaje = 2;
     			break;
-    		case "OTRO_2":
+    		case "ROJO":
     			personaje = 3;
+    			break;
+    		default:
+    			personaje=-1;
     			break;
     	}
     	
@@ -497,7 +560,7 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     		
     		for (int i = 0; i < 4; i++) ((JLabel)explosiones_personaje.getComponent(i)).setVisible(false);	// Se ocultan todas las explosiones
     		
-    		((JLabel)personajes.getComponent(personaje)).setVisible(false);									// Se oculta el personaje en blanco y negro seleccionado
+    		//((JLabel)personajes.getComponent(personaje)).setVisible(false);									// Se oculta el personaje en blanco y negro seleccionado
     		((JLabel)personajes.getComponent(personaje)).setVisible(true);									// Se muestra el personaje que esta seleccionado
     		
     		((JLabel)explosiones_personaje.getComponent(personaje)).setVisible(true);						// Se muestra el personaje que esta seleccionado
@@ -506,6 +569,7 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     		  
             if (explosionTimer  != null && explosionTimer.isRunning()) {										// Cancelar cualquier timer previo antes de iniciar uno nuevo
             	explosionTimer.stop();
+            	explosionTimer = null;
             }
 
             explosionTimer = new Timer(900, new ActionListener() {
@@ -539,6 +603,10 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     	SoundManager.getSoundManager().playSound("BOMB_EXPLODE"+seleccionFila1);
     	explosion.setVisible(true);
     }
+    private void explosionNoVisible() {
+    	SoundManager.getSoundManager().stopSound("BOMB_EXPLODE"+seleccionFila1);
+    	explosion.setVisible(false);
+    }
     private int getOpcion(int fila) {
     	int filaOpcion=0;
     	if (fila==0) {
@@ -558,7 +626,6 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     	{
     		controller = new Controller();
     	}
-    	
     	return controller;
     }
     @Override
@@ -567,6 +634,7 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
 	    	FrameTablero nuevoframe=FrameTablero.getFrameTablero().inicializarFrameTablero((String[])obj, new int[] {17, 11});
 			nuevoframe.setVisible(true);
 			frame.setVisible(false);
+			Escenario.getEscenario().deleteObserver(this);
     	}
     }
     
@@ -579,6 +647,9 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     	{
     		
     	}
+    	private void iniciarController() {
+    		startGameTimer=null;
+    	}
     	private void iniciarJuego(String[] params) {
     		explosionVisible();
     	    SoundManager.getSoundManager().stopSound("MUSIC_MENU");
@@ -586,7 +657,8 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
                 @Override
                 public void actionPerformed(ActionEvent e) {
                 	Escenario.getEscenario().inicializarTablero(params[0], params[1], params[2], params [3]);
-                	
+                	explosionNoVisible();
+                	System.out.println("Timer stop");
                     startGameTimer.stop(); // Detener el timer después de ejecutarse
                     startGameTimer = null;
                 }
@@ -619,9 +691,11 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
 						  
 					  }
 					  else if (!menu.isReady()){
+						  if(nombre != "icono") {
 						  actualizarJugadorColor(menu.seleccionPersonaje(nombre));
 						  menu.seleccionarOpciones(getOpcion(0), getOpcion(1), getOpcion(2));
 						  iniciarJuego(menu.iniciarJuego());
+						  }
 					 }
 			        }
 			        else 
@@ -662,7 +736,9 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
 			  if (e.getComponent() instanceof JLabel labelClickado) {
 			        String labelNombre = descripcionToNombrePersonaje(labelClickado.getName());
 			        if (!opcionesAbiertas) {
+			        	if(labelNombre != "icono") {
 			        	actualizarJugadorColor(menu.seleccionPersonaje(labelNombre));
+			        	}
 			        } 
 			    }
 		}

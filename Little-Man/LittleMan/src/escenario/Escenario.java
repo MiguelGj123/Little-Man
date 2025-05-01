@@ -89,7 +89,7 @@ public class Escenario extends Observable{
 		setChanged();
 		notifyObservers(params);
 		unaVez=true;
-		this.deleteObserver(FrameMenuPrincipal.getFrameMenuPrincipal());
+		
     }
 
 	private void timerStep()
@@ -99,7 +99,6 @@ public class Escenario extends Observable{
 			@Override
 			public void run() {
 				cont++;
-				System.out.println(cont);
 				if (cont==121) cont=1;
 				if (!miEscenarioFacade.getMuerto() && !miEscenarioFacade.getWin()) {
 					if (!pausa[0] || !pausa[1] || !pausa[2]) {
@@ -157,7 +156,6 @@ public class Escenario extends Observable{
 		} 
 		setChanged();
 		notifyObservers(pausa);
-		System.out.println(pausa[0]+"  "+pausa[1]+"  "+pausa[2]);
 
 
 	}
@@ -196,10 +194,11 @@ public class Escenario extends Observable{
     		pausa[2]=false;
     	}
     	miEscenarioFacade.gestionarEnter();
+    	setChanged();
+		notifyObservers("-1");
     	
     }
     public void pressEscape() {
-    	System.out.println(pausa[0]);
     	if (pausa[0]==true) {
     		pausa[0]=false;
     	} else if (pausa[0]==false){

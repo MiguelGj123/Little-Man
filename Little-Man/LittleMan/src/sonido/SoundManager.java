@@ -80,6 +80,9 @@ public class SoundManager {
 
     public void close() {
         for (Clip clip : soundClips.values()) {
+        	if (clip.isRunning()) {
+                clip.stop();
+            }
             clip.close();
         }
         soundClips.clear();
@@ -107,7 +110,7 @@ public class SoundManager {
             case "MEDIO" -> "2";
             case "ALTO" -> "3";
             case "APAGADO" -> "void";
-            default -> "2";
+            default -> "1";
         };
 
         loadAsync("BOMB_EXPLODE", "sfx/bombExplode" + sufijo + ".wav");
@@ -117,6 +120,7 @@ public class SoundManager {
         loadAsync("PLACE_BOMB", "sfx/placeBomb" + sufijo + ".wav");
         loadAsync("WALK", "sfx/walk" + sufijo + ".wav");
         loadAsync("WIN", "sfx/win" + sufijo + ".wav");
+        loadAsync("INVENCIBILIDAD", "sfx/invencibilidad" + sufijo + ".wav");
         loadSound("MUSIC", "sfx/musicScene" + sufijo + ".wav");
     }
 }

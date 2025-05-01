@@ -27,6 +27,12 @@ public class MenuPrincipalPersonajeFactory {
 			case "NEGRO":
 				state = new MenuPrincipalPersonajeNegro();
 				break;
+			case "AZUL":
+				state = new MenuPrincipalPersonajeAzul();
+				break;
+			case "ROJO":
+				state = new MenuPrincipalPersonajeRojo();
+				break;
 			default:
 				state = new MenuPrincipalPersonajeBlanco();
 		}

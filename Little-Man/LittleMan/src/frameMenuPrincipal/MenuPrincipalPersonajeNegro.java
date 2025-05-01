@@ -6,13 +6,11 @@ public class MenuPrincipalPersonajeNegro implements MenuPrincipalPersonajeState 
 
 	@Override
 	public void rotarDerecha(MenuPrincipalPersonaje personaje) {
-		// TODO Auto-generated method stub
-		
+		personaje.changeState(new MenuPrincipalPersonajeAzul());
 	}
 
 	@Override
 	public void rotarIzquierda(MenuPrincipalPersonaje personaje) {
-		// TODO Auto-generated method stub
 		personaje.changeState(new MenuPrincipalPersonajeBlanco());
 	}
 	

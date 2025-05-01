@@ -10,7 +10,6 @@ public class MenuPrincipal {
 	private String volumen;
 	
 	private MenuPrincipal() {
-		personaje = MenuPrincipalPersonaje.getMyMenuPrincipalPersonaje();
 	}
 	
 	public static MenuPrincipal getMenuPrincipal() {
@@ -25,9 +24,14 @@ public class MenuPrincipal {
 	}
 	public void resetMenuPrincipal() {
 		listo=false;
-		escenario="NORMAL";
-		dificultad="facil";
-		volumen="BAJO";
+		escenario=null;
+		dificultad=null;
+		volumen=null;
+		personaje=null;
+	}
+	public MenuPrincipal iniciarMenuPrincipal() {
+		personaje = MenuPrincipalPersonaje.getMyMenuPrincipalPersonaje();
+		return miMenuPrincipal;
 	}
 	public void seleccionarOpciones(int pDificultad, int pVolumen, int pEscenario) {
 		switch (pDificultad) {

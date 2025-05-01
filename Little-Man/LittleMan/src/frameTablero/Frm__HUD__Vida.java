@@ -21,6 +21,8 @@ public class Frm__HUD__Vida extends JLayeredPane{
     
     private boolean iniciarVidas=true;
     private final int VIDA_MAXIMA = 5;
+    private int vidaInicial;
+    private boolean primeraVida=true;
 
 	private static Frm__HUD__Vida vida;
     private Frm__CONFIG config;
@@ -53,9 +55,16 @@ public class Frm__HUD__Vida extends JLayeredPane{
 	    if (vidas > VIDA_MAXIMA) {
 	        vidas = VIDA_MAXIMA;
 	    }
-
+	    if (primeraVida) {
+	    	vidaInicial=vidas;
+	    	primeraVida=false;
+	    }
+	    if (vidas==-1) {
+	    	iniciarVidas=true;
+	    }
 	    if (iniciarVidas) {
 	        vidaPanel.removeAll();
+	        vidas=vidaInicial;
 	        for (int i = 0; i < vidas; i++) {
 	            JLabel vidaLabel = crearCorazonLabel(true, i);
 	            vidaPanel.add(vidaLabel);
@@ -101,6 +110,8 @@ public class Frm__HUD__Vida extends JLayeredPane{
 	public void resetVida() {
 		vidaPanel=null;
 	    iniciarVidas=true;
+	    vidaInicial=0;
+	    primeraVida=true;
 
 	}
 	

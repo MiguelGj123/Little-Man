@@ -5,8 +5,7 @@ import java.util.ArrayList;
 import entidad.EntidadMovibleJugador;
 import entidad.EntidadMovibleJugadorFactory;
 import sonido.SonidoCodigo;
-import sonido.SonidoCodigos;
-import sonido.SonidoCodigosEnum;
+
 
 public class EscenarioJugador {
 	

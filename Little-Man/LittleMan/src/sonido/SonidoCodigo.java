@@ -8,7 +8,8 @@ public enum SonidoCodigo {
     PLACE_BOMB("PLACE_BOMB"),
     WALK("WALK"),
     WIN("WIN"),
-    MUSIC("MUSIC");
+    MUSIC("MUSIC"),
+	INVENCIBILIDAD("INVENCIBILIDAD");
 
     private final String id;
 

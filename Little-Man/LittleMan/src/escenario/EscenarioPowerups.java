@@ -5,8 +5,7 @@ import java.util.Random;
 import entidad.EntidadInamoviblePowerup;
 import entidad.EntidadInamoviblePowerupFactory;
 import sonido.SonidoCodigo;
-import sonido.SonidoCodigos;
-import sonido.SonidoCodigosEnum;
+
 
 public class EscenarioPowerups {
 
@@ -28,7 +27,7 @@ public class EscenarioPowerups {
     public void inicializarPowerups() {
     	listaPowerups.clear();
     	miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-    	//listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("TiempoMas", 0, 1));
+    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Invencible", 0, 1));
     	/*listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 2));
     	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 3));
     	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 4));*/
@@ -143,6 +142,7 @@ public class EscenarioPowerups {
 			break;
 		case 607: 
 			miEscenarioFacade.invencibilidad();
+			listaSonidos.add(SonidoCodigo.INVENCIBILIDAD.sonar());
 			break;
 		case 608: 
 			int puntos = random.nextInt(5);

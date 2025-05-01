@@ -4,8 +4,7 @@ import java.util.Random;
 
 import entidad.EntidadInamovibleBloque;
 import sonido.SonidoCodigo;
-import sonido.SonidoCodigos;
-import sonido.SonidoCodigosEnum;
+
 
 public class EscenarioTablero {
 	

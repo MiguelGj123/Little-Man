@@ -169,6 +169,8 @@ public class Frm__Menu extends JLayeredPane{
 	    }
 	    SwingUtilities.getWindowAncestor(this).setVisible(false);
 	    FrameMenuPrincipal.getFrameMenuPrincipal().resetFrameMenuPrincipal();
+	    FrameMenuPrincipal frameInicio = FrameMenuPrincipal.getFrameMenuPrincipal().inicializarFrameMenuPrincipal();
+        frameInicio.setVisible(true);
 	}
 
 	private void limpiarRecursos() {
@@ -176,7 +178,6 @@ public class Frm__Menu extends JLayeredPane{
 	    FrameTablero.getFrameTablero().resetFrameTablero();
 	    FrameTablero.getFrameTablero().discard();
 	    Escenario.getEscenario().resetEscenario();
-	    SoundManager.getSoundManager().close();
 	}
 
 
