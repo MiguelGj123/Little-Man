@@ -84,3 +84,4 @@
  -  Preueba         ha ganado  | Puntuación: 2760	| Bomberman: BLANCO	| Tiempo: 112	| Vidas: 4	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  19:17:41
  -  Preueba         ha ganado  | Puntuación: 3290	| Bomberman: BLANCO	| Tiempo: 111	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  19:21:14
  -  Preueba         ha ganado  | Puntuación: 360	| Bomberman: BLANCO	| Tiempo: 137	| Vidas: 4	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  19:22:28
+ -  Preueba         ha ganado  | Puntuación: 3630	| Bomberman: AZUL	| Tiempo: 153	| Vidas: 3	| Pantalla: NORMAL	| Dificultad: facil	| Fecha: 01/05/2025  19:25:42

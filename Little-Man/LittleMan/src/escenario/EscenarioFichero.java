@@ -73,7 +73,7 @@ public class EscenarioFichero {
 										strFechaHora[5];
 			String lineaEstadistica = " -  " + String.format("%-15.14s", pNombre);
 			if (pVictoria) {
-				lineaEstadistica += " ha ganado  | Puntuación: " + pPuntuacion + 
+				lineaEstadistica += " ha ganado  | Puntuación:  " + pPuntuacion + 
 									"	| Bomberman: " + pBomberman + 
 									"	| Tiempo: " + pTiempo + 
 									"	| Vidas: " + pVidas + 
@@ -81,7 +81,7 @@ public class EscenarioFichero {
 									"	| Dificultad: "+ pDificultad + 
 									"	| Fecha: "+ fechaHoraCompleta;
 			} else {
-				lineaEstadistica += " ha perdido | Puntuación: " + pPuntuacion + 
+				lineaEstadistica += " ha perdido | Puntuación:  " + pPuntuacion + 
 									"	| Bomberman: " + pBomberman + 
 									"	| Tiempo: " + pTiempo + 
 									"	| Vidas: " + pVidas + 

@@ -27,7 +27,7 @@ public class EscenarioPowerups {
     public void inicializarPowerups() {
     	listaPowerups.clear();
     	miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Invencible", 0, 1));
+    	//listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Invencible", 0, 1));
     	/*listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 2));
     	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 3));
     	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 4));*/
