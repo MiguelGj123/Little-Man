@@ -142,8 +142,6 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     	removeMouseListener(getController());
     	
     	explosionTimer=null;
-    	System.out.println(getContentPane().getComponentCount());
-    	System.out.println(layeredPane.getComponentCount()+" LayeredPane");
 
     	personajes=null;
     	explosiones_personaje=null;
@@ -154,47 +152,25 @@ public class FrameMenuPrincipal extends JFrame implements Observer{
     	iconoOpciones=null;
     	panelOpciones=null;
     	layeredPane=null;
-    	System.out.println(getContentPane().getComponentCount());
     	frame.getContentPane().removeAll();
-    	System.out.println(getContentPane().getComponentCount());
     	frame.setEnabled(false);
     	frame.setVisible(false);
-    	System.out.println("Reset Menu principal");
 
     }
     public FrameMenuPrincipal inicializarFrameMenuPrincipal() {
     	frame.setEnabled(true);
 	   
     	menu = MenuPrincipal.getMenuPrincipal().iniciarMenuPrincipal();
-    	System.out.println("menu iniciado");
     	Escenario.getEscenario().addObserver(this);
-    	System.out.println("Escenario observado");
     	inicializarSonidos();
-    	System.out.println("Sonido iniciado");
     	crearVentana();
-    	System.out.println("Ventana creada");
     	crearJPanel();
-    	System.out.println("Jpanel creado");
         generarJLabelsFrame();
-    	System.out.println("Labels frame creados");
-    	System.out.println(getContentPane().getComponentCount());
-    	System.out.println(layeredPane.getComponentCount()+" LayeredPane");
         aniadirJLabels();
-    	System.out.println("labels añadidos");
-    	System.out.println(layeredPane.getComponentCount()+" LayeredPane");
-    	System.out.println(getContentPane().getComponentCount());
         aniadirJPanel();
-    	System.out.println("pane añadidos");
-    	System.out.println(layeredPane.getComponentCount()+" LayeredPane");
-    	System.out.println(getContentPane().getComponentCount());
         configurarVentana();
-    	System.out.println("ventana configurada");
         aniadirObserverMouseKeyListener();
-    	System.out.println("KeyListener añadido");
 		actualizarJugadorColor("BLANCO");
-    	System.out.println(getContentPane().getComponentCount());
-    	System.out.println("Actualizado color jugador a blanco");
-    	System.out.println("________________________________________");
 		return frame;
     }
     
