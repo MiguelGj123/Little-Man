@@ -1,19 +1,17 @@
 package main;
 
-import escenario.Escenario;
-import frameMenuPrincipal.FrameMenuPrincipal;
+import frameMenuPrincipal.Frm__00__Frame_Principal;
 
 public class Main {
-    public static void main(String[] args)
+
+	public static void main(String[] args)
     {
 
-        FrameMenuPrincipal frameInicio = FrameMenuPrincipal.getFrameMenuPrincipal().inicializarFrameMenuPrincipal();
+        Frm__00__Frame_Principal frameInicio = Frm__00__Frame_Principal.getMenuPrincipal();
+        frameInicio.inicializarPanel();
         frameInicio.setVisible(true);
-    	
-    	//Escenario.getEscenario().inicializarTablero("ROJO", "NORMAL", "dificil", "BAJO");
-
         
-
+    	//Escenario.getEscenario().inicializarTablero("ROJO", "NORMAL", "dificil", "BAJO");
     }
 
 

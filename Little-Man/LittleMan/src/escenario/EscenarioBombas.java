@@ -12,6 +12,8 @@ import sonido.SonidoCodigo;
 public class EscenarioBombas {
 
 	private static EscenarioBombas misBombas;
+	private Escenario_CONFIG esCfg = new Escenario_CONFIG();
+	
 	private int cambioRadio=0;
 	private int cambioTick=0;
 	private String tipoDeBomba="";
@@ -52,8 +54,8 @@ public class EscenarioBombas {
 		}
 		return false;
 	}
-	public Double actualizarTicksBombas() {
-		Double puntos = 0.;
+	public int actualizarTicksBombas() {
+		int puntos = 0;
 
 		for ( int i=0; i<listaBombas.size(); i++) {
 			EntidadInamovibleBomba pBomba = listaBombas.get(i);													// Obtenemos el bloque que queremos actualizar
@@ -89,8 +91,8 @@ public class EscenarioBombas {
 		return bombaPuesta;
 	}
 		
-	public int[][] generarMatrizAniadirBombas(int COLUMNAS, int FILAS){
-		int[][] matrizGenerada = new int[COLUMNAS][FILAS];
+	public int[][] generarMatrizAniadirBombas(){
+		int[][] matrizGenerada = new int[esCfg.col][esCfg.fil];
 
 		for (EntidadInamovibleBomba pBomba : listaBombas) {
 			matrizGenerada[pBomba.getPosX()][pBomba.getPosY()] = pBomba.getCodigoBomba();
@@ -111,17 +113,6 @@ public class EscenarioBombas {
 	public void restarRadio() 	{cambioRadio--;}
 	public void sumarTicks() 	{cambioTick=cambioTick+5;}
 	public void restarTicks() 	{cambioTick=cambioTick-5;}
-
-	public void resetBombas() {
-		listaBombas.clear();
-    	miEscenarioFacade = null;
-    	cambioRadio=0;
-    	cambioTick=0;
-    	tipoDeBomba="";
-    	listaSonidos.clear();
-		
-	}
-
 
     
 }

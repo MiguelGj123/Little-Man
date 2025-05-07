@@ -31,7 +31,7 @@ public class EntidadInamovibleBloque extends EntidadInamovible
 	
 	public String getTipo() { return tipo; }
 	
-	public int getCodigoBloque() { return state.getCodigoBloque(); }
+	public int getCodigoBloque(String pantalla) { return state.getCodigoBloque(pantalla); }
 	
 	public boolean getChocaContraCelda() { return state.getJugadorChocaContraCelda(); }
 	

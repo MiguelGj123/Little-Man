@@ -9,10 +9,10 @@ import sonido.SonidoCodigo;
 public class EscenarioTablero {
 	
     private Random random = new Random();
+	private Escenario_CONFIG esCfg = new Escenario_CONFIG();
 	
 	private static EscenarioTablero miTablero;
 	private EscenarioFacade miEscenarioFacade;
-    private static final int FILAS = 11,COLUMNAS = 17;
     
     private EntidadInamovibleBloque[][] matrizTablero;
     private ArrayList<int[]> listaPosFuegos = new ArrayList<int[]>();
@@ -36,7 +36,7 @@ public class EscenarioTablero {
     
 	public void inicializarTablero(String tipo)
 	{
-		matrizTablero = new EntidadInamovibleBloque[COLUMNAS][FILAS];
+		matrizTablero = new EntidadInamovibleBloque[esCfg.col][esCfg.fil];
 		listaPosFuegos.clear();
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
 	
@@ -58,8 +58,8 @@ public class EscenarioTablero {
 	
 	
 	private void inicializarTableroNormal() {
-		for (int columna = 0; columna < COLUMNAS; columna++) {
-			for (int fila = 0; fila < FILAS; fila++) {
+		for (int columna = 0; columna < esCfg.col; columna++) {
+			for (int fila = 0; fila < esCfg.fil; fila++) {
 				if  (columna + fila <= 1){
 					matrizTablero[columna][fila] = new EntidadInamovibleBloque("VACIO", columna, fila); 													// Poner bloques vacios en la esquina superior izquierda para zona de inicio
 				} else {
@@ -75,9 +75,9 @@ public class EscenarioTablero {
 	
 	
 	private void inicializarTableroNoDuros() {	
-		for (int columna = 0; columna < COLUMNAS; columna++) {
-	        for (int fila = 0; fila < FILAS; fila++) {
-	            if ((columna == 0 && fila == 0) || (columna == 1 && fila == 0) || (columna == 0 && fila == 1)) {
+		for (int columna = 0; columna < esCfg.col; columna++) {
+	        for (int fila = 0; fila < esCfg.fil; fila++) {
+	            if (columna + fila <= 1) {
 	            	matrizTablero[columna][fila] = new EntidadInamovibleBloque("VACIO", columna, fila);
 	            } else {
 	            	matrizTablero[columna][fila] = random.nextBoolean() ? new EntidadInamovibleBloque("VACIO", columna, fila) : new EntidadInamovibleBloque("BLANDO", columna, fila); // Bloques blandos o vacíos aleatoriamente
@@ -88,8 +88,8 @@ public class EscenarioTablero {
 	
 	
 	private void inicializarTableroVacio() {
-		for (int columna = 0; columna < COLUMNAS; columna++) {
-	        for (int fila = 0; fila < FILAS; fila++) {
+		for (int columna = 0; columna < esCfg.col; columna++) {
+	        for (int fila = 0; fila < esCfg.fil; fila++) {
 	        	if ((columna == 0 && fila == 0) || (columna == 1 && fila == 0) || (columna == 0 && fila == 1)) {
 	            	matrizTablero[columna][fila] = new EntidadInamovibleBloque("VACIO", columna, fila);
 	            } else {
@@ -104,8 +104,8 @@ public class EscenarioTablero {
 	public ArrayList<int[]> getPosicionesVacias() {
 		ArrayList<int[]> posicionesVacias = new ArrayList<>();
 		
-		for (int columna = 0; columna < COLUMNAS; columna++) {
-			for (int fila = 0; fila < FILAS; fila++) {
+		for (int columna = 0; columna < esCfg.col; columna++) {
+			for (int fila = 0; fila < esCfg.fil; fila++) {
 				if (matrizTablero[columna][fila].getTipo().equals("VACIO")) {
 					posicionesVacias.add(new int[] {columna, fila});
 				}
@@ -126,9 +126,9 @@ public class EscenarioTablero {
 	
 	public boolean hayFuego() { return !listaPosFuegos.isEmpty(); }
 	
-	public Double actualizarTicksFuego() {
-		Double puntos = 0.;
-		Double mult = 1.;
+	public int actualizarTicksFuego() {
+		int puntos = 0;
+		int mult = 1;
 		for ( int i=0; i<listaPosFuegos.size(); i++) {
 			int[] pBloque = listaPosFuegos.get(i);														// Obtenemos el bloque que queremos actualizar
 			
@@ -143,8 +143,8 @@ public class EscenarioTablero {
 		return puntos;
 	}
 	
-	public Double gestionarExplosion(int centroExplosionX, int centroExplosionY, int radioBomba) {
-    	Double puntos=0.;
+	public int gestionarExplosion(int centroExplosionX, int centroExplosionY, int radioBomba) {
+    	int puntos = 0;
 		int posBloqueExplotarX, posBloqueExplotarY;
 		boolean[] finLineaBomba = new boolean[] {false, false, false, false};
 		listaSonidos.add(SonidoCodigo.BOMB_EXPLODE.parar());
@@ -182,15 +182,15 @@ public class EscenarioTablero {
 					}
 					
 					if (   posBloqueExplotarX < 0
-						|| posBloqueExplotarX >= COLUMNAS
+						|| posBloqueExplotarX >= esCfg.col
 						|| posBloqueExplotarY < 0
-						|| posBloqueExplotarY >= FILAS
+						|| posBloqueExplotarY >= esCfg.fil
 						|| !matrizTablero[posBloqueExplotarX][posBloqueExplotarY].getPuedeSerExplotado())
 					{
 						finLineaBomba[j] = true;
 					} else {
-						if (matrizTablero[posBloqueExplotarX][posBloqueExplotarY].getCodigoBloque()==11) {
-							puntos=10.+puntos;
+						if (matrizTablero[posBloqueExplotarX][posBloqueExplotarY].getTipo().equals("BLANDO")) {
+							puntos = 10 + puntos;
 							if (random.nextDouble()<= 0.10) {
 								miEscenarioFacade.generarPowerup(posBloqueExplotarX, posBloqueExplotarY);
 							}
@@ -208,13 +208,13 @@ public class EscenarioTablero {
     	return puntos;
 	}
 	
-	public int[][] generarMatrizAniadirBloques()
+	public int[][] generarMatrizAniadirBloques(String pantalla)
 	{
-		int[][] matrizGenerada = new int[COLUMNAS][FILAS];
+		int[][] matrizGenerada = new int[esCfg.col][esCfg.fil];
 		
-		for (int columna = 0; columna < COLUMNAS; columna++) {
-			for (int fila = 0; fila < FILAS; fila++) {
-				matrizGenerada[columna][fila] = matrizTablero[columna][fila].getCodigoBloque();
+		for (int columna = 0; columna < esCfg.col; columna++) {
+			for (int fila = 0; fila < esCfg.fil; fila++) {
+				matrizGenerada[columna][fila] = matrizTablero[columna][fila].getCodigoBloque(pantalla);
 			}
 		}
 		
@@ -231,14 +231,6 @@ public class EscenarioTablero {
 
 
 
-
-	public void resetTablero() {
-		matrizTablero = null;
-		listaPosFuegos.clear();
-		miEscenarioFacade = null;
-		listaSonidos.clear();
-		
-	}
 
 	
 	

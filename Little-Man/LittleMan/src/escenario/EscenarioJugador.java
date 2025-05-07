@@ -9,12 +9,13 @@ import sonido.SonidoCodigo;
 
 public class EscenarioJugador {
 	
+	private Escenario_CONFIG esCfg = new Escenario_CONFIG();
 	
 	private static EscenarioJugador miJugador;
 	private EscenarioFacade miEscenarioFacade;
     private EntidadMovibleJugador jug;
     private int lastDir = 0;
-    private int contadorDaño;
+    private int contadorDano;
     private boolean visible;
     private boolean invencible;
     private boolean sfx=true, win=false, golpeable=true;
@@ -32,19 +33,17 @@ public class EscenarioJugador {
     
 	
 	public void inicializarJugador(String playerTipo){
-		win=false;
-		sfx=true;
+		sfx = true;
+		win = false;
+		golpeable = true;
 		visible = true;
-		contadorDaño = 0;
+		contadorDano = 0;
 		jug = EntidadMovibleJugadorFactory.getEntidadMovibleJugadorFactory().generate(playerTipo, 0, 0);
 		listaSonidos.add(SonidoCodigo.MUSIC.sonar());
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
 	}
-	
-	
-	
 
-	public void actualizarPosicionJugador(String[] mov, int COLUMNAS, int FILAS)
+	public void actualizarPosicionJugador(String[] mov)
 	{
 		boolean movimientoRealizado = false;
 		
@@ -56,16 +55,16 @@ public class EscenarioJugador {
 				boolean movimientoJugadorChocaConParedOBomba = false;													// flag si choca contra pared en coordenadas nuevas
 				
 				if (!jug.getEstaMuerto() && mov[i] != null) {
-					if (mov[i].equals("L") && posJX != 0			) { posJXnew = posJX - 1; lastDir = 1; /*System.out.println("JJJ " + lastDir);*/ }
-					if (mov[i].equals("R") && posJX != COLUMNAS - 1 ) { posJXnew = posJX + 1; lastDir = 2; /*System.out.println("JJJ " + lastDir);*/ }
-					if (mov[i].equals("U") && posJY != 0			) { posJYnew = posJY - 1; lastDir = 3; /*System.out.println("JJJ " + lastDir);*/ }
-					if (mov[i].equals("D") && posJY != FILAS - 1	) { posJYnew = posJY + 1; lastDir = 4; /*System.out.println("JJJ " + lastDir);*/ }
+					if (mov[i].equals("L") && posJX != 0				) { posJXnew = posJX - 1; lastDir = 1; /*System.out.println("JJJ " + lastDir);*/ }
+					if (mov[i].equals("R") && posJX != esCfg.col - 1	) { posJXnew = posJX + 1; lastDir = 2; /*System.out.println("JJJ " + lastDir);*/ }
+					if (mov[i].equals("U") && posJY != 0				) { posJYnew = posJY - 1; lastDir = 3; /*System.out.println("JJJ " + lastDir);*/ }
+					if (mov[i].equals("D") && posJY != esCfg.fil - 1	) { posJYnew = posJY + 1; lastDir = 4; /*System.out.println("JJJ " + lastDir);*/ }
 				
 					movimientoJugadorChocaConParedOBomba = 																// Jugador choca contra pared o bomba si
 							(  ( mov[i].equals("L") && posJX == 0				)											// Choca contra exterior
-							|| ( mov[i].equals("R") && posJX == COLUMNAS - 1	)
+							|| ( mov[i].equals("R") && posJX == esCfg.col - 1	)
 							|| ( mov[i].equals("U") && posJY == 0				)
-							|| ( mov[i].equals("D") && posJY == FILAS - 1		)
+							|| ( mov[i].equals("D") && posJY == esCfg.fil - 1		)
 							|| miEscenarioFacade.chocaConPos(posJXnew, posJYnew));					// o si hay una bomba o bloque en la nueva posicion
 		
 						
@@ -92,19 +91,24 @@ public class EscenarioJugador {
 			}
 		}
 	}
+	
 	public void actualizarTicksJugador() {
 
-		if (golpeable==false&&jug.tick()&&!invencible) {golpeable=true;jug.resetTick();}
-		if (contadorDaño==0&&golpeable==false) {
+		if (golpeable==false && jug.tick() && !invencible) {
+			golpeable=true;
+			jug.resetTick();
+		}
+		
+		if (contadorDano==0&&golpeable==false) {
 			if (!invencible) {
-				contadorDaño=40;
+				contadorDano=40;
 			}
 			invencible=false;
 		}
-		if (contadorDaño > 0 && !getWin() && !getEstaMuerto()) {
-			contadorDaño--;
-			if (contadorDaño%5 == 0) visible = !visible;
-			if (contadorDaño == 0) visible = true;
+		if (contadorDano > 0 && !getWin() && !getEstaMuerto()) {
+			contadorDano--;
+			if (contadorDano%5 == 0) visible = !visible;
+			if (contadorDano == 0) visible = true;
 		} 
 
 	}
@@ -112,25 +116,25 @@ public class EscenarioJugador {
 	public void gestionarInvencibilidad() {
 		golpeable=false;
 		invencible=true;
-		contadorDaño=200;
+		contadorDano=200;
 	}
 	
-	public Double gestionarFuego(int posFX, int posFY) {
-		Double puntos=0.;
-		if (getPosX() == posFX && getPosY() == posFY) { puntos=gestionarVida(); }
+	public int gestionarFuego(int posFX, int posFY) {
+		int puntos = 0;
+		if (getPosX() == posFX && getPosY() == posFY) { puntos = gestionarVida(); }
 		return puntos;
 	}
 	
-	public Double gestionarEnemigo(int posEX, int posEY) {
-    	Double puntos=0.;
+	public int gestionarEnemigo(int posEX, int posEY) {
+    	int puntos = 0;
 		if (getPosX() == posEX && getPosY() == posEY) { puntos=gestionarVida();}
 		return puntos;
 	}
 	
 	
 	
-	public int[][] generarMatrizAniadirjugador(int COLUMNAS, int FILAS, boolean sobreBomba){
-		int[][] matrizGenerada = new int[COLUMNAS][FILAS];
+	public int[][] generarMatrizAniadirjugador(boolean sobreBomba){
+		int[][] matrizGenerada = new int[esCfg.col][esCfg.fil];
 		if (visible) {
 			int codigoJugador;
 			
@@ -162,6 +166,7 @@ public class EscenarioJugador {
 			listaSonidos.add(SonidoCodigo.WIN.sonar());
 		}
 	}
+	
 	public void resetWin() {win=false;}
 	public boolean getWin() {return win;}
 	public int getPosX() { return jug.getPosX(); }
@@ -184,10 +189,11 @@ public class EscenarioJugador {
 			}
 		}
 	}
-	public Double gestionarVida() {
-		Double puntos=0.;
+	
+	public int gestionarVida() {
+		int puntos = 0;
 		if (golpeable) {
-			puntos=-250.;
+			puntos = -250;
 			jug.gestionarVida();
 			golpeable=false;
 		}
@@ -202,6 +208,7 @@ public class EscenarioJugador {
 		}
 		return puntos;
 	}
+	
 	public void sumarBomba()			{ jug.sumarBomba();}
 	public void restarBomba()			{ jug.restarBomba();}
 	public void sumarVida()				{ jug.aumentarVida();}
@@ -211,19 +218,6 @@ public class EscenarioJugador {
 	public int	getMaxBombas()			{ return jug.getMaxBombas();}
 	public String getTipoBomba() 		{ return jug.getTipoBomba(); }
 	public String getTipoJugador() 		{ return jug.getTipoJugador(); }
-
-	public void resetJugador() {
-		win=false;
-		sfx=true;
-		visible = true;
-		invencible=false;
-		golpeable=true;
-		contadorDaño = 0;
-		jug = null;
-		listaSonidos.clear();
-		miEscenarioFacade = null;
-		
-	}
 	
 	
 }

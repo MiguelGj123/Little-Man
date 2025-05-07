@@ -1,228 +1,199 @@
 package escenario;
 import java.util.*;
 
-import frameMenuPrincipal.FrameMenuPrincipal;
 import frameTablero.FrameTablero;
 
 
 
 public class Escenario extends Observable{
 	
-	private static Escenario miEscenario;
-	private EscenarioFacade miEscenarioFacade;
+	private int cont;
+	private boolean pausa, gameEnded;
 	
-	private static final int FILAS = 11,COLUMNAS = 17;
-	
-	private boolean left=false, right=false, up=false, down=false, bomb=false;
-	private boolean unaVez=false;
-	private Boolean[] pausa= {false, false, false}; //[0]=Escape, [1]=Victoria, [2]=Derrota
-	private int cont=1;
-	private Timer timer=null;
-	private int tiempo,temporizador;
-	private String dificultad, pantalla, playerTipo;
-	private Double puntos=0.;
-	private Double puntosTotales=0.;
+	private Timer timer;
+	private int tiempo;
+	private String playerTipo, pantalla, dificultad;
+	private int puntosTotales;
 		
+	private EscenarioTeclado myTeclado;
+	private EscenarioFacade miEscenarioFacade;
+	private static Escenario miEscenario;
 
-	private Escenario() {
-    }
-	
-
+	private Escenario() {}
 
     public static Escenario getEscenario() {
     	if (miEscenario == null) miEscenario = new Escenario();
         return miEscenario;
     }
-    
 
-    public void resetEscenario() {
-
-    	left=false;
-    	right=false; 
-    	up=false;
-    	down=false; 
-    	bomb=false;
-    	
-    	unaVez=false;
-    	pausa[0]= false;
-    	pausa[1]= false;
-    	pausa[2]= false;
-    	
-    	cont=1;
-    	timer.cancel();
-    	timer=null;
-    	tiempo=0;
-    	temporizador=0;
-    	
-    	playerTipo="";
-		dificultad="";
-		pantalla="";
+	public void iniciarVentana(String pPlayerTipo,String pPantalla,String pDificultad) {
+		inicializarTablero(pPlayerTipo, pPantalla, pDificultad);
 		
-    	puntos=0.;
-    	puntosTotales=0.;
-    	miEscenarioFacade.resetEscenarioFacade();
-    	miEscenarioFacade=null;
-    }
-	
-	public void inicializarTablero(String pPlayerTipo,String pPantalla,String pDificultad,String volumen)
-	{	
-		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
-		miEscenarioFacade.inicializarTablero(pPlayerTipo, COLUMNAS, FILAS, pPantalla, pDificultad);
-		String[] params= {pPlayerTipo, pPantalla, pDificultad, volumen};
-		playerTipo=pPlayerTipo;
-		dificultad=pDificultad;
-		pantalla=pPantalla;
-		if ("pacifico".equals(dificultad)) {tiempo=4000;}
-		if ("facil".equals(dificultad)) {tiempo=4000;}
-		if ("normal".equals(dificultad)) {tiempo=3000;}
-		if ("dificil".equals(dificultad)) {tiempo=2000;}
-		temporizador=tiempo/20;
-		puntos=0.;
-		puntosTotales=0.;
-		if(!unaVez) {
-		iniciarJuegoFrame(params);
-		
-		}
-		timerStep();
-	}
-	private void iniciarJuegoFrame(String[] params) {
 		setChanged();
-		notifyObservers(params);
-		unaVez=true;
+		notifyObservers(new Object[]{"INICIAR_TABLERO", null});
 		
-    }
-
-	private void timerStep()
-	{
+		setChanged();
+		notifyObservers(new Object[]{"INICIAR_FONDO", pantalla});
+		
+	}
+	
+	
+	public void inicializarTablero(String pPlayerTipo,String pPantalla,String pDificultad) {	
+		cont = 0;
+		pausa = false;
+		gameEnded = false;
+		
+		if (timer != null) timer.cancel();
+		timer = null;
+		gameEnded = false;
+		pausa = false;
+		
+		dificultad=pDificultad;
+		
+		if		(dificultad.equals("PACIFICO"))	{tiempo=200;}	// Tiempo en segundos
+		else if (dificultad.equals("FACIL"))	{tiempo=200;}	// Tiempo en segundos
+		else if (dificultad.equals("NORMAL"))	{tiempo=150;}	// Tiempo en segundos
+		else if (dificultad.equals("DIFICIL"))	{tiempo=100;}	// Tiempo en segundos
+		
+		playerTipo = pPlayerTipo;
+		
+		Random random = new Random();
+		String[] posiblesPantallas = new String[] {"NORMAL", "NO_DURO", "VACIO"};
+		pantalla = (pPantalla.equals("ALEATORIO")) ? posiblesPantallas[random.nextInt(3)] : pPantalla;
+		
+		puntosTotales = 0;
+		
+		myTeclado = EscenarioTeclado.getEscenarioTeclado();
+		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
+		miEscenarioFacade.inicializarTablero(playerTipo, pantalla, dificultad);
+		
+		setChanged();
+		notifyObservers(new Object[]{"INICIALIZAR_VIDA", miEscenarioFacade.getVidas()});
+		
+		setChanged();
+		notifyObservers(new Object[]{"PAUSE", false});
+		
+		setChanged();
+		notifyObservers(new Object[]{"GESTIONAR_TEMPORIZADOR", tiempo});
+	}
+	
+	public void iniciarPartida() {
+		timerStep();
+		setChanged();
+		notifyObservers(new Object[]{"INICIAR_PARTIDA", null});
+	}
+	
+	private void timerStep() {
 		timer = new Timer();
 		TimerTask task = new TimerTask() {
-			@Override
-			public void run() {
-				cont++;
-				if (cont==121) cont=1;
-				if (!miEscenarioFacade.getMuerto() && !miEscenarioFacade.getWin()) {
-					if (!pausa[0] || !pausa[1] || !pausa[2]) {
-					tiempo--;
+			@Override public void run() {
+				if (!pausa && !gameEnded) {
+					if (cont == 20) {
+						cont = 0;
+						tiempo --;
+						
+						setChanged();
+						notifyObservers(new Object[]{"GESTIONAR_TEMPORIZADOR", tiempo});
 					}
+					cont++;
+					
+					if		(miEscenarioFacade.getMuerto())		gestionarGameEnded("YOU DIED");
+					else if	(miEscenarioFacade.getWin())		gestionarGameEnded("WINNER");
+					else if	(tiempo == 0)						gestionarGameEnded("TIME ENDED");
+					else										actualizarEscenario();
 				}
-				actualizarEscenario();
 			}
 		};
 		timer.scheduleAtFixedRate(task, 0, 50);
 	}
 	
-	private void actualizarEscenario() {
-		if (miEscenarioFacade.getMuerto()) {
-			pausa[2]= true;
-		}
-		if(miEscenarioFacade.getWin()) {
-			pausa[1]= true;
-		}
-		if (!pausa[0] && !pausa[1] && !pausa[2]) {
-		if (miEscenarioFacade.sumarTiempo()) {
-			tiempo=tiempo+200;
-			miEscenarioFacade.quitarTiempo();
-		}
-		if (puntos!=-1) {
-		puntos = miEscenarioFacade.actualizarEscenario(cont, bomb, left, right, up, down);
-		}
-		if (tiempo%20==0 && tiempo>=0) {
-			temporizador=tiempo/20;
-		}
-		int[][][] matrizImagenes = miEscenarioFacade.generarMatrizImagenes();
-		String[] vectorSonidos = miEscenarioFacade.generarVectorSonidos();
-		if (temporizador<=0) {
-			miEscenarioFacade.gestionarTiempo();
-		}
+	protected void gestionarGameEnded(String param) {
+		gameEnded = true;
+		String[] fin= {"PARAR_SONIDO*MUSIC","PARAR_SONIDO*INVENCIBILIDAD","SONAR_SONIDO*DEATH"};
 		setChanged();
-		notifyObservers(matrizImagenes);
-		setChanged();
-		notifyObservers(vectorSonidos);
-		setChanged();
-		notifyObservers(temporizador);
-		if(!miEscenarioFacade.getMuerto() &&!miEscenarioFacade.getWin()) {
-		setChanged();
-		notifyObservers(miEscenarioFacade.getVidas());
-		if ("normal".equals(dificultad) && puntos != -1.) puntos *= 2;
-		if ("dificil".equals(dificultad) && puntos != -1.) puntos *= 4;
-		setChanged();
-		notifyObservers(puntos);
-		if (puntos!=-1) {
-		puntosTotales=puntos+puntosTotales;
-		}
-		puntos=0.;
-		}
-
-		} 
-		setChanged();
-		notifyObservers(pausa);
-
-
-	}
-	
-	
-	
-	
-
-	
-	
-	
-
-	
-	
-	public void escribirEnFichero() {
-		EscenarioFichero.guardarEstadisticas("Preueba", miEscenarioFacade.getWin(), (int) (double) puntosTotales, dificultad, pantalla, playerTipo, temporizador, miEscenarioFacade.getVidas());
-	}
-	
-	
-	public void pressLeft() 	{ miEscenarioFacade.pressLeft(); }
-    public void pressRight() 	{ miEscenarioFacade.pressRight(); }
-    public void pressUp() 		{ miEscenarioFacade.pressUp(); }
-    public void pressDown() 	{ miEscenarioFacade.pressDown(); }
-    public void pressBomba() 	{ bomb 	= true; left 	= right = up 	= down = false; }
-    
-    public void pressEnter() {
-    	puntos=-1.;
-    	if (miEscenarioFacade.getMuerto() || miEscenarioFacade.getWin()) {
-    		escribirEnFichero();
-    		if ("pacifico".equals(dificultad)) {tiempo=4000;}
-    		if ("facil".equals(dificultad)) {tiempo=4000;}
-    		if ("normal".equals(dificultad)) {tiempo=3000;}
-    		if ("dificil".equals(dificultad)) {tiempo=2000;}
-    		temporizador=tiempo/20;
-    		pausa[1]=false;
-    		pausa[2]=false;
-    	}
-    	miEscenarioFacade.gestionarEnter();
+		notifyObservers(new Object[]{"GESTIONAR_CODIGOS_SONIDOS", fin});
     	setChanged();
-		notifyObservers("-1");
-    	
-    }
-    public void pressEscape() {
-    	if (pausa[0]==true) {
-    		pausa[0]=false;
-    	} else if (pausa[0]==false){
-    		pausa[0]=true;
-    	}
-    }
-    
-    
-    public void releaseBomba()	{ bomb	= false;	}
-    public void releaseLeft()	{ miEscenarioFacade.releaseLeft(); }
-    public void releaseRight()	{ miEscenarioFacade.releaseRight(); }
-    public void releaseUp()		{ miEscenarioFacade.releaseUp(); }
-    public void releaseDown()	{ miEscenarioFacade.releaseDown(); }
-    public void releaseEnter()	{ }
-    public void releaseEscape() { }
-	
-    public int getCOLUMNAS () { return COLUMNAS; }
-    public int getFILAS () { return FILAS; }
+    	notifyObservers(new Object[]{param, gameEnded});
+	}
 
-	public void vueltaAMenuPrincipal() {
-		unaVez=false;
+	private void actualizarEscenario() {
+		
+		int puntosTick = miEscenarioFacade.actualizarEscenario();
+		if (puntosTick!=-1) puntosTotales += puntosTick;
+		
+		// actualizar matriz imagenes
+		setChanged();
+		notifyObservers(new Object[]{"GESTIONAR_CODIGOS_IMAGENES", miEscenarioFacade.generarMatrizImagenes(pantalla)});
+		
+		// actualizar vector sonidos
+		setChanged();
+		notifyObservers(new Object[]{"GESTIONAR_CODIGOS_SONIDOS", miEscenarioFacade.generarVectorSonidos()});
+		
+		//actualizar vidas
+		setChanged();
+		notifyObservers(new Object[]{"GESTIONAR_VIDAS", miEscenarioFacade.getVidas()});
+		
+		//actualizar puntuacion
+		setChanged();
+		notifyObservers(new Object[]{"GESTIONAR_PUNTUACION", puntosMultiplicadosPorDificulad(puntosTotales)});
+		
+		
 		
 	}
+	
+	
+	
+	private int puntosMultiplicadosPorDificulad(int puntosTick) {
+		if (dificultad.equals("NORMAL")  && puntosTick != -1.) return puntosTick *= 2;
+		if (dificultad.equals("DIFICIL") && puntosTick != -1.) return puntosTick *= 4;
+		return puntosTick;
+	}
 
+	public void escribirEnFichero() {
+		EscenarioFichero.guardarEstadisticas("Prueba", miEscenarioFacade.getWin(), (int) (double) puntosTotales, dificultad, pantalla, playerTipo, tiempo, miEscenarioFacade.getVidas());
+	}
+	
+	
+	public void pressLeft() 	{ myTeclado.pressedLeft(); }
+    public void pressRight() 	{ myTeclado.pressedRight(); }
+    public void pressUp() 		{ myTeclado.pressedUp(); }
+    public void pressDown() 	{ myTeclado.pressedDown(); }
+    public void pressBomba() 	{ myTeclado.pressedBomb();}
+    public void pressEscape()	{
+    	if (!gameEnded) {
+			pausa = !pausa;
+			setChanged();
+			notifyObservers(new Object[]{"PAUSE", pausa});
+    	}
+    }
+
+	public void releaseBomba()	{ myTeclado.releasedBomb();	}
+    public void releaseLeft()	{ myTeclado.releasedLeft(); }
+    public void releaseRight()	{ myTeclado.releasedRight(); }
+    public void releaseUp()		{ myTeclado.releasedUp(); }
+    public void releaseDown()	{ myTeclado.releasedDown(); }
+    
+    
+    
+    
+	public void sumarTiempo(int i) { tiempo += 10; }
+
+	public void finalizarPartida(boolean fichero) {
+		if (fichero) {
+			escribirEnFichero(); 
+		}
+		gameEnded = true;
+		timer.cancel();
+		setChanged();
+		notifyObservers(new Object[]{"FINALIZAR_PARTIDA", null});
+	}
+
+	public void reiniciarPartida() {
+		timer.cancel();
+		inicializarTablero(playerTipo, pantalla, dificultad);
+		timerStep();
+	}
+	
 	
 
 	

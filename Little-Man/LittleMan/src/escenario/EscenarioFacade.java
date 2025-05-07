@@ -1,22 +1,26 @@
 package escenario;
 import java.util.ArrayList;
 
+import javax.swing.JPanel;
+
+import frameTablero.T_CFG;
+
 public class EscenarioFacade {
 	
 	private static EscenarioFacade miEscenarioFacade;
+	
+	private Escenario_CONFIG esCfg = new Escenario_CONFIG();
 
-	private int COLUMNAS, FILAS;
 	private EscenarioTablero tablero;
 	private EscenarioEnemigos enemigos;
 	private EscenarioBombas bombas;
 	private EscenarioJugador jugador;
 	private EscenarioPowerups powerups;
 	private EscenarioTeclado teclado;
-	private String tipoPantalla;
-	private String dificultad;
-	private boolean bombasExplotadas=true;
-	private boolean sumarTiempo=false;
-	private Double puntosExtra=0.;
+	
+	private boolean bombasExplotadas = true;
+	private boolean sumarTiempo = false;
+	private int puntosExtra = 0;
 	
 	
 	
@@ -25,83 +29,81 @@ public class EscenarioFacade {
     }
 	
     public static EscenarioFacade getEscenarioFacade() {
-    	if (miEscenarioFacade == null) {
-    		miEscenarioFacade = new EscenarioFacade();
-    	}
+    	if (miEscenarioFacade == null) miEscenarioFacade = new EscenarioFacade();
     	return miEscenarioFacade;
     }
 
     
-	public void inicializarTablero(String playerTipo, int COLUMNAS, int FILAS, String pantalla, String pDificultad)
-	{
+	public void inicializarTablero(String playerTipo, String pantalla, String dificultad) {
+
 		tablero = EscenarioTablero.getTablero();
 		enemigos = EscenarioEnemigos.getEnemigos();
 		bombas = EscenarioBombas.getBombas();
 		jugador = EscenarioJugador.getJugador();
 		powerups = EscenarioPowerups.getPowerups();
 		teclado = EscenarioTeclado.getEscenarioTeclado();
+		
 		jugador.inicializarJugador(playerTipo);
-		this.COLUMNAS = COLUMNAS;
-		this.FILAS = FILAS;
-		this.tipoPantalla = pantalla;                   //Guardar el tipoPantalla para el reinicio
-		this.dificultad=pDificultad;
 	    tablero.inicializarTablero(pantalla);
-		enemigos.inicializarEnemigos(tablero.getPosicionesVacias(), COLUMNAS, FILAS, dificultad);
+		enemigos.inicializarEnemigos(tablero.getPosicionesVacias(), dificultad);
 		bombas.inicializarBombas();
 		powerups.inicializarPowerups();
 
 	}
 	
-	public Double actualizarEscenario(int cont, boolean bomb, boolean left, boolean right, boolean up, boolean down) {
-		Double puntos=0.;
-		puntos=enemigos.actualizarTicksEnemigos()+puntos;
-		if (cont%2 == 0 && !jugador.getEstaMuerto() && !jugador.getWin()) {
-			if (bomb) {
-				if (jugador.getPuedePonerBomba()) {
-					if (jugador.getTipoJugador().equals("ROJO") && bombasExplotadas) {
-							if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY(), jugador.getNumBombas())) {
-								jugador.gestionarPonerBomba();
-							} 
-					}	else if (!jugador.getTipoJugador().equals("ROJO")){
-							if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY(), jugador.getNumBombas())) {
-								jugador.gestionarPonerBomba();
-							} 
+	public int actualizarEscenario() {
+		
+		int puntos = 0;
+		
+		puntos = enemigos.actualizarTicksEnemigos() + puntos;
+		
+		if (teclado.isBomb()) {			// si bomba pulsada
+			if (jugador.getPuedePonerBomba()) {
+				if ((jugador.getTipoJugador().equals("ROJO") && bombasExplotadas) || !jugador.getTipoJugador().equals("ROJO")) {
+					if (bombas.ponerBomba(jugador.getTipoBomba(), jugador.getPosX(), jugador.getPosY(), jugador.getNumBombas())) {
+						jugador.gestionarPonerBomba();
 					}
-				} else if (jugador.getTipoJugador().equals("ROJO") && !jugador.getPuedePonerBomba()) {
-					puntos=bombas.actualizarTicksBombas()+puntos;
 				}
+			} else if (jugador.getTipoJugador().equals("ROJO")) {
+				puntos = bombas.actualizarTicksBombas() + puntos;
 			}
-			
-			String[] direccion = teclado.tick();
-			
-			jugador.actualizarPosicionJugador(direccion, COLUMNAS, FILAS);
 		}
+		
+		String[] direccion = teclado.tick();
+		
+		jugador.actualizarPosicionJugador(direccion);
 		jugador.actualizarTicksJugador();
+		
 		puntos = powerups.actualizarPowerups(jugador.getPosX(),jugador.getPosY())+ puntos;
 		if (!jugador.getTipoJugador().equals("ROJO")){
 			puntos=bombas.actualizarTicksBombas()+puntos;
 		}
 		if (jugador.getTipoJugador().equals("ROJO")){
-			if (tablero.hayFuego()) {
-				bombasExplotadas=false;
-			} else {
-				bombasExplotadas=true;
-			}
+				bombasExplotadas = !tablero.hayFuego();
 		}
 		puntos=tablero.actualizarTicksFuego()+puntos;
-		puntos=getPuntos()+puntos;
+		puntos = getPuntos() + puntos;
 		return puntos;
 	}
 	
-	public int[][][] generarMatrizImagenes(){
+	public int[][][] generarMatrizImagenes(String pantalla){
 		
-		int[][][] matrizDevolver = new int[5][COLUMNAS][FILAS];
+		int[][][] matrizDevolver = new int[5][esCfg.col][esCfg.fil];
 		
-		matrizDevolver[0] = tablero.generarMatrizAniadirBloques();
-		matrizDevolver[1] = bombas.generarMatrizAniadirBombas(COLUMNAS, FILAS);
-		matrizDevolver[2] = enemigos.generarMatrizAniadirEnemigos(COLUMNAS, FILAS);
-		matrizDevolver[3] = jugador.generarMatrizAniadirjugador(COLUMNAS, FILAS, bombas.hayBombaEnPosicionXY(jugador.getPosX(), jugador.getPosY()));
-		matrizDevolver[4] = powerups.generarMatrizAniadirPowerup(COLUMNAS, FILAS);
+		for (int panel = 0; panel < matrizDevolver.length; panel ++) {
+			for (int columna = 0; columna < matrizDevolver[panel].length; columna ++) {
+				for (int fila = 0; fila < matrizDevolver[panel][columna].length; fila ++) {
+					matrizDevolver[panel][columna][fila] = 0;
+				}
+			}
+		}
+
+		
+		matrizDevolver[0] = tablero.generarMatrizAniadirBloques(pantalla);
+		matrizDevolver[1] = bombas.generarMatrizAniadirBombas();
+		matrizDevolver[2] = enemigos.generarMatrizAniadirEnemigos();
+		matrizDevolver[3] = jugador.generarMatrizAniadirjugador(bombas.hayBombaEnPosicionXY(jugador.getPosX(), jugador.getPosY()));
+		matrizDevolver[4] = powerups.generarMatrizAniadirPowerup();
 		/*
 		for (int capa = 0; capa < matrizDevolver.length; capa++) {
 			System.out.println("\n Capa" + capa + ":");
@@ -137,25 +139,25 @@ public class EscenarioFacade {
 	}
 	public void generarPowerup(int posX, int posY) { powerups.generarPowerup(posX, posY);}
 
-    public Double gestionarFuego(int posX, int posY) {
-    	Double puntos=0.;
-    	puntos=jugador.gestionarFuego(posX, posY)+puntos;
-    	puntos=enemigos.gestionarFuego(posX, posY)+puntos;
+    public int gestionarFuego(int posX, int posY) {
+    	int puntos = 0;
+    	puntos = jugador.gestionarFuego(posX, posY)+puntos;
+    	puntos = enemigos.gestionarFuego(posX, posY)+puntos;
     	return puntos;
     }
     
     public boolean chocaConPos(int posX, int posY) { return hayBombaEn(posX, posY) || hayBloqueChocableEn(posX, posY);}
     
-    public Double gestionarEnemigo(int posX, int posY) {
-    	Double puntos=0.;
+    public int gestionarEnemigo(int posX, int posY) {
+    	int puntos = 0;
 
     	puntos=jugador.gestionarEnemigo(posX, posY);
 
 		return puntos;
     }
     
-    public Double gestionarExplosion(int posX, int posY, int radioBomba) {
-    	Double puntos=0.;
+    public int gestionarExplosion(int posX, int posY, int radioBomba) {
+    	int puntos=0;
     	jugador.gestionarExplosion();
     	puntos=tablero.gestionarExplosion(posX, posY, radioBomba);
     	return puntos;
@@ -170,18 +172,12 @@ public class EscenarioFacade {
 
     public boolean getMuerto () 		{return jugador.getEstaMuerto();}
     public boolean getWin() 			{return jugador.getWin();}
-    public String getVidas() 			{String vidas= String.valueOf(jugador.getVidas()); return vidas;}
+    public int getVidas() 				{return jugador.getVidas();}
     
-    public void gestionarEnter () {
-    	if (jugador.getEstaMuerto() || jugador.getWin()) {
-    		inicializarTablero(jugador.getTipoJugador(), COLUMNAS, FILAS, this.tipoPantalla, dificultad);
-    	}
-    	
-    }
-    public void	sumarPuntos(Double puntos) 	{ puntosExtra=puntos;}
-    public Double getPuntos()				{ Double puntos=puntosExtra; puntosExtra=0.; return puntos;}
+    
+    public void	sumarPuntos(int puntos) 	{ puntosExtra = puntos;}
+    public int getPuntos()				{ int puntos = puntosExtra; puntosExtra=0; return puntos;}
     public boolean sumarTiempo()			{ return sumarTiempo;}
-    public void quitarTiempo()				{ sumarTiempo=false;}
     public void setTiempo()					{ sumarTiempo=true;}
 	public void sumarBomba()				{ jugador.sumarBomba();}
 	public void restarBomba()				{ jugador.restarBomba();}
@@ -199,38 +195,8 @@ public class EscenarioFacade {
     public int getPosYJ() 				{ int posYJ=this.jugador.getPosY(); return posYJ;}
     
     public void gestionarPlayerWin() 	{ jugador.setWin(); }
+
     
-    public void pressLeft()  	{ teclado.pressedLeft(); }
-    public void pressRight() 	{ teclado.pressedRight(); }
-    public void pressUp()    	{ teclado.pressedUp(); }
-    public void pressDown()  	{ teclado.pressedDown(); }
-    public void releaseLeft()  	{ teclado.releasedLeft(); }
-    public void releaseRight() 	{ teclado.releasedRight(); }
-    public void releaseUp()    	{ teclado.releasedUp(); }
-    public void releaseDown()  	{ teclado.releasedDown(); }
-
-	public void resetEscenarioFacade() {
-		jugador.resetJugador();
-		this.COLUMNAS = 0;
-		this.FILAS = 0;
-		this.tipoPantalla = "";                   //Guardar el tipoPantalla para el reinicio
-		this.dificultad= "";
-	    tablero.resetTablero();
-		enemigos.resetEnemigos();
-		bombas.resetBombas();
-		powerups.resetPowerups();
-		jugador=null;
-		tablero=null;
-		enemigos=null;
-		bombas=null;
-		powerups=null;
-		bombasExplotadas=true;
-		sumarTiempo=false;
-		puntosExtra=0.;
-		
-	}
-
-
 	
 
 	

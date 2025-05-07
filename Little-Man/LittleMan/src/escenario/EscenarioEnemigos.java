@@ -15,8 +15,8 @@ import sonido.SonidoCodigo;
 public class EscenarioEnemigos {
 	
 	private Random random = new Random();
+	private Escenario_CONFIG esCfg = new Escenario_CONFIG();
 
-	private int COLUMNAS, FILAS;
 	private static EscenarioEnemigos misEnemigos;
 	private EscenarioFacade miEscenarioFacade;
     private ArrayList<EntidadMovibleEnemigo> listaEnemigos = new ArrayList<EntidadMovibleEnemigo>();
@@ -37,29 +37,24 @@ public class EscenarioEnemigos {
     }
     
     
-    public void darValoresColumnasFilas (int COLUMNAS, int FILAS) {
-    	this.COLUMNAS = COLUMNAS;
-    	this.FILAS = FILAS;
-    }
+    public void darValoresColumnasFilas () {}
 	
-	public void inicializarEnemigos(ArrayList<int[]> posicionesVacias, int COLUMNAS, int FILAS, String pDificultad) {
+	public void inicializarEnemigos(ArrayList<int[]> posicionesVacias, String pDificultad) {
 		win=false;
-		this.COLUMNAS = COLUMNAS;
-		this.FILAS = FILAS;
 		miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
 		contadorSpawnear = 60;
 		visible = false;
 		switch(pDificultad){
-			case "pacifico":
+			case "PACIFICO":
 				dificultad=0;
 				break;
-			case "facil":
+			case "FACIL":
 				dificultad=0.075;
 				break;
-			case "normal":
+			case "NORMAL":
 				dificultad=0.15;
 				break;
-			case "dificil":
+			case "DIFICIL":
 				dificultad=0.25;
 				break;
 			default:
@@ -88,8 +83,8 @@ public class EscenarioEnemigos {
 		}
 	}
 	
-	public Double actualizarTicksEnemigos() {
-		Double puntos=0.;
+	public int actualizarTicksEnemigos() {
+		int puntos=0;
 		if (contadorSpawnear > 0) {
 			contadorSpawnear--;
 			if (contadorSpawnear%5 == 0) visible = !visible;
@@ -126,21 +121,21 @@ public class EscenarioEnemigos {
 			mov <= 3) {
 			if (Math.abs(miEscenarioFacade.getPosXJ()-posEX) >= Math.abs(miEscenarioFacade.getPosYJ()-posEY)) {
 				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)<0 && posEX != 0			) ? posEX - 1 : posEXnew;
-				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)>0 && posEX != COLUMNAS - 1) ? posEX + 1 : posEXnew;
+				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)>0 && posEX != esCfg.col - 1) ? posEX + 1 : posEXnew;
 				
 			} else {
 				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)<0  && posEY != 0			) ? posEY - 1 : posEYnew;
-				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)>0   && posEY != FILAS - 1  ) ? posEY + 1 : posEYnew;
+				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)>0   && posEY != esCfg.fil - 1  ) ? posEY + 1 : posEYnew;
 			}
 			
 			acercamientoJugador=true;
 		}
 		if (listaEnemigos.get(i).getCodigoEnemigo()==40 || acercamientoJugador==false) {
 		
-		posEXnew = (mov == 1  && posEX != 0			  ) ? posEX - 1 : posEXnew;
-		posEXnew = (mov == 2  && posEX != COLUMNAS - 1) ? posEX + 1 : posEXnew;
-		posEYnew = (mov == 3  && posEY != 0			  ) ? posEY - 1 : posEYnew;
-		posEYnew = (mov == 4  && posEY != FILAS - 1   ) ? posEY + 1 : posEYnew;
+		posEXnew = (mov == 1  && posEX != 0				) ? posEX - 1 : posEXnew;
+		posEXnew = (mov == 2  && posEX != esCfg.col- 1	) ? posEX + 1 : posEXnew;
+		posEYnew = (mov == 3  && posEY != 0				) ? posEY - 1 : posEYnew;
+		posEYnew = (mov == 4  && posEY != esCfg.fil - 1 ) ? posEY + 1 : posEYnew;
 		}
 		
 		movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew);	// Enemigo choca contra pared o bomba si
@@ -149,12 +144,12 @@ public class EscenarioEnemigos {
 			if (posEXnew != posEX) {
 				posEXnew=posEX;
 				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)<0  && posEY != 0			) ? posEY - 1 : posEYnew;
-				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)>0   && posEY != FILAS - 1  ) ? posEY + 1 : posEYnew;
+				posEYnew = ((miEscenarioFacade.getPosYJ()-posEY)>0   && posEY != esCfg.fil - 1  ) ? posEY + 1 : posEYnew;
 				movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew); 
 			} else if (posEYnew != posEY) {
 				posEYnew=posEY;
 				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)<0 && posEX != 0			) ? posEX - 1 : posEXnew;
-				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)>0 && posEX != COLUMNAS - 1) ? posEX + 1 : posEXnew;
+				posEXnew = ((miEscenarioFacade.getPosXJ()- posEX)>0 && posEX != esCfg.col - 1) ? posEX + 1 : posEXnew;
 				movimientoEnemigoChocaConParedOBomba = 	comprobarMovimiento(mov, posEX, posEY, posEXnew, posEYnew);
 			}
 		}
@@ -169,9 +164,9 @@ public class EscenarioEnemigos {
 	private boolean comprobarMovimiento(int mov, int posEX, int posEY, int posEXnew, int posEYnew) {
 		boolean movimientoEnemigoChocaConParedOBomba = false;
 		movimientoEnemigoChocaConParedOBomba = ((mov == 1  && posEX == 0)				// Choca contra exterior
-				|| ( mov == 2  && posEX == COLUMNAS - 1	)
+				|| ( mov == 2  && posEX == esCfg.col - 1	)
 				|| ( mov == 3  && posEY == 0			)
-				|| ( mov == 4  && posEY == FILAS - 1	)
+				|| ( mov == 4  && posEY == esCfg.fil - 1	)
 				|| miEscenarioFacade.chocaConPos(posEXnew, posEYnew));					// o si hay una bomba o bloque en la nueva posicion
 		
 			for ( int j=0; j<listaEnemigos.size(); j++) {								// Choca contra otro Enemigo?
@@ -184,14 +179,14 @@ public class EscenarioEnemigos {
 	}
 	
 	
-	public Double gestionarFuego(int posFX, int posFY) {
-		Double puntos=0.;
+	public int gestionarFuego(int posFX, int posFY) {
+		int puntos = 0;
 		for (int i = 0; i < listaEnemigos.size(); i++) {
 			if (listaEnemigos.get(i).getPosX() == posFX && listaEnemigos.get(i).getPosY() == posFY) {
 				listaSonidos.add(SonidoCodigo.ENEMY_DEATH.parar());
 				listaSonidos.add(SonidoCodigo.ENEMY_DEATH.sonar());
-				if (listaEnemigos.get(i).getCodigoEnemigo()==40) {puntos=100.+puntos;}
-				if (listaEnemigos.get(i).getCodigoEnemigo()==41) {puntos=120.+puntos;}
+				if (listaEnemigos.get(i).getCodigoEnemigo()==40) {puntos=100 + puntos;}
+				if (listaEnemigos.get(i).getCodigoEnemigo()==41) {puntos=120 + puntos;}
 				listaEnemigos.remove(i);
 				i--;
 			}
@@ -204,8 +199,8 @@ public class EscenarioEnemigos {
 	}
 	
 	
-	public int[][] generarMatrizAniadirEnemigos(int COLUMNAS, int FILAS){
-		int[][] matrizGenerada = new int[COLUMNAS][FILAS];
+	public int[][] generarMatrizAniadirEnemigos(){
+		int[][] matrizGenerada = new int[esCfg.col][esCfg.fil];
 		if (visible) {
 			if (!win) {
 				for (EntidadMovibleEnemigo pEnemigo : listaEnemigos) {
@@ -229,16 +224,4 @@ public class EscenarioEnemigos {
 	
 	public void resetWin() {win=false;}
 
-	public void resetEnemigos() {
-		win=false;
-		this.COLUMNAS = 0;
-		this.FILAS = 0;
-		miEscenarioFacade = null;
-		contadorSpawnear = 0;
-		visible = false;
-		dificultad= 0;
-		listaEnemigos.clear();
-		listaSonidos.clear();
-	}
-    
 }

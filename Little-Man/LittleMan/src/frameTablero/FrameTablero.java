@@ -4,7 +4,7 @@ import java.awt.*;
 import javax.swing.*;
 
 import escenario.Escenario;
-import frameMenuPrincipal.FrameMenuPrincipal;
+import frameMenuPrincipal.Frm__00__Frame_Principal;
 import sonido.SoundManager;
 
 import java.awt.event.*;
@@ -16,26 +16,21 @@ public class FrameTablero extends JFrame implements Observer {
 	private static final long serialVersionUID = 1L;
 	
 	private static FrameTablero frmTablero;
-    private Frm__Pane pane;
-    private Frm__CONFIG config;
-    private Frm__HUD HUDPanel; 
-    private Frm__Menu pausa;
-    private JLayeredPane layeredPane;
-    private boolean controlado=false;
-
-    private final int PIXELS_POR_LADO_CELDA = 45;
-
-
+	private Frm__T__01__Layered__LayeredPrincipal layeredPrincipal;
+    private boolean iniciado;
     
+    private Controller controller;
     
-    
+    //private final int PIXELS_POR_LADO_CELDA = 45;
+
     //SE INICIA AQUI!!!
-    private FrameTablero() {
+    private FrameTablero() 
+    {
     	
     }
-    public void discard() {
-    	dispose();
-    }
+//    public void discard() {
+//    	dispose();
+//    }
 
 
     public static FrameTablero getFrameTablero() {
@@ -45,84 +40,43 @@ public class FrameTablero extends JFrame implements Observer {
     	return frmTablero;
     }
 
-    public void resetFrameTablero() {
-    	pane.resetPane();
-    	config.resetConfig();
-    	HUDPanel.resetHUD();
-    	pausa.resetPausa();
-    	pane= null;
-    	config= null;
-    	HUDPanel= null; 
-    	pausa= null;
-    	layeredPane= null;
-    	this.getContentPane().removeAll();
-    	frmTablero.setEnabled(false);
-		frmTablero.setVisible(false);
-    }
     
-    public FrameTablero inicializarFrameTablero(String[] params, int[] dims) {
-    	// Inicializar Config con valores para todas las clases que lo necesiten
+    
 
-    	Frm__CONFIG.iniciarConfig(dims[0], dims[1], PIXELS_POR_LADO_CELDA);
-    	config = Frm__CONFIG.getConfig();
-    	
-    	
-    	// Crear Frame
-    	
-    	setTitle("Bomberman");										// Ventana Titulo
-    	setSize(config.getANCHO(), config.getALTO());					// Ventana Dimensiones
-    	setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);					// Ventana Operacion Cerrar
-    	setLocationRelativeTo(null);
-    	layeredPane = new JLayeredPane();								// layeredPane es un JLayeredPane 
-        layeredPane.setPreferredSize(new Dimension(config.getANCHO(), config.getALTO())); 		// layeredPane toma las dimensiones de la ventana
-        layeredPane.setLayout(new OverlayLayout(layeredPane));
-    	
-    	//System.out.println("Frame Tablero ___ Dimensiones Tablero" + config.getANCHO() + " " + config.getALTO());
-    	
-    	
-    	// Inicializar el LayeredPane en el que se guardará el contenido
-    	
-    	pane = Frm__Pane.getPane();
-    	pane.setPreferredSize(new Dimension(config.getANCHO(), config.getALTO()));
-		pane = pane.iniciarPane(params[1]);
-		
-		pausa = Frm__Menu.getMenu();
-		pausa.setPreferredSize(new Dimension(config.getANCHO(), config.getALTO()));
-		pausa = pausa.iniciarMenu();
-		pane.setBounds(0, 0, config.getANCHO(), config.getALTO());
-		pausa.setBounds(0, 0, config.getANCHO(), config.getALTO());
-		
-        Escenario.getEscenario().addObserver(this);
+
+    
+    public void inicializarFrameTablero(String pVolumen) {
+        // Crear Frame
+        setTitle("Bomberman");                                        // Ventana Titulo
+        setSize(T_CFG.ANCHO_VENTANA, T_CFG.ALTO_VENTANA);                 // Ventana Dimensiones
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);               // Ventana Operacion Cerrar
+        setLocationRelativeTo(null);
         
-        configurarVentana();
-        inicializarSonidos(params[3]);
+        layeredPrincipal = Frm__T__01__Layered__LayeredPrincipal.getPane();
+        layeredPrincipal.iniciarPaneles();
+        layeredPrincipal.setPreferredSize(new Dimension(T_CFG.ANCHO_VENTANA, T_CFG.ALTO_VENTANA)); // layeredPane toma las dimensiones de la ventana
+        add(layeredPrincipal);
+        
+        //layeredPrincipal.setLayout(new BorderLayout(layeredPrincipal)); ESTO COMPROBAR SI VA AQUI O QUE, POSIBLEMENTE BORRAR
+                
+        Escenario.getEscenario().addObserver(this);
+        System.out.println("Añadido como observer a Escenario");
+        
+
+        inicializarSonidos(pVolumen);
         aniadirObserverMouseKeyListener();
         
         pack();
-
-        frmTablero.setEnabled(true);
-		frmTablero.setVisible(true);
-        return frmTablero;
-    }
-    
-    private void configurarVentana() {
-    	//pack();
-    	
-        getContentPane().setLayout(new BorderLayout());
-        layeredPane.add(pane, JLayeredPane.DEFAULT_LAYER); // fondo/tablero
-        layeredPane.add(pausa, JLayeredPane.POPUP_LAYER);  // encima cuando pausa
-        getContentPane().add(layeredPane, BorderLayout.CENTER);
-    	setResizable(false); 
-    	setLocationRelativeTo(null);
-    	setVisible(true);
-    	hudConfig();
+        setResizable(false);
+        setEnabled(true);
+        setVisible(false);
+        
+        layeredPrincipal.mostrarMenu("", false);
     }
     
     private void aniadirObserverMouseKeyListener() {
-    	if (!controlado) {
-    		addKeyListener(new Controller());								// añadimos key   listener
-    		controlado=true;
-    	}
+		controller = new Controller();
+		addKeyListener(controller);								// añadimos key   listener
     }
 
     
@@ -130,43 +84,83 @@ public class FrameTablero extends JFrame implements Observer {
     	SoundManager.getSoundManager().close();
     	SoundManager.getSoundManager().soundsToLoadEscenario(volumen);
     }
-    private void hudConfig() {
-    	HUDPanel = Frm__HUD.getHUD();
-        getContentPane().add(HUDPanel.iniciarHUD(), BorderLayout.NORTH);
-    }
     
+    public void iniciarPartida() {
+    	setVisible(true);
+    }
     
     
 
     @Override
     public void update(Observable o, Object obj) {
-        if (o instanceof Escenario && obj instanceof int[][][]) {
-            gestionarMatrizCodigosImagenes((int[][][]) obj);
-        } else
-        if (o instanceof Escenario && obj instanceof String[]) {
-            gestionarMatrizCodigosSonidos((String[]) obj);
-        } else 
-    	if (o instanceof Escenario && obj instanceof Integer) {
-            HUDPanel.gestionarTemporizador((Integer) obj);
-        }
-        if (o instanceof Escenario && obj instanceof String) {
-        	HUDPanel.gestionarVida((String) obj);
-        }
-        if (o instanceof Escenario && obj instanceof Double) {
-        	HUDPanel.gestionarPuntuacion((Double) obj);
-        }
-        if (o instanceof Escenario && obj instanceof Boolean[]) {
-        	pausa.actualizarMenu((Boolean[])obj);
-        	
-        }
+        try 
+        {
+            if (obj instanceof Object[]) 
+            {
+                Object[] arrayObjetos = (Object[]) obj;
+
+                if (arrayObjetos.length == 2 && arrayObjetos[0] instanceof String) 
+                {
+                    String texto = (String) arrayObjetos[0];
+
+                    switch (texto) 
+                    {
+                        case "GESTIONAR_CODIGOS_IMAGENES":
+                        	layeredPrincipal.gestionarMatrizCodigosImagenes((int[][][]) arrayObjetos[1]);
+                            break;
+
+                        case "GESTIONAR_CODIGOS_SONIDOS":
+                            gestionarMatrizCodigosSonidos((String[]) arrayObjetos[1]);
+                            break;
+
+                        case "GESTIONAR_TEMPORIZADOR":
+                        	layeredPrincipal.gestionarTemporizador((Integer) arrayObjetos[1]);
+                            break;
+
+                        case "PAUSE":
+                        case "YOU DIED":
+                        case "WINNER":
+                        case "TIME ENDED":
+                            layeredPrincipal.mostrarMenu((String) arrayObjetos[0], (Boolean) arrayObjetos[1] );
+                            break;
+                            
+                        case "INICIAR_FONDO":
+                        	layeredPrincipal.iniciarFondo((String) arrayObjetos[1]);
+                        	break;
+
+                        case "GESTIONAR_PUNTUACION":
+                        	layeredPrincipal.gestionarPuntuacion((int) arrayObjetos[1]);
+                            break;
+                            
+                        case "GESTIONAR_VIDAS":
+                        	layeredPrincipal.gestionarVidas((int) arrayObjetos[1]);
+                        	break;
+                        case "INICIALIZAR_VIDA":
+                        	layeredPrincipal.inicializarVidas((int) arrayObjetos[1]);
+                        	break;
+                        case "FINALIZAR_PARTIDA":
+                        	finalizarPartida();;
+                        	break;
+                        case "REINICIAR_PARTIDA":
+                        	reiniciarPartida();;
+                        	break;
+
+                        default:
+                            //System.out.println("Comando no reconocido en la clase Frame Tablero: " + texto);
+                            break;
+                    }
+                }
+            }
+        } 
         
+        catch (Exception e) 
+        {
+            //System.err.println("Error al procesar la actualización: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
+  
     
-    
-    
-    private void gestionarMatrizCodigosImagenes(int[][][] res) {
-    	pane.actualizarTablero(res);
-    }
     
     private void gestionarMatrizCodigosSonidos(String[] res) {
 
@@ -193,14 +187,6 @@ public class FrameTablero extends JFrame implements Observer {
     
 	
     	
-    
-    @Override public boolean isOpaque() { 
-        return false; 
-    }
-    
-   
-    
-    	
 	class Controller implements KeyListener {
 	
 		public Controller() {
@@ -220,8 +206,6 @@ public class FrameTablero extends JFrame implements Observer {
 		            break;
 		        case KeyEvent.VK_S: Escenario.getEscenario().pressDown();
 	                break;
-		        case KeyEvent.VK_ENTER: Escenario.getEscenario().pressEnter();
-	        		break;
 		        case KeyEvent.VK_ESCAPE: Escenario.getEscenario().pressEscape();
 					break;
 		        default: ;
@@ -243,10 +227,6 @@ public class FrameTablero extends JFrame implements Observer {
 	                break;
 		        case KeyEvent.VK_S: Escenario.getEscenario().releaseDown();
 	                break;
-		        case KeyEvent.VK_ENTER: Escenario.getEscenario().releaseEnter();
-					break;
-		        case KeyEvent.VK_ESCAPE: Escenario.getEscenario().releaseEscape();
-					break;
 		        default: ;
 		        	break;
 			}
@@ -255,6 +235,17 @@ public class FrameTablero extends JFrame implements Observer {
 		@Override
 		public void keyTyped(KeyEvent e) {}
 		
+	}
+	
+
+	public void finalizarPartida() {
+		removeKeyListener(controller);
+		Frm__00__Frame_Principal.getMenuPrincipal().inicializarPanel();
+		dispose();
+	}
+	
+	public void reiniciarPartida() {
+		removeKeyListener(controller);
 	}
 }
 

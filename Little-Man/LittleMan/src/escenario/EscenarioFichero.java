@@ -50,7 +50,7 @@ public class EscenarioFichero {
 				
 			
 		}
-		public static void guardarEstadisticas(String pNombre, boolean pVictoria, int pPuntuacion, String pDificultad, String pPantalla, String pBomberman, int pTiempo, String pVidas) {
+		public static void guardarEstadisticas(String pNombre, boolean pVictoria, int pPuntuacion, String pDificultad, String pPantalla, String pBomberman, int pTiempo, int pVidas) {
 			Calendar c= new GregorianCalendar();
 			int[] fechaHora= {	c.get(Calendar.DATE), 
 								c.get(Calendar.MONTH)+1, 

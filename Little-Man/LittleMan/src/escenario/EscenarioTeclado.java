@@ -8,6 +8,8 @@ public class EscenarioTeclado {
 	private EscenarioTecladoDireccionFactory dirFactory;
 	private int tick;
 	
+	private boolean bomb;
+	
 	private EscenarioTeclado() {
 		direcciones = new ArrayList<EscenarioTecladoDireccion>();
 		dirFactory = EscenarioTecladoDireccionFactory.getDirectionFactory();
@@ -50,7 +52,7 @@ public class EscenarioTeclado {
 		
 		if (tick == 0 && !direcciones.isEmpty()) {
 			direccionReturn = new String[direcciones.size()];
-			tick = 2;
+			tick = 4;
 			
 			for (int i = 0; i < direcciones.size(); i++) {
 				direccionReturn[i] = direcciones.get(i).getDireccion();
@@ -60,6 +62,10 @@ public class EscenarioTeclado {
 		
 		return direccionReturn;
 	}
+
+	public void pressedBomb() { bomb = true; }
+	public void releasedBomb() { bomb = false;}
+	public boolean isBomb() { return bomb; }
 	
 	
 	

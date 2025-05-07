@@ -58,6 +58,8 @@ public class SoundManager {
             clip.setLoopPoints(0, 7938047); // configurable
             clip.start();
             currentMusic = name;
+    		System.out.println(name);
+
         }
     }
 
@@ -113,14 +115,16 @@ public class SoundManager {
             default -> "1";
         };
 
-        loadAsync("BOMB_EXPLODE", "sfx/bombExplode" + sufijo + ".wav");
-        loadAsync("DEATH", "sfx/die" + sufijo + ".wav");
-        loadAsync("ENEMY_DEATH", "sfx/enemyDies" + sufijo + ".wav");
-        loadAsync("ITEM_GET", "sfx/itemGet" + sufijo + ".wav");
-        loadAsync("PLACE_BOMB", "sfx/placeBomb" + sufijo + ".wav");
-        loadAsync("WALK", "sfx/walk" + sufijo + ".wav");
-        loadAsync("WIN", "sfx/win" + sufijo + ".wav");
-        loadAsync("INVENCIBILIDAD", "sfx/invencibilidad" + sufijo + ".wav");
-        loadSound("MUSIC", "sfx/musicScene" + sufijo + ".wav");
+        if (sufijo != "void") {
+	        loadAsync("BOMB_EXPLODE", "sfx/bombExplode" + sufijo + ".wav");
+	        loadAsync("DEATH", "sfx/die" + sufijo + ".wav");
+	        loadAsync("ENEMY_DEATH", "sfx/enemyDies" + sufijo + ".wav");
+	        loadAsync("ITEM_GET", "sfx/itemGet" + sufijo + ".wav");
+	        loadAsync("PLACE_BOMB", "sfx/placeBomb" + sufijo + ".wav");
+	        loadAsync("WALK", "sfx/walk" + sufijo + ".wav");
+	        loadAsync("WIN", "sfx/win" + sufijo + ".wav");
+	        loadAsync("INVENCIBILIDAD", "sfx/invencibilidad" + sufijo + ".wav");
+	        loadSound("MUSIC", "sfx/musicScene" + sufijo + ".wav");
+        }
     }
 }

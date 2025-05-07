@@ -9,8 +9,11 @@ import sonido.SonidoCodigo;
 
 public class EscenarioPowerups {
 
+	private Escenario_CONFIG esCfg = new Escenario_CONFIG();
+	
 	private static EscenarioPowerups misPowerups;
 	private EscenarioFacade miEscenarioFacade;
+	private Escenario miEscenario;
 	private ArrayList<EntidadInamoviblePowerup> listaPowerups = new ArrayList<EntidadInamoviblePowerup>();
     private ArrayList<String> listaSonidos = new ArrayList<String>();
     private Random random = new Random();
@@ -27,6 +30,7 @@ public class EscenarioPowerups {
     public void inicializarPowerups() {
     	listaPowerups.clear();
     	miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
+    	miEscenario = Escenario.getEscenario();
     	//listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Invencible", 0, 1));
     	/*listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 2));
     	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 3));
@@ -103,8 +107,8 @@ public class EscenarioPowerups {
 		return powerupPuesto;
 	}
     
-    public Double actualizarPowerups(int posJX, int posJY) {
-    	Double puntos=0.;
+    public int actualizarPowerups(int posJX, int posJY) {
+    	int puntos = 0;
     	for ( int i=0; i<listaPowerups.size(); i++) {
     		EntidadInamoviblePowerup pPowerup = listaPowerups.get(i);													// Obtenemos el bloque que queremos actualizar
 			
@@ -112,7 +116,7 @@ public class EscenarioPowerups {
 				listaSonidos.add(SonidoCodigo.ITEM_GET.sonar());
 				powerupEffect(pPowerup.getCodigoPowerup());
 				listaPowerups.remove(i);		
-				puntos=100.;
+				puntos=100;
 			}
 		}
 		return puntos;
@@ -147,7 +151,7 @@ public class EscenarioPowerups {
 		case 608: 
 			int puntos = random.nextInt(5);
 			System.out.println(500.*(1<<puntos)+"  " + puntos);
-			miEscenarioFacade.sumarPuntos(500.*(1<<puntos));
+			miEscenarioFacade.sumarPuntos(500*(1<<puntos));
 			break;
 		case 609: //Reduce en 5 ticks el tiempo para explotar una bomba
 			if(miEscenarioFacade.getTicksBomba()>5) {miEscenarioFacade.restarTicks();}
@@ -156,7 +160,7 @@ public class EscenarioPowerups {
 			miEscenarioFacade.sumarTicks();
 			break;
 		case 611: 
-			miEscenarioFacade.setTiempo();
+			miEscenario.sumarTiempo(10);
 			break;
 		case 612: //Aumenta en 1 la vida maxima
 			miEscenarioFacade.sumarVida();
@@ -169,8 +173,8 @@ public class EscenarioPowerups {
 		}
     }
     
-    public int[][] generarMatrizAniadirPowerup(int COLUMNAS, int FILAS){
-		int[][] matrizGenerada = new int[COLUMNAS][FILAS];
+    public int[][] generarMatrizAniadirPowerup(){
+		int[][] matrizGenerada = new int[esCfg.col][esCfg.fil];
 
 		for (EntidadInamoviblePowerup pPowerup : listaPowerups) {
 			matrizGenerada[pPowerup.getPosX()][pPowerup.getPosY()] = pPowerup.getCodigoPowerup();
@@ -184,13 +188,6 @@ public class EscenarioPowerups {
 	
 	public void listaSonidosClear() {
 		listaSonidos.clear();
-	}
-
-	public void resetPowerups() {
-		listaPowerups.clear();
-    	miEscenarioFacade = null;
-    	listaSonidos.clear();
-		
 	}
 
 }

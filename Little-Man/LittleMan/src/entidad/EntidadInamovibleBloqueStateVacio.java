@@ -7,7 +7,7 @@ public class EntidadInamovibleBloqueStateVacio implements EntidadInamovibleBloqu
 	
 	public String getTipo() { return tipoBloque; }
 
-	public int getCodigoBloque() { return codigoBloque;	}
+	public int getCodigoBloque(String pantalla) { return codigoBloque;	}
 	
 	public boolean romperBloque(EntidadInamovibleBloque pBloque)
 	{
