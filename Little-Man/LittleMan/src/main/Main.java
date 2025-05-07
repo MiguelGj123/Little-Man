@@ -14,5 +14,4 @@ public class Main {
     	//Escenario.getEscenario().inicializarTablero("ROJO", "NORMAL", "dificil", "BAJO");
     }
 
-
 }

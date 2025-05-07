@@ -1,42 +1,28 @@
 package entidad;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Supplier;
+
 public class EntidadInamovibleBloqueFactory {
-	
-	private static EntidadInamovibleBloqueFactory myBloqueFactory;
-	
-	private EntidadInamovibleBloqueFactory() {}
-	
-	public static EntidadInamovibleBloqueFactory getBloqueFactory()
-	{
-		if (myBloqueFactory == null)
-		{
-			myBloqueFactory = new EntidadInamovibleBloqueFactory();
-		}
+
+	private static EntidadInamovibleBloqueFactory myBloqueFactory = new EntidadInamovibleBloqueFactory();
+
+	private Map<String, Supplier<EntidadInamovibleBloqueState>> stateMap;
+
+	private EntidadInamovibleBloqueFactory() {
+		stateMap = new HashMap<>();
+		stateMap.put("DURO", EntidadInamovibleBloqueStateDuro::new);
+		stateMap.put("BLANDO", EntidadInamovibleBloqueStateBlando::new);
+		stateMap.put("FUEGO", EntidadInamovibleBloqueStateFuego::new);
+		stateMap.put("VACIO", EntidadInamovibleBloqueStateVacio::new);
+	}
+
+	public static EntidadInamovibleBloqueFactory getBloqueFactory() {
 		return myBloqueFactory;
 	}
-	
-	public EntidadInamovibleBloqueState generate (String pState)
-	{
-		EntidadInamovibleBloqueState state;
-		
-		switch (pState)
-		{
-			case "DURO":
-				state = new EntidadInamovibleBloqueStateDuro();
-				break;
-			case "BLANDO":
-				state = new EntidadInamovibleBloqueStateBlando();
-				break;
-			case "FUEGO":
-				state = new EntidadInamovibleBloqueStateFuego();
-				break;
-			case "VACIO":
-				state = new EntidadInamovibleBloqueStateVacio();
-				break;
-			default:
-				state = new EntidadInamovibleBloqueStateVacio();
-				break;
-		}
-		return state;
+
+	public EntidadInamovibleBloqueState generate(String pState) {
+		return stateMap.getOrDefault(pState, EntidadInamovibleBloqueStateVacio::new).get();
 	}
 }

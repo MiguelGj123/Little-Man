@@ -41,18 +41,17 @@ public class EscenarioBombas {
     
 	public EntidadInamovibleBomba getBombaEnPosicionXY (int pPosX, int pPosY)										// devuelve la bomba que hay en una posicion XY
 	{																												// devuelve null si no hay bomba en esa posicion
-		for (EntidadInamovibleBomba pBomba: listaBombas) {
-			if (pBomba.getPosX()==pPosX && pBomba.getPosY()==pPosY) { return pBomba; }
-		}
-		return null;
+		return listaBombas.stream()
+			    .filter(b -> b.getPosX() == pPosX && b.getPosY() == pPosY)
+			    .findFirst()
+			    .orElse(null);
 	}
     
 	public boolean hayBombaEnPosicionXY (int pPosX, int pPosY)										// devuelve la bomba que hay en una posicion XY
 	{																												// devuelve null si no hay bomba en esa posicion
-		for (EntidadInamovibleBomba pBomba: listaBombas) {
-			if (pBomba.getPosX()==pPosX && pBomba.getPosY()==pPosY) { return true; }
-		}
-		return false;
+		return listaBombas.stream()
+			    .anyMatch(b -> b.getPosX() == pPosX && b.getPosY() == pPosY);
+
 	}
 	public int actualizarTicksBombas() {
 		int puntos = 0;

@@ -177,9 +177,9 @@ public class EscenarioJugador {
 	public boolean getPuedePonerBomba() { return jug.puedePonerBombas(); }
 	public boolean getEstaMuerto() { return jug.getEstaMuerto(); }
 	public void gestionarTiempo() {
-		for(int i=0;i<=jug.getVidas()+1;i++) {
-			jug.gestionarVida();
-		}
+		java.util.stream.IntStream.rangeClosed(0, jug.getVidas() + 1)
+	    .forEach(i -> jug.gestionarVida());
+
 		if (jug.getEstaMuerto())  {
 			if (sfx) {
 				sfx=false;

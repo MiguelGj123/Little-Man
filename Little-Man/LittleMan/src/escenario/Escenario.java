@@ -50,10 +50,13 @@ public class Escenario extends Observable{
 		
 		dificultad=pDificultad;
 		
-		if		(dificultad.equals("PACIFICO"))	{tiempo=200;}	// Tiempo en segundos
-		else if (dificultad.equals("FACIL"))	{tiempo=200;}	// Tiempo en segundos
-		else if (dificultad.equals("NORMAL"))	{tiempo=150;}	// Tiempo en segundos
-		else if (dificultad.equals("DIFICIL"))	{tiempo=100;}	// Tiempo en segundos
+		Map<String, Integer> dificultadMap = new HashMap<>();
+		dificultadMap.put("PACIFICO", 200);
+		dificultadMap.put("FACIL",    200);
+		dificultadMap.put("NORMAL",   150);
+		dificultadMap.put("DIFICIL",  100);
+
+		tiempo = dificultadMap.getOrDefault(dificultad, 150); 	// Tiempo en segundos
 		
 		playerTipo = pPlayerTipo;
 		
@@ -121,21 +124,17 @@ public class Escenario extends Observable{
 		int puntosTick = miEscenarioFacade.actualizarEscenario();
 		if (puntosTick!=-1) puntosTotales += puntosTick;
 		
-		// actualizar matriz imagenes
-		setChanged();
-		notifyObservers(new Object[]{"GESTIONAR_CODIGOS_IMAGENES", miEscenarioFacade.generarMatrizImagenes(pantalla)});
-		
-		// actualizar vector sonidos
-		setChanged();
-		notifyObservers(new Object[]{"GESTIONAR_CODIGOS_SONIDOS", miEscenarioFacade.generarVectorSonidos()});
-		
-		//actualizar vidas
-		setChanged();
-		notifyObservers(new Object[]{"GESTIONAR_VIDAS", miEscenarioFacade.getVidas()});
-		
-		//actualizar puntuacion
-		setChanged();
-		notifyObservers(new Object[]{"GESTIONAR_PUNTUACION", puntosMultiplicadosPorDificulad(puntosTotales)});
+		List<Object[]> notificaciones = Arrays.asList(
+			    new Object[]{"GESTIONAR_CODIGOS_IMAGENES",	miEscenarioFacade.generarMatrizImagenes(pantalla)},
+			    new Object[]{"GESTIONAR_CODIGOS_SONIDOS",	miEscenarioFacade.generarVectorSonidos()},
+			    new Object[]{"GESTIONAR_VIDAS",				miEscenarioFacade.getVidas()},
+			    new Object[]{"GESTIONAR_PUNTUACION",		puntosMultiplicadosPorDificulad(puntosTotales)}
+			);
+
+			notificaciones.forEach(obj -> {
+			    setChanged();
+			    notifyObservers(obj);
+			});
 		
 		
 		
@@ -144,9 +143,13 @@ public class Escenario extends Observable{
 	
 	
 	private int puntosMultiplicadosPorDificulad(int puntosTick) {
-		if (dificultad.equals("NORMAL")  && puntosTick != -1.) return puntosTick *= 2;
-		if (dificultad.equals("DIFICIL") && puntosTick != -1.) return puntosTick *= 4;
-		return puntosTick;
+		if (puntosTick == -1) return puntosTick;
+
+	    Map<String, Integer> multiplicadorMap = new HashMap<>();
+	    multiplicadorMap.put("NORMAL", 2);
+	    multiplicadorMap.put("DIFICIL", 4);
+
+	    return puntosTick * multiplicadorMap.getOrDefault(dificultad, 1);
 	}
 
 	public void escribirEnFichero() {
@@ -204,4 +207,3 @@ public class Escenario extends Observable{
     
 		                
 }
-		        

@@ -1,73 +1,41 @@
 package entidad;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.BiFunction;
+
 public class EntidadInamoviblePowerupFactory {
-	
-	private static EntidadInamoviblePowerupFactory myPowerupFactory;
-	
-	private EntidadInamoviblePowerupFactory() {}
-	
-	public static EntidadInamoviblePowerupFactory getPowerupFactory()
-	{
-		if (myPowerupFactory == null)
-		{
-			myPowerupFactory = new EntidadInamoviblePowerupFactory();
-		}
-		return myPowerupFactory;
-	}
-	
-	public EntidadInamoviblePowerup generate (String pTipoPowerup, int posX, int posY)
-	{
-		EntidadInamoviblePowerup tipoPowerup;
-		
-		switch (pTipoPowerup)
-		{
-			case "VidaRec":
-				tipoPowerup = new EntidadInamoviblePowerupVidaRec(posX, posY);
-				break;
-			case "VidaMas":
-				tipoPowerup = new EntidadInamoviblePowerupVidaMas(posX, posY);
-				break;
-			case "BombaMas":
-				tipoPowerup = new EntidadInamoviblePowerupBombaMas(posX, posY);
-				break;
-			case "FuegoMas":
-				tipoPowerup = new EntidadInamoviblePowerupFuegoMas(posX, posY);
-				break;
-			case "TiempoMas":
-				tipoPowerup = new EntidadInamoviblePowerupTiempoMas(posX, posY);
-				break;
-			case "Invencible":
-				tipoPowerup = new EntidadInamoviblePowerupInvencible(posX, posY);
-				break;
-			/*case "BombaPatada":
-				tipoPowerup = new EntidadInamoviblePowerupBombaPatada(posX, posY);
-				break;
-			case "BombaPincho":
-				tipoPowerup = new EntidadInamoviblePowerupBombaPincho(posX, posY);
-				break;*/
-			case "Puntos":
-				tipoPowerup = new EntidadInamoviblePowerupPuntos(posX, posY);
-				break;
-			case "BombaMenos":
-				tipoPowerup = new EntidadInamoviblePowerupBombaMenos(posX, posY);
-				break;
-			case "FuegoMenos":
-				tipoPowerup = new EntidadInamoviblePowerupFuegoMenos(posX, posY);
-				break;
-			case "TickBombaMas":
-				tipoPowerup = new EntidadInamoviblePowerupTickBombaMas(posX, posY);
-				break;
-			case "TickBombaMenos":
-				tipoPowerup = new EntidadInamoviblePowerupTickBombaMenos(posX, posY);
-				break;
-			case "Aleatorio":
-				tipoPowerup = new EntidadInamoviblePowerupAleatorio(posX, posY);
-				break;
-			default:
-				tipoPowerup = new EntidadInamoviblePowerupAleatorio(posX, posY);
-				break;
-		}
-		return tipoPowerup;
-	}
-	
+
+    private static EntidadInamoviblePowerupFactory myPowerupFactory =
+            new EntidadInamoviblePowerupFactory(); 
+
+    private Map<String, BiFunction<Integer, Integer, EntidadInamoviblePowerup>> powerupMap;
+
+    private EntidadInamoviblePowerupFactory() {
+        powerupMap = new HashMap<>();
+        powerupMap.put("VidaRec", EntidadInamoviblePowerupVidaRec::new);
+        powerupMap.put("VidaMas", EntidadInamoviblePowerupVidaMas::new);
+        powerupMap.put("BombaMas", EntidadInamoviblePowerupBombaMas::new);
+        powerupMap.put("FuegoMas", EntidadInamoviblePowerupFuegoMas::new);
+        powerupMap.put("TiempoMas", EntidadInamoviblePowerupTiempoMas::new);
+        powerupMap.put("Invencible", EntidadInamoviblePowerupInvencible::new);
+        powerupMap.put("Puntos", EntidadInamoviblePowerupPuntos::new);
+        powerupMap.put("BombaMenos", EntidadInamoviblePowerupBombaMenos::new);
+        powerupMap.put("FuegoMenos", EntidadInamoviblePowerupFuegoMenos::new);
+        powerupMap.put("TickBombaMas", EntidadInamoviblePowerupTickBombaMas::new);
+        powerupMap.put("TickBombaMenos", EntidadInamoviblePowerupTickBombaMenos::new);
+        powerupMap.put("Aleatorio", EntidadInamoviblePowerupAleatorio::new);
+        // powerupMap.put("BombaPatada", EntidadInamoviblePowerupBombaPatada::new);
+        // powerupMap.put("BombaPincho", EntidadInamoviblePowerupBombaPincho::new);
+    }
+
+    public static EntidadInamoviblePowerupFactory getPowerupFactory() {
+        return myPowerupFactory;
+    }
+
+    public EntidadInamoviblePowerup generate(String pTipoPowerup, int posX, int posY) {
+        return powerupMap
+                .getOrDefault(pTipoPowerup, EntidadInamoviblePowerupAleatorio::new)
+                .apply(posX, posY);
+    }
 }

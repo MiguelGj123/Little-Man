@@ -23,8 +23,8 @@ public class EscenarioTeclado {
 	}
 	
 	public boolean containsKey(String direccionCheck) {
-		for (EscenarioTecladoDireccion direccion : direcciones) if (direccion.getDireccion().equals(direccionCheck)) return true;
-		return false;
+		return direcciones.stream()
+			    .anyMatch(d -> d.getDireccion().equals(direccionCheck));
 	}
 	
 	public void pressDirection(EscenarioTecladoDireccion direccion) {

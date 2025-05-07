@@ -1,10 +1,12 @@
 package escenario;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import entidad.EntidadInamoviblePowerup;
 import entidad.EntidadInamoviblePowerupFactory;
 import sonido.SonidoCodigo;
+
 
 
 public class EscenarioPowerups {
@@ -39,72 +41,32 @@ public class EscenarioPowerups {
     
     public EntidadInamoviblePowerup getPowerupEnPosicionXY (int pPosX, int pPosY)										// devuelve la bomba que hay en una posicion XY
 	{																												// devuelve null si no hay bomba en esa posicion
-		for (EntidadInamoviblePowerup pPowerup: listaPowerups) {
-			if (pPowerup.getPosX()==pPosX && pPowerup.getPosY()==pPosY) { return pPowerup; }
-		}
-		return null;
+    	return listaPowerups.stream()
+    		    .filter(p -> p.getPosX() == pPosX && p.getPosY() == pPosY)
+    		    .findFirst()
+    		    .orElse(null);
 	}
     
     public boolean hayPowerupEnPosicionXY (int pPosX, int pPosY)										// devuelve la bomba que hay en una posicion XY
 	{																												// devuelve null si no hay bomba en esa posicion
-		for (EntidadInamoviblePowerup pPowerup: listaPowerups) {
-			if (pPowerup.getPosX()==pPosX && pPowerup.getPosY()==pPosY) { return true; }
-		}
-		return false;
+    	return listaPowerups.stream()
+    		    .anyMatch(p -> p.getPosX() == pPosX && p.getPosY() == pPosY);
+
 	}
     
     public boolean generarPowerup( int posX, int posY){
 		boolean powerupPuesto = false;
 		
-		int numero = random.nextInt(13);
-		switch(numero) {
-		case 0:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaRec", posX, posY));
-			break;
-		case 1:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", posX, posY));
-			break;
-		case 2:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("BombaMas", posX, posY));
-			break;
-		case 3:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("FuegoMas", posX, posY));
-			break;
-		case 4:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("TiempoMas", posX, posY));
-			break;
-		case 5:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Invencible", posX, posY));
-			break;
-		case 6:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("BombaPatada", posX, posY));
-			break;
-		case 7:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("BombaPincho", posX, posY));
-			break;
-		case 8:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Puntos", posX, posY));
-			break;
-		case 9:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("BombaMenos", posX, posY));
-			break;
-		case 10:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("FuegoMenos", posX, posY));
-			break;
-		case 11:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("TickBombaMas", posX, posY));
-			break;
-		case 12:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("TickBombaMenos", posX, posY));
-			break;
-		case 13:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Aleatorio", posX, posY));
-			break;
-		default:
-			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Aleatorio", posX, posY));
-			break;
-		}
-		return powerupPuesto;
+		List<String> tipos = List.of(
+			    "VidaRec", "VidaMas", "BombaMas", "FuegoMas", "TiempoMas", "Invencible",
+			    "BombaPatada", "BombaPincho", "Puntos", "BombaMenos", "FuegoMenos",
+			    "TickBombaMas", "TickBombaMenos", "Aleatorio"
+			);
+
+			String tipo = tipos.get(random.nextInt(tipos.size()));
+			listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate(tipo, posX, posY));
+			return true;
+
 	}
     
     public int actualizarPowerups(int posJX, int posJY) {

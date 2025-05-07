@@ -203,9 +203,8 @@ public class EscenarioEnemigos {
 		int[][] matrizGenerada = new int[esCfg.col][esCfg.fil];
 		if (visible) {
 			if (!win) {
-				for (EntidadMovibleEnemigo pEnemigo : listaEnemigos) {
-					matrizGenerada[pEnemigo.getPosX()][pEnemigo.getPosY()] = pEnemigo.getCodigoEnemigo();
-				}
+				listaEnemigos.stream()
+			    .forEach(p -> matrizGenerada[p.getPosX()][p.getPosY()] = p.getCodigoEnemigo());
 			}
 		}
 		return matrizGenerada;

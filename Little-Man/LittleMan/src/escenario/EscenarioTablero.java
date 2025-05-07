@@ -116,10 +116,9 @@ public class EscenarioTablero {
 	
 	public boolean hayFuegoEnPosicionXY (int pPosX, int pPosY)
 	{
-		for (int[] pFuegos : listaPosFuegos) {
-			if (pFuegos[0]==pPosX && pFuegos[1]==pPosY) { return true; }
-		}
-		return false;
+		return listaPosFuegos.stream()
+			    .anyMatch(f -> f[0] == pPosX && f[1] == pPosY);
+
 	}
 	
 	public boolean getChocaContraCelda(int posX, int posY) { return matrizTablero[posX][posY].getChocaContraCelda(); }
