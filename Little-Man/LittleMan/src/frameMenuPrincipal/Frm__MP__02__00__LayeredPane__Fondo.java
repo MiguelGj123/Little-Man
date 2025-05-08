@@ -17,6 +17,7 @@ public class Frm__MP__02__00__LayeredPane__Fondo extends JLayeredPane{
 	Frm__MP__03__00__02__Panel__Explosion explosionPanel;
 	Frm__MP__03__00__03__Panel__FondoBoss fondoBossPanel;
 	Frm__MP__03__00__04__Panel__FondoEnemigos fondoEnemigosPanel;
+	Frm__MP__03__00__05__Panel__Controles controles;
 	
 	Timer timerExplosion;
 	
@@ -42,6 +43,9 @@ public class Frm__MP__02__00__LayeredPane__Fondo extends JLayeredPane{
 		
 		fondoEnemigosPanel = new Frm__MP__03__00__04__Panel__FondoEnemigos();
 		paneles.add(fondoEnemigosPanel);
+		
+		controles = new Frm__MP__03__00__05__Panel__Controles();
+		paneles.add(controles);
 		
 		for(int i = 0; i < paneles.size(); i++) {
 			add(paneles.get(i), Integer.valueOf(i));

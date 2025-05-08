@@ -59,9 +59,7 @@ public class FrameTablero extends JFrame implements Observer {
         
         //layeredPrincipal.setLayout(new BorderLayout(layeredPrincipal)); ESTO COMPROBAR SI VA AQUI O QUE, POSIBLEMENTE BORRAR
                 
-        Escenario.getEscenario().addObserver(this);
-        System.out.println("Añadido como observer a Escenario");
-        
+        Escenario.getEscenario().addObserver(this);        
 
         inicializarSonidos(pVolumen);
         aniadirObserverMouseKeyListener();

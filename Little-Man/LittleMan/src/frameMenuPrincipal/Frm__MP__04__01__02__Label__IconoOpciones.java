@@ -54,6 +54,8 @@ public class Frm__MP__04__01__02__Label__IconoOpciones extends JLabel {
 
 		@Override public void mouseClicked(MouseEvent e) {
 			Frm__00__Frame_Principal.getMenuPrincipal().gestionarBotonOpciones();
+			Frm__00__Frame_Principal.getMenuPrincipal().hacerSonido("SELECT_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
+
 		}
 
 		@Override public void mouseEntered(MouseEvent e) {}

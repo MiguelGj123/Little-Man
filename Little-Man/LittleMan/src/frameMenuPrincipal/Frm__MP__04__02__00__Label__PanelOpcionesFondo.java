@@ -94,6 +94,8 @@ public class Frm__MP__04__02__00__Label__PanelOpcionesFondo extends JLabel{
 
 	    @Override public void mouseClicked(MouseEvent e) {
 	    	if (dentroDelArea) Frm__00__Frame_Principal.getMenuPrincipal().gestionarBotonOpciones();
+			Frm__00__Frame_Principal.getMenuPrincipal().hacerSonido("SELECT_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
+
 	    }
 	    
 	    // Métodos no usados pero requeridos

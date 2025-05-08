@@ -69,11 +69,10 @@ public class Frm__MP__04__02__02__ToggleButton__Botones extends JToggleButton{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String anterior= Frm__00__Frame_Principal.getMenuPrincipal().getAnteriorVolumen();
-			System.out.println(anterior+"   "+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
+			Frm__00__Frame_Principal.getMenuPrincipal().hacerSonido("SELECT_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
+			Frm__00__Frame_Principal.getMenuPrincipal().pararSonido("MUSIC_MENU"+anterior);
 			Frm__00__Frame_Principal.getMenuPrincipal().ponerImagenCombinadaMenuOpciones();
-			SoundManager.getSoundManager().playSound("SELECT_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
-			SoundManager.getSoundManager().stopSound("MUSIC_MENU"+anterior);
-			SoundManager.getSoundManager().playSoundMusic("MUSIC_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
+			Frm__00__Frame_Principal.getMenuPrincipal().hacerMusica("MUSIC_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
 			
 
 		}

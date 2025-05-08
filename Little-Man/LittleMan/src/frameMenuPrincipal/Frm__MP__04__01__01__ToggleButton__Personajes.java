@@ -81,18 +81,19 @@ public class Frm__MP__04__01__01__ToggleButton__Personajes extends JToggleButton
 	    @Override
 	    public void mouseEntered(MouseEvent e) {
 	    	if (!Frm__MP__01__LayeredPane_Principal.getPane().opcionesAbiertas()) {
+	    		Frm__00__Frame_Principal.getMenuPrincipal().pararSonido("MINI_EXPLODE"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
 	    		Frm__00__Frame_Principal.getMenuPrincipal().actualizarJugadorColor(personaje);
-	    		SoundManager.getSoundManager().stopSound("MINI_EXPLODE"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
-	    		SoundManager.getSoundManager().playSound("MINI_EXPLODE"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
+	    		Frm__00__Frame_Principal.getMenuPrincipal().hacerSonido("MINI_EXPLODE"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
 	    	}
 	    }
 	    
 	    // Implementar otros métodos necesarios de MouseListener
 	    @Override public void mouseClicked(MouseEvent e) {
 	    	if (!Frm__MP__01__LayeredPane_Principal.getPane().opcionesAbiertas()) {
+	    		Frm__00__Frame_Principal.getMenuPrincipal().pararSonido("MUSIC_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
 	    		iniciarJuego();
-	    		SoundManager.getSoundManager().playSound("BOMB_EXPLODE"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
-	    		SoundManager.getSoundManager().stopSound("MUSIC_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
+	    		Frm__00__Frame_Principal.getMenuPrincipal().hacerSonido("BOMB_EXPLODE"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());
+	    		
 	    	}
 	    }
 	    
