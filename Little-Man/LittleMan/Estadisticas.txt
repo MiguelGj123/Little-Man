@@ -93,3 +93,6 @@
  -  Prueba          ha ganado  | Puntuación:  14520	| Bomberman: AZUL	| Tiempo: 29	| Vidas: 1	| Pantalla: NORMAL	| Dificultad: DIFICIL	| Fecha: 07/05/2025  13:35:53
  -  Prueba          ha ganado  | Puntuación:  17190	| Bomberman: AZUL	| Tiempo: 21	| Vidas: 3	| Pantalla: NORMAL	| Dificultad: DIFICIL	| Fecha: 07/05/2025  13:39:16
  -  Prueba          ha ganado  | Puntuación:  -220	| Bomberman: AZUL	| Tiempo: 165	| Vidas: 3	| Pantalla: NORMAL	| Dificultad: FACIL	| Fecha: 08/05/2025  12:45:15
+ -  Prueba          ha ganado  | Puntuación:  16850	| Bomberman: ROJO	| Tiempo: 40	| Vidas: 2	| Pantalla: NORMAL	| Dificultad: DIFICIL	| Fecha: 08/05/2025  13:35:09
+ -  Prueba          ha ganado  | Puntuación:  5000	| Bomberman: NEGRO	| Tiempo: 165	| Vidas: 1	| Pantalla: NORMAL	| Dificultad: FACIL	| Fecha: 08/05/2025  15:22:42
+ -  Prueba          ha ganado  | Puntuación:  8590	| Bomberman: NEGRO	| Tiempo: 169	| Vidas: 1	| Pantalla: NORMAL	| Dificultad: FACIL	| Fecha: 08/05/2025  15:23:21

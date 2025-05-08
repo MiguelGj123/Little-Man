@@ -5,8 +5,7 @@ import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 import escenario.Escenario;
-import frameTablero.FrameTablero;
-import sonido.SoundManager;
+
 
 
 public class Frm__00__Timer__IniciarJuego extends Timer{

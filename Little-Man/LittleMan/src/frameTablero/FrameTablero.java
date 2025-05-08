@@ -17,7 +17,6 @@ public class FrameTablero extends JFrame implements Observer {
 	
 	private static FrameTablero frmTablero;
 	private Frm__T__01__Layered__LayeredPrincipal layeredPrincipal;
-    private boolean iniciado;
     
     private Controller controller;
     

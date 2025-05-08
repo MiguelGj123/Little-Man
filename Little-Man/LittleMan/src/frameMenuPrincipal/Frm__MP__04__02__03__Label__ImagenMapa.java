@@ -1,7 +1,6 @@
 package frameMenuPrincipal;
 
 import java.awt.Image;
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -12,7 +11,6 @@ public class Frm__MP__04__02__03__Label__ImagenMapa extends JLabel{
 
 	private static final long serialVersionUID = 1L;
 	private Timer timer;
-	private Random random;
 	private int fila;
 	private int btnRotar;
 	
@@ -20,7 +18,6 @@ public class Frm__MP__04__02__03__Label__ImagenMapa extends JLabel{
     	setOpaque(false);
 		setLayout(null);
 		setVisible(true);
-		random = new Random();
 	}
 	
 	

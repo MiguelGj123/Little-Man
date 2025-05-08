@@ -3,7 +3,6 @@ package frameMenuPrincipal;
 import javax.swing.ButtonGroup;
 import javax.swing.JPanel;
 
-import frameMenuPrincipal.Frm__00__Frame_Principal.FrameController;
 
 public class Frm__MP__03__01__01__Panel__Personajes extends JPanel{
 	private static final long serialVersionUID = 1L;

@@ -32,13 +32,7 @@ public class Frm__MP__04__02__00__Label__PanelOpcionesFondo extends JLabel{
     	setBounds(0, 0, ancho, alto);
 	}
 	
-	public void iluminar() {
-		establecerIcono(1);
-	}
-	
-	public void desIluminar() {
-		establecerIcono(0);
-	}
+
 	
 	public void establecerIcono(int icono) {
 		ImageIcon fondoSinEscalarIcon = new ImageIcon(iconsFondo[icono]);

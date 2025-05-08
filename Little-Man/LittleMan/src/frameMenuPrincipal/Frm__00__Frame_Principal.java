@@ -9,7 +9,6 @@ import java.util.Observer;
 import javax.swing.JFrame;
 import sonido.SoundManager;
 import escenario.Escenario;
-import frameMenuPrincipal.Frm__MP__04__01__01__ToggleButton__Personajes.PersonajeController;
 import frameTablero.FrameTablero;
 
 public class Frm__00__Frame_Principal extends JFrame implements Observer{

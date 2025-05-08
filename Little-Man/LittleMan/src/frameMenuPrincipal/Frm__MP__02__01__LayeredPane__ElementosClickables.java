@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import frameMenuPrincipal.Frm__00__Frame_Principal.FrameController;
 
 public class Frm__MP__02__01__LayeredPane__ElementosClickables extends JLayeredPane{
 	

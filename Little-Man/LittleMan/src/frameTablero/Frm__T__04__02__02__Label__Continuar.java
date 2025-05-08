@@ -8,7 +8,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 
 import escenario.Escenario;
-import escenario.Escenario_CONFIG;
 
 public class Frm__T__04__02__02__Label__Continuar extends JLabel {
 

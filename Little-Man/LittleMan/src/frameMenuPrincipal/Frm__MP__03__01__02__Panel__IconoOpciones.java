@@ -2,7 +2,6 @@ package frameMenuPrincipal;
 
 import javax.swing.JPanel;
 
-import frameMenuPrincipal.Frm__00__Frame_Principal.FrameController;
 
 public class Frm__MP__03__01__02__Panel__IconoOpciones extends JPanel{
 

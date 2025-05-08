@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import javax.swing.JLayeredPane;
 
-import frameMenuPrincipal.CONFIG__MP;
 
 public class Frm__T__01__Layered__LayeredPrincipal extends JLayeredPane{
 

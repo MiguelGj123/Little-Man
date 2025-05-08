@@ -1,6 +1,5 @@
 package frameMenuPrincipal;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 public class Frm__MP__03__01__03__Panel__Personajes_Texto extends JPanel{

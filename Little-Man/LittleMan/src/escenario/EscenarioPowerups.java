@@ -55,7 +55,7 @@ public class EscenarioPowerups {
 	}
     
     public boolean generarPowerup( int posX, int posY){
-		boolean powerupPuesto = false;
+
 		
 		List<String> tipos = List.of(
 			    "VidaRec", "VidaMas", "BombaMas", "FuegoMas", "TiempoMas", "Invencible",

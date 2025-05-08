@@ -5,13 +5,12 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+
 
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 
-import sonido.SoundManager;
+
 
 
 public class Frm__MP__04__02__02__ToggleButton__Botones extends JToggleButton{

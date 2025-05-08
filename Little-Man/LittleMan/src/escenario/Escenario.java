@@ -1,7 +1,7 @@
 package escenario;
 import java.util.*;
 
-import frameTablero.FrameTablero;
+
 
 
 

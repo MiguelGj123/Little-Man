@@ -1,12 +1,10 @@
 package frameMenuPrincipal;
 
-import java.awt.Cursor;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import frameMenuPrincipal.Frm__00__Frame_Principal.FrameController;
 
 public class Frm__MP__04__02__01__Label__TituloOpciones extends JLabel{
 	

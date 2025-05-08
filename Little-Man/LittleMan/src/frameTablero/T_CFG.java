@@ -1,8 +1,9 @@
 package frameTablero;
 
 public class T_CFG {
-	public static final int COLUMNAS	= 17;
+
 	public static final int FILAS		= 11;
+	public static final int COLUMNAS	= 17;
 	public static final int PXL_LADO	= 45;
 	
 	// PANEL TABLERO

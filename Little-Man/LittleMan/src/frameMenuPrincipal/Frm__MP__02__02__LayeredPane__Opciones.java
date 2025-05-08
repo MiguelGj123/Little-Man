@@ -1,6 +1,5 @@
 package frameMenuPrincipal;
 
-import frameMenuPrincipal.Frm__00__Frame_Principal.FrameController;
 
 import javax.swing.JLayeredPane;
 
@@ -37,13 +36,8 @@ public class Frm__MP__02__02__LayeredPane__Opciones extends JLayeredPane{
     	setVisible(false);
 	}
 	
-	public void iluminar() {
-		panelFondo.iluminar();
-	}
+
 	
-	public void desIluminar() {
-		panelFondo.desIluminar();
-	}
 
 	public String[] getOpcionesSeleccionadas() {
 		return panelBotonesOpciones.getOpcionesSeleccionadas();

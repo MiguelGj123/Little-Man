@@ -10,7 +10,6 @@ import java.awt.event.MouseListener;
 import javax.swing.ImageIcon;
 import javax.swing.JToggleButton;
 
-import sonido.SoundManager;
 
 
 public class Frm__MP__04__01__01__ToggleButton__Personajes extends JToggleButton {	

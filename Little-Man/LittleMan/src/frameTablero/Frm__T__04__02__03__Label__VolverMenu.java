@@ -8,7 +8,6 @@ import java.awt.event.MouseListener;
 import javax.swing.JLabel;
 
 import escenario.Escenario;
-import frameMenuPrincipal.Frm__00__Frame_Principal;
 
 public class Frm__T__04__02__03__Label__VolverMenu extends JLabel {
 	

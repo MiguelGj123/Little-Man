@@ -1,11 +1,9 @@
 package frameMenuPrincipal;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
+
 
 import javax.swing.JPanel;
 
-import frameMenuPrincipal.Frm__00__Frame_Principal.FrameController;
 
 public class Frm__MP__03__02__00__Panel__PanelOpcionesFondo extends JPanel{
 
@@ -23,11 +21,5 @@ public class Frm__MP__03__02__00__Panel__PanelOpcionesFondo extends JPanel{
     	setVisible(true);
 	}
 	
-	public void iluminar() {
-		panelOpciones.iluminar();
-	}
-	
-	public void desIluminar() {
-		panelOpciones.desIluminar();
-	}
+
 }

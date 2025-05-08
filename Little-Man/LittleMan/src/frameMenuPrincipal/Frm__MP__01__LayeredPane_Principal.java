@@ -53,8 +53,7 @@ public class Frm__MP__01__LayeredPane_Principal extends JLayeredPane{
 	public void explotar() { 						fondoLayeredPane.explotar(); }
 	public void desExplotar() { 					fondoLayeredPane.desExplotar(); }
 	public void seleccionar(int personaje) { 		elementosClickablesLayeredPane.seleccionar(personaje); }
-	public void iluminar() { 						opcionesLayeredPane.iluminar(); }
-	public void desIluminar() {						opcionesLayeredPane.desIluminar(); }
+
 	public void ponerImagenCombinadaMenuOpciones(int fila, int boton)  { opcionesLayeredPane.ponerImagen(fila, boton); }
 
 

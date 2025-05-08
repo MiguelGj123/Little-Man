@@ -1,14 +1,7 @@
 package frameTablero;
 
-import java.awt.Color;
-import java.awt.Font;
 
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-
-import frameMenuPrincipal.CONFIG__MP;
 
 public class Frm__T__03__01__00__Panel__Tiempo extends JPanel{
 	private static final long serialVersionUID = 1L;
