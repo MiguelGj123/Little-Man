@@ -56,7 +56,7 @@ public class Escenario extends Observable{
 		dificultadMap.put("NORMAL",   150);
 		dificultadMap.put("DIFICIL",  100);
 
-		tiempo = dificultadMap.getOrDefault(dificultad, 150); 	// Tiempo en segundos
+		tiempo = dificultadMap.getOrDefault(dificultad, 150); 	
 		
 		playerTipo = pPlayerTipo;
 		

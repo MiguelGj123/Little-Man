@@ -32,7 +32,6 @@ public class Frm__MP__02__01__LayeredPane__ElementosClickables extends JLayeredP
 			add(paneles.get(i), Integer.valueOf(i+1));
 		}
 		
-		//cambiar los setBounds a la clase que los invoca
     	setBounds(0, 0, CONFIG__MP.getAncho(), CONFIG__MP.getAlto());
     	setVisible(true);
 	}

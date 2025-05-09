@@ -10,12 +10,10 @@ public class Frm__T__04__00__05__Label__PowerUp extends JLabel{
 
 	public Frm__T__04__00__05__Label__PowerUp(int param) {
 		ImageIcon icono = Frm__T__05__00__05__IconGenerator__PowerUp.getFactory().getScaledImageIcon(param);
-		//System.out.println("Frm_Jugador_Laebl icono.esNull:" + icono == null);
 		if (icono != null) {
 			setVisible(false);
 	    	imagen = icono;
 			setIcon(imagen);
-			//System.out.println("Icono Jugador añadido correctamente");
 		} else {
 			setVisible(false);
 		}
@@ -24,12 +22,10 @@ public class Frm__T__04__00__05__Label__PowerUp extends JLabel{
 	
 	public void changeState(int param) {
 		ImageIcon icono = Frm__T__05__00__05__IconGenerator__PowerUp.getFactory().getScaledImageIcon(param);
-		//System.out.println("Frm_Jugador_Laebl icono.esNull:" + icono == null);
 		if (icono != null) {
 			setVisible(true);
 			imagen = icono;
 			setIcon(imagen);
-			//System.out.println("Icono Jugador añadido correctamente");
 		} else {
 			setVisible(false);
 		}

@@ -12,7 +12,7 @@ public class Frm__T__03__02__00__Panel__MenuFondo extends JPanel {
 
 	public Frm__T__03__02__00__Panel__MenuFondo() 
 	{
-		 setOpaque(false); // IMPORTANTE para permitir transparencia
+		 setOpaque(false); 
 		 setLayout(null);
 		 setVisible(true);
 	}

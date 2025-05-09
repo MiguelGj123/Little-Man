@@ -10,12 +10,10 @@ public class Frm__T__04__00__03__Label__Enemigos extends JLabel{
 
 	public Frm__T__04__00__03__Label__Enemigos(int param) {
 		ImageIcon icono = Frm__T__05__00__03__IconGenerator__Enemigos.getFactory().getScaledImageIcon(param);
-		//System.out.println("Frm_Enemigos_Laebl icono.esNull:" + icono == null);
 		if (icono != null) {
 			setVisible(false);
 	    	imagen = icono;
 			setIcon(imagen);
-			//System.out.println("Icono Enemigo añadido correctamente");
 		} else {
 			setVisible(false);
 		}
@@ -24,12 +22,10 @@ public class Frm__T__04__00__03__Label__Enemigos extends JLabel{
 	
 	public void changeState(int param) {
 		ImageIcon icono = Frm__T__05__00__03__IconGenerator__Enemigos.getFactory().getScaledImageIcon(param);
-		//System.out.println("Frm_Enemigos_Laebl icono.esNull:" + icono == null);
 		if (icono != null) {
 			setVisible(true);
 			imagen = icono;
 			setIcon(imagen);
-			//System.out.println("Icono Enemigo añadido correctamente");
 		} else {
 			setVisible(false);
 		}

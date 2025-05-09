@@ -18,7 +18,7 @@ public class Frm__T__04__01__02__Label__Puntuacion extends JLabel {
        setForeground(Color.WHITE);
        setOpaque(false);
        setHorizontalAlignment(SwingConstants.CENTER);
-       setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10)); // algo de padding
+       setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10)); 
        setPreferredSize(new Dimension(200, 45)); 
 	}
 	public void gestionarPuntuacion(int pPuntuacion) 

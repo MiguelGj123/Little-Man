@@ -20,7 +20,7 @@ public class Frm__T__04__01__00__Label__Tiempo extends JLabel {
 		setBackground(Color.BLACK);
 		setOpaque(true);
 		setHorizontalAlignment(SwingConstants.RIGHT);
-		setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10)); // algo de padding
+		setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10)); 
     }
 	
 	public void gestionarTemporizador(int tiempo) 

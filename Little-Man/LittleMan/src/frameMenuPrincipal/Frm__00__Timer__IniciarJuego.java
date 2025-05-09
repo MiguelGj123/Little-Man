@@ -18,14 +18,12 @@ public class Frm__00__Timer__IniciarJuego extends Timer{
 	private static String playerTipo;
 	private static String dificultad;
 	private static String pantalla;
-//	private static String volumen;
 	private static boolean started;
 	
 	public static void iniciarPartida(String pPlayerTipo, String pDificultad, String pVolumen, String pPantalla) {
 		playerTipo = pPlayerTipo;
 		dificultad = pDificultad;
 		pantalla = pPantalla;
-//		volumen = pVolumen;
 		if (!started) {
 			started = true;
 			Frm__00__Frame_Principal.getMenuPrincipal().explotar();
@@ -38,12 +36,11 @@ public class Frm__00__Timer__IniciarJuego extends Timer{
 		if (!myTimer.isRunning()) myTimer.start();
 	}
 	
-    // Constructor privado para implementar patrón Singleton
     private Frm__00__Timer__IniciarJuego() {			
     	super(tiempo, new ActionListener() {
             @Override public void actionPerformed(ActionEvent e) {
             	Escenario.getEscenario().iniciarPartida();
-            	myTimer.stop(); // Detener el timer después de ejecutarse
+            	myTimer.stop(); 
             	started = false;
             }
         });

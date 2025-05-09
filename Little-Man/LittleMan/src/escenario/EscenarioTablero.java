@@ -136,7 +136,7 @@ public class EscenarioTablero {
 				i--;																					// El elemento i+1 de la lista pasa a ser el elemento i, por lo que para actualizarlo es necesario retroceder un elemento en la lista
 			}
 			
-			puntos=(miEscenarioFacade.gestionarFuego(pBloque[0],pBloque[1])*mult)+puntos;								// El escenario se encarga de notificar a los jugadores y enemigos que en esa posicion mueren
+			puntos=(miEscenarioFacade.gestionarFuego(pBloque[0],pBloque[1])*mult)+puntos;				// El escenario se encarga de notificar a los jugadores y enemigos que en esa posicion mueren
 			mult++;
 		}
 		return puntos;
@@ -166,7 +166,7 @@ public class EscenarioTablero {
 					
 					switch (j)
 					{
-						case 0:		// izquierda
+						case 0:		
 							posBloqueExplotarX = centroExplosionX - i;
 							break;
 						case 1:

@@ -28,8 +28,7 @@ private static final long serialVersionUID = 1L;
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			Escenario.getEscenario().finalizarPartida(true);
-//			FrameTablero.getFrameTablero().finalizarPartida();
-//			Frm__00__Frame_Principal.getMenuPrincipal().inicializarPanel();
+
 		}
 
 		@Override public void mousePressed(MouseEvent e) {}

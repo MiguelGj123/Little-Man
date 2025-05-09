@@ -16,12 +16,7 @@ public class Frm__MP__04__02__01__Label__TituloOpciones extends JLabel{
 	private final int posY = 160;
 	
 	private final String fondoOpciones = "Pixels/Selector_nombres.png";
-			/*
-			{{"Pixels/Selector_dificultad_0_off.png","Pixels/Selector_dificultad_0_on.png"},
-			 {"Pixels/Selector_dificultad_1_off.png","Pixels/Selector_dificultad_1_on.png"},
-			 {"Pixels/Selector_dificultad_2_off.png","Pixels/Selector_dificultad_2_on.png"},
-			 {"Pixels/Selector_dificultad_3_off.png","Pixels/Selector_dificultad_3_on.png"}};
-			 */
+
 	public Frm__MP__04__02__01__Label__TituloOpciones() {
     	setOpaque(false);
 		setLayout(null);

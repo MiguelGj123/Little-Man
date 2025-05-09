@@ -86,7 +86,6 @@ public class Frm__MP__04__01__01__ToggleButton__Personajes extends JToggleButton
 	    	}
 	    }
 	    
-	    // Implementar otros métodos necesarios de MouseListener
 	    @Override public void mouseClicked(MouseEvent e) {
 	    	if (!Frm__MP__01__LayeredPane_Principal.getPane().opcionesAbiertas()) {
 	    		Frm__00__Frame_Principal.getMenuPrincipal().pararSonido("MUSIC_MENU"+Frm__00__Frame_Principal.getMenuPrincipal().getOpcionVolumen());

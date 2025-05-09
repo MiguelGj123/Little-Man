@@ -40,8 +40,8 @@ public class Frm__MP__04__02__02__ToggleButton__Botones extends JToggleButton{
 		setBorderPainted(false);
 		setPreferredSize(new Dimension(dimensiones[0], dimensiones[1]));
 		
-		setIcon(seleccionarIcon(imagenes[boton][1]));				//
-		setSelectedIcon(seleccionarIcon(imagenes[boton][0]));		//
+		setIcon(seleccionarIcon(imagenes[boton][1]));				
+		setSelectedIcon(seleccionarIcon(imagenes[boton][0]));		
 		
 		setFocusable(false);
 		

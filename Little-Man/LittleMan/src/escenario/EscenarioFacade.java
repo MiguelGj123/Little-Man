@@ -101,17 +101,7 @@ public class EscenarioFacade {
 		matrizDevolver[2] = enemigos.generarMatrizAniadirEnemigos();
 		matrizDevolver[3] = jugador.generarMatrizAniadirjugador(bombas.hayBombaEnPosicionXY(jugador.getPosX(), jugador.getPosY()));
 		matrizDevolver[4] = powerups.generarMatrizAniadirPowerup();
-		/*
-		for (int capa = 0; capa < matrizDevolver.length; capa++) {
-			System.out.println("\n Capa" + capa + ":");
-			for (int fila = 0; fila < matrizDevolver[capa][0].length; fila ++) {
-				for (int columna = 0; columna < matrizDevolver[capa].length; columna++) {
-					System.out.print("["+matrizDevolver[capa][columna][fila]+"] ");
-				}
-				System.out.print("\n");
-			}
-		}
-		*/
+
 		
 		return matrizDevolver;
 	}

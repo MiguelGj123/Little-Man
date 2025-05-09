@@ -12,7 +12,7 @@ public class Frm__T__03__02__02c__Panel__FilaBotonesVoD extends JPanel {
 	public Frm__T__03__02__02c__Panel__FilaBotonesVoD() 
 	{
 		setOpaque(false);
-		setLayout(null);  // Aquí puedes ajustar los márgenes entre los botones
+		setLayout(null);  
 		
 		labelReiniciar = new Frm__T__04__02__04__Label__Reiniciar();
 		labelReiniciar.setBounds(T_CFG.X_BTN1_MENU, T_CFG.Y_BTN1_MENU, T_CFG.PXL_BTN_MENU, T_CFG.PXL_BTN_MENU);

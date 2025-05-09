@@ -17,9 +17,6 @@ public class Frm__T__02__01__Layered__HUD extends JLayeredPane{
     
     ArrayList<JPanel> paneles;
     
-    //private JPanel HUD;
-
-	//private static Frm__HUD hud;
 	
 	private Frm__T__02__01__Layered__HUD() {
 		paneles = new ArrayList<JPanel>();
@@ -60,7 +57,6 @@ public class Frm__T__02__01__Layered__HUD extends JLayeredPane{
 		PanelTiempo.gestionarTemporizador(tiempo);
     }
     
-	//UTILIZAR SOLO CUANDO SE CREE UNA NUEVA PARTIDA O CUANDO SE VUELVA A EMPEZAR
     public void inicializarVidas(int vidaMaximaInicial) {
         vidaPanel.inicializarVidas(vidaMaximaInicial);
     }

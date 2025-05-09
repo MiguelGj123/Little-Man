@@ -55,10 +55,10 @@ public class EscenarioJugador {
 				boolean movimientoJugadorChocaConParedOBomba = false;													// flag si choca contra pared en coordenadas nuevas
 				
 				if (!jug.getEstaMuerto() && mov[i] != null) {
-					if (mov[i].equals("L") && posJX != 0				) { posJXnew = posJX - 1; lastDir = 1; /*System.out.println("JJJ " + lastDir);*/ }
-					if (mov[i].equals("R") && posJX != esCfg.col - 1	) { posJXnew = posJX + 1; lastDir = 2; /*System.out.println("JJJ " + lastDir);*/ }
-					if (mov[i].equals("U") && posJY != 0				) { posJYnew = posJY - 1; lastDir = 3; /*System.out.println("JJJ " + lastDir);*/ }
-					if (mov[i].equals("D") && posJY != esCfg.fil - 1	) { posJYnew = posJY + 1; lastDir = 4; /*System.out.println("JJJ " + lastDir);*/ }
+					if (mov[i].equals("L") && posJX != 0				) { posJXnew = posJX - 1; lastDir = 1; }
+					if (mov[i].equals("R") && posJX != esCfg.col - 1	) { posJXnew = posJX + 1; lastDir = 2; }
+					if (mov[i].equals("U") && posJY != 0				) { posJYnew = posJY - 1; lastDir = 3; }
+					if (mov[i].equals("D") && posJY != esCfg.fil - 1	) { posJYnew = posJY + 1; lastDir = 4; }
 				
 					movimientoJugadorChocaConParedOBomba = 																// Jugador choca contra pared o bomba si
 							(  ( mov[i].equals("L") && posJX == 0				)											// Choca contra exterior

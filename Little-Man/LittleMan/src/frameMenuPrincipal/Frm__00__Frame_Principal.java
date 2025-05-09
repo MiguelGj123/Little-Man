@@ -150,7 +150,6 @@ public class Frm__00__Frame_Principal extends JFrame implements Observer{
 	                        	dispose();
 	                        	break;
 	                        default:
-	                            //System.out.println("Comando no reconocido para la clase Frame Menu Principal: " + texto);
 	                            break;
 	                    }
 	                }
@@ -158,7 +157,6 @@ public class Frm__00__Frame_Principal extends JFrame implements Observer{
 	        } 
 	        catch (Exception e) 
 	        {
-	            //System.err.println("Error al procesar la actualización: " + e.getMessage());
 	            e.printStackTrace();
 	        }
 	    }

@@ -56,17 +56,16 @@ public class Frm__MP__04__02__00__Label__PanelOpcionesFondo extends JLabel{
 
 	    @Override
 	    public void mouseEntered(MouseEvent e) {
-	        checkArea(e); // Verificar posición al entrar al componente
+	        checkArea(e); 
 	    }
 
 	    @Override
 	    public void mouseMoved(MouseEvent e) {
-	        checkArea(e); // Verificar posición al moverse
+	        checkArea(e); 
 	    }
 
 	    @Override
 	    public void mouseExited(MouseEvent e) {
-	        // Al salir completamente del componente
 	        if (dentroDelArea) {
 	            establecerIcono(0);
 	            dentroDelArea = false;
@@ -92,7 +91,6 @@ public class Frm__MP__04__02__00__Label__PanelOpcionesFondo extends JLabel{
 
 	    }
 	    
-	    // Métodos no usados pero requeridos
 	    @Override public void mouseDragged(MouseEvent e) {}
 	    @Override public void mousePressed(MouseEvent e) {}
 	    @Override public void mouseReleased(MouseEvent e) {}

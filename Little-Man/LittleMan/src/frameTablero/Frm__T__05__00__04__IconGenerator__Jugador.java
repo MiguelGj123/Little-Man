@@ -115,7 +115,6 @@ public class Frm__T__05__00__04__IconGenerator__Jugador {
 				icono = null;
 				break;
 		}
-		//System.out.println("Cargando imagen desde: " + icono.toString()); // Añadir debug
 		
     	return icono;
 	}

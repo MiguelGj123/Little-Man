@@ -9,7 +9,6 @@ public class Frm__T__03__01__00__Panel__Tiempo extends JPanel{
 	private static Frm__T__03__01__00__Panel__Tiempo tiempo;
 	
 	
-	// CONTIENE:
 	private Frm__T__04__01__00__Label__Tiempo labelTiempo;
 	
 	private Frm__T__03__01__00__Panel__Tiempo() {

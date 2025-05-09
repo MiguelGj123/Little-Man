@@ -8,7 +8,6 @@ public class Frm__T__03__01__02__Panel__Puntuacion extends JPanel{
 	private static Frm__T__03__01__02__Panel__Puntuacion puntuacion;
 	
 	
-	// CONTIENE:
 	private Frm__T__04__01__02__Label__Puntuacion labelPuntuacion;
 	
 	private Frm__T__03__01__02__Panel__Puntuacion() {

@@ -35,7 +35,6 @@ public class Frm__MP__02__01b_LayeredPane__Personajes extends JLayeredPane{
 			add(paneles.get(i), Integer.valueOf(i));
 		}
 		
-		//cambiar los setBounds a la clase que los invoca
     	setBounds(0, 0, CONFIG__MP.getAncho(), CONFIG__MP.getAlto());
     	setVisible(true);
 	}

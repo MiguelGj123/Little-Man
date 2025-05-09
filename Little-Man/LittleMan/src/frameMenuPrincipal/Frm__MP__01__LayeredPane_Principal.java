@@ -43,7 +43,6 @@ public class Frm__MP__01__LayeredPane_Principal extends JLayeredPane{
 			add(paneles.get(i), Integer.valueOf(i));
 		}
 		
-		//cambiar los setBounds a la clase que los invoca
     	setBounds(0, 0, CONFIG__MP.getAncho(), CONFIG__MP.getAlto());
     	setVisible(true);
 	}
@@ -53,7 +52,6 @@ public class Frm__MP__01__LayeredPane_Principal extends JLayeredPane{
 	public void explotar() { 						fondoLayeredPane.explotar(); }
 	public void desExplotar() { 					fondoLayeredPane.desExplotar(); }
 	public void seleccionar(int personaje) { 		elementosClickablesLayeredPane.seleccionar(personaje); }
-
 	public void ponerImagenCombinadaMenuOpciones(int fila, int boton)  { opcionesLayeredPane.ponerImagen(fila, boton); }
 
 

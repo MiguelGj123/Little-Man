@@ -19,7 +19,6 @@ public class Frm__T__03__01__01__Panel__Vidas extends JPanel {
     private int vidasActuales = 0;
 
     public Frm__T__03__01__01__Panel__Vidas() {
-        //setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
     	setOpaque(false);
     	setLayout(null);
         setBackground(Color.BLACK);
@@ -35,11 +34,8 @@ public class Frm__T__03__01__01__Panel__Vidas extends JPanel {
             add(corazon);
         }
 
-        //revalidate();
-        //repaint();
     }
 
-    //UTILIZAR SOLO CUANDO SE CREE UNA NUEVA PARTIDA O CUANDO SE VUELVA A EMPEZAR
     public void inicializarVidas(int vidasIniciales) {
         vidaInicialMaxima = Math.min(vidasIniciales, VIDA_TOPE_ABSOLUTO);
         vidasActuales = vidaInicialMaxima;
@@ -55,7 +51,6 @@ public class Frm__T__03__01__01__Panel__Vidas extends JPanel {
         repaint();
     }
 
-    //RESTA UNA VIDA, CAMBIA UN CORAZON ROJO POR UNO NEGRO
     private void perderVida() {
         if (vidasActuales > 0) {
             vidasActuales--;
@@ -63,7 +58,6 @@ public class Frm__T__03__01__01__Panel__Vidas extends JPanel {
         }
     }
 
-    //SUMA UNA VIDA (CAMBIA UNO NEGRO POR UNO ROJO) SI ESTA AL MAXIMO PONE UN CORAZON MAS
     private void ganarVida() {
         if (vidasActuales < VIDA_TOPE_ABSOLUTO) {
             Frm__T__04__01__01__Label__Vida corazon = corazones.get(vidasActuales);

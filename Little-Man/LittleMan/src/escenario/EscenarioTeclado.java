@@ -35,16 +35,16 @@ public class EscenarioTeclado {
 		direcciones.remove(direccion);
 	}
 	
-	public void pressedLeft()   { dirFactory.generate("L").pressed (this); }//System.out.println("LLLLLLLLLLLLLLLLLL AAAAAAAAAAAAAAAAAAAAAAAAAAAA");}//
-	public void pressedRight()  { dirFactory.generate("R").pressed (this); }//System.out.println("RRRRRRRRRRRRRRRRRR AAAAAAAAAAAAAAAAAAAAAAAAAAAA");}
-	public void pressedUp()     { dirFactory.generate("U").pressed (this); }//System.out.println("UUUUUUUUUUUUUUUUUU AAAAAAAAAAAAAAAAAAAAAAAAAAAA");}
-	public void pressedDown()   { dirFactory.generate("D").pressed (this); }//System.out.println("DDDDDDDDDDDDDDDDDD AAAAAAAAAAAAAAAAAAAAAAAAAAAA");}
+	public void pressedLeft()   { dirFactory.generate("L").pressed (this); }
+	public void pressedRight()  { dirFactory.generate("R").pressed (this); }
+	public void pressedUp()     { dirFactory.generate("U").pressed (this); }
+	public void pressedDown()   { dirFactory.generate("D").pressed (this); }
 
 	
-	public void releasedLeft()  { dirFactory.generate("L").released(this); }//System.out.println("LLLLLLLLLLLLLLLLLL BBBBBBBBBBBBBBBBBBBBBBBBBBBB");}
-	public void releasedRight() { dirFactory.generate("R").released(this); }//System.out.println("RRRRRRRRRRRRRRRRRR BBBBBBBBBBBBBBBBBBBBBBBBBBBB");}
-	public void releasedUp()    { dirFactory.generate("U").released(this); }//System.out.println("UUUUUUUUUUUUUUUUUU BBBBBBBBBBBBBBBBBBBBBBBBBBBB");}
-	public void releasedDown()  { dirFactory.generate("D").released(this); }//System.out.println("DDDDDDDDDDDDDDDDDD BBBBBBBBBBBBBBBBBBBBBBBBBBBB");}
+	public void releasedLeft()  { dirFactory.generate("L").released(this); }
+	public void releasedRight() { dirFactory.generate("R").released(this); }
+	public void releasedUp()    { dirFactory.generate("U").released(this); }
+	public void releasedDown()  { dirFactory.generate("D").released(this); }
 	
 	public String[] tick() {
 		String[] direccionReturn = null;

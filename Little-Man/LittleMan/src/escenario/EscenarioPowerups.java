@@ -33,10 +33,6 @@ public class EscenarioPowerups {
     	listaPowerups.clear();
     	miEscenarioFacade = EscenarioFacade.getEscenarioFacade();
     	miEscenario = Escenario.getEscenario();
-    	//listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("Invencible", 0, 1));
-    	/*listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 2));
-    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 3));
-    	listaPowerups.add(EntidadInamoviblePowerupFactory.getPowerupFactory().generate("VidaMas", 0, 4));*/
     }
     
     public EntidadInamoviblePowerup getPowerupEnPosicionXY (int pPosX, int pPosY)										// devuelve la bomba que hay en una posicion XY

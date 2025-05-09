@@ -25,8 +25,6 @@ public class EntidadInamoviblePowerupFactory {
         powerupMap.put("TickBombaMas", EntidadInamoviblePowerupTickBombaMas::new);
         powerupMap.put("TickBombaMenos", EntidadInamoviblePowerupTickBombaMenos::new);
         powerupMap.put("Aleatorio", EntidadInamoviblePowerupAleatorio::new);
-        // powerupMap.put("BombaPatada", EntidadInamoviblePowerupBombaPatada::new);
-        // powerupMap.put("BombaPincho", EntidadInamoviblePowerupBombaPincho::new);
     }
 
     public static EntidadInamoviblePowerupFactory getPowerupFactory() {

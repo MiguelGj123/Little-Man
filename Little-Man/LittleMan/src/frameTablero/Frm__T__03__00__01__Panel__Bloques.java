@@ -6,7 +6,6 @@ public class Frm__T__03__00__01__Panel__Bloques extends JPanel implements Actual
 	
 	private static final long serialVersionUID = 1L;
 	
-	// CONTIENE:
 	private Frm__T__04__00__01__Label__Bloques[][] labels = new Frm__T__04__00__01__Label__Bloques[T_CFG.COLUMNAS][T_CFG.FILAS];
 	
 	int cellSize = T_CFG.PXL_LADO;

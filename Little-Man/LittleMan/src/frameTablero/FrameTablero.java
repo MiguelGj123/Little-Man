@@ -20,16 +20,11 @@ public class FrameTablero extends JFrame implements Observer {
     
     private Controller controller;
     
-    //private final int PIXELS_POR_LADO_CELDA = 45;
-
-    //SE INICIA AQUI!!!
     private FrameTablero() 
     {
     	
     }
-//    public void discard() {
-//    	dispose();
-//    }
+
 
 
     public static FrameTablero getFrameTablero() {
@@ -55,9 +50,7 @@ public class FrameTablero extends JFrame implements Observer {
         layeredPrincipal.iniciarPaneles();
         layeredPrincipal.setPreferredSize(new Dimension(T_CFG.ANCHO_VENTANA, T_CFG.ALTO_VENTANA)); // layeredPane toma las dimensiones de la ventana
         add(layeredPrincipal);
-        
-        //layeredPrincipal.setLayout(new BorderLayout(layeredPrincipal)); ESTO COMPROBAR SI VA AQUI O QUE, POSIBLEMENTE BORRAR
-                
+                        
         Escenario.getEscenario().addObserver(this);        
 
         inicializarSonidos(pVolumen);
@@ -143,7 +136,6 @@ public class FrameTablero extends JFrame implements Observer {
                         	break;
 
                         default:
-                            //System.out.println("Comando no reconocido en la clase Frame Tablero: " + texto);
                             break;
                     }
                 }
@@ -152,7 +144,6 @@ public class FrameTablero extends JFrame implements Observer {
         
         catch (Exception e) 
         {
-            //System.err.println("Error al procesar la actualización: " + e.getMessage());
             e.printStackTrace();
         }
     }

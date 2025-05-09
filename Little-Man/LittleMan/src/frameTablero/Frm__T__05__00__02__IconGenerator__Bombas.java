@@ -31,7 +31,6 @@ public class Frm__T__05__00__02__IconGenerator__Bombas {
 				icono = null;
 				break;
 		}
-		//System.out.println("Cargando imagen desde: " + icono.toString()); // Añadir debug
 		
     	return icono;
 	}

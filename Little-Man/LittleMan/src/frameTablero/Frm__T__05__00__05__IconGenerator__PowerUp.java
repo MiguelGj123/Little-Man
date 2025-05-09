@@ -61,7 +61,6 @@ public class Frm__T__05__00__05__IconGenerator__PowerUp {
 				icono = null;
 				break;
 		}
-		//System.out.println("Cargando imagen desde: " + icono.toString()); // Añadir debug
 		
     	return icono;
 	}
